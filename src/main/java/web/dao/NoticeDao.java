@@ -13,7 +13,7 @@ import web.model.Notice;
 
 public class NoticeDao {
 	
-	Notice notice = new Notice();
+	
 	
 	
 	public ArrayList<Notice> insertlist() {
@@ -24,11 +24,15 @@ public class NoticeDao {
 		
 		return null;
 	}
-	public List<Notice> selectlist() {
+	public List<Notice> selectlist(int page) {
 		
 		List<Notice> list = new ArrayList<Notice>();
 		
-		String sql = "select * from notice";
+		String sql = 
+				" select * from " +
+				" (select ROWNUM RNUM, N.* FROM " +
+				" (select * from notice order by regdate desc)N) " +
+				" where RNUM BETWEEN ? AND ?";		
 		
 		 String url = "jdbc:oracle:thin:@localhost:1521/xe";
 		
@@ -37,23 +41,30 @@ public class NoticeDao {
 				 Connection con = DriverManager.getConnection(url,"c##clothes", "1234");
 				 PreparedStatement st = con.prepareStatement(sql);
 				 //st.setString(1, "%"+query+"%");
-				 //st.setInt(2, 1+(page-1)*10);
-				 //st.setInt(3, page*10);
+				 st.setInt(1, 1+(page-1)*10);
+				 st.setInt(2, page*10);
 				 ResultSet rs = st.executeQuery();
 
 				 while(rs.next()) {
+				
 				 
 				 int num = rs.getInt("num");
 				 String title = rs.getString("title");
 				 Date regdate = rs.getDate("regdate"); 
 				 String writer_id = rs.getString("writer_id"); 
+				 String files = rs.getString("files"); 
 				 String hit = rs.getString("hit"); 
 		
-					notice.setNum(num);
-					notice.setTitle(title);
-					notice.setRegdate(regdate);
-					notice.setWriter_id(writer_id);
-					notice.setHit(hit);
+				 /*Notice notice = new Notice();	 
+				 
+				 notice.setNum(num);
+				 notice.setTitle(title);
+				 notice.setRegdate(regdate);
+				 notice.setWriter_id(writer_id);
+				 notice.setHit(hit);
+				 notice.setFiles(files);
+				 */
+				 Notice notice = new Notice(num, title, writer_id, files, hit, regdate);
 				 
 				 list.add(notice);
 				 }
@@ -68,9 +79,11 @@ public class NoticeDao {
 				e.printStackTrace();
 			}
 
-		 System.out.println(notice.getNum());
-		 System.out.println(notice.getWriter_id());
-		 System.out.println(notice.toString());
+		// System.out.println(notice.getNum());
+		// System.out.println(notice.getWriter_id());
+		// System.out.println(notice.toString());
+		 System.out.println(list);
+		 //System.out.println(list.get(0));
 		 
 		return list;
 		

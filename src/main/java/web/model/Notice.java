@@ -11,6 +11,22 @@ public class Notice {
 	private String hit;
 	private Date regdate;
 	
+	public Notice() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Notice(int num, String title, String writer_id, String files, String hit, Date regdate) {
+		
+		this.num = num;
+		this.title = title;
+		this.regdate = regdate;
+		this.writer_id = writer_id;
+		this.hit = hit;
+		this.files = files;
+		//this.content = content;
+		//this.pub = pub;
+	}
+	
 	public int getNum() {
 		return num;
 	}
