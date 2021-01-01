@@ -25,13 +25,17 @@ public class NoticeDao {
 		return null;
 	}
 	public List<Notice> selectlist(int page) {
+		return selectlist(page , "title" , " ");
+	}
+	public List<Notice> selectlist(int page, String filed, String query) {
 		
 		List<Notice> list = new ArrayList<Notice>();
 		
 		String sql = 
 				" select * from " +
 				" (select ROWNUM RNUM, N.* FROM " +
-				" (select * from notice order by regdate desc)N) " +
+				" (select * from notice where " + filed + 
+				" like ? order by regdate desc)N) " +
 				" where RNUM BETWEEN ? AND ?";		
 		
 		 String url = "jdbc:oracle:thin:@localhost:1521/xe";
@@ -40,9 +44,9 @@ public class NoticeDao {
 				Class.forName("oracle.jdbc.driver.OracleDriver");
 				 Connection con = DriverManager.getConnection(url,"c##clothes", "1234");
 				 PreparedStatement st = con.prepareStatement(sql);
-				 //st.setString(1, "%"+query+"%");
-				 st.setInt(1, 1+(page-1)*10);
-				 st.setInt(2, page*10);
+				 st.setString(1, "%"+query+"%");
+				 st.setInt(2, 1+(page-1)*10);
+				 st.setInt(3, page*10);
 				 ResultSet rs = st.executeQuery();
 
 				 while(rs.next()) {
@@ -88,5 +92,42 @@ public class NoticeDao {
 		return list;
 		
 		
+	}
+	public int selectcount(String filed , String query) {
+		int count = 0;
+		
+		String sql = " select count(num) count from "
+				+ " (select * from notice where " + filed 
+				+ " like ? order by regdate desc) ";
+
+		String url = "jdbc:oracle:thin:@localhost:1521/xe";
+		
+		try {
+		
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, "%" + query +"%");
+			ResultSet rs = st.executeQuery();
+			
+			
+			if(rs.next()) {
+				count = rs.getInt("count");
+			}
+			
+			rs.close();
+			st.close();
+			con.close();
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println(count);
+		return count;
 	}
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,11 +19,11 @@
 
 		<label>검색분류</label> 
 		<select name="f">
-			<option value="title">제목</option>
-			<option value="writer_id">작성자</option>
+			<option ${(param.f == "title") ? "selected":""} value="title">제목</option>
+			<option ${(param.f == "writer_id") ? "selected":""} value="writer_id">작성자</option>
 		</select>
 		<label>검색어</label> 
-		<input type="text" name="q" value="" /> 
+		<input type="text" name="q" value="${param.q}" /> 
 		<input type="submit" value="검색" />
  		
  		</fieldset>  
@@ -49,12 +50,43 @@
 		</c:forEach>
 
 	</table>
-	<h3>현재 페이지</h3>
-	<c:set var="page"  value="${(empty param.p) ? 1:param.p }" />
 	
-	<span>이전</span>
-	<span>${page}/10</span>
-	<span>다음</span>
+	<h3>현재 페이지</h3>
+	
+	<c:set var="page"  value="${(empty param.p) ? 1:param.p }" />
+	<c:set var="startpage" value="${page-(page-1)%5 }"/>
+	<c:set var="lastpage" value="${fn:substringBefore(Math.ceil(count/10),'.' )}"></c:set>
+	
+	<div>
+		<span>${page}/${lastpage} pages</span>
+	</div>
+	
+	<div>		
+		<c:if test="${startpage > 5}">
+			<span><a href="?p=${startpage-1 }">이전</a></span>
+		</c:if>
+	</div>
+	
+	<ul>
+		
+		 	<c:if test="${startpage+4 >= lastpage}">
+				<c:forEach var="i" begin="0" end="${(lastpage==0) ? 0 : lastpage - startpage}">
+				    <li><a href="?p=${startpage+i}&f=${param.f}&q=${param.q}" >${startpage+i }</a></li>
+		    	</c:forEach>
+		    </c:if>  
+		    <c:if test="${startpage+4 < lastpage}">
+		    	<c:forEach var="i" begin="0" end="4">
+				    <li><a href="?p=${startpage+i}&f=${param.f}&q=${param.q}" >${startpage+i }</a></li>
+		    	</c:forEach>
+		    </c:if>
+	</ul>
+	
+	<div>
+		<c:if test="${startpage+5 <= lastpage }">
+			<span><a href="?p=${startpage+5}">다음</a></span>
+		</c:if>
+	</div>
+	
 </body>
 <footer>
 	<div>

@@ -18,9 +18,17 @@ public class NoticeController {
 	NoticeService noticeservice = new NoticeService();
 	
 	@RequestMapping("/list")
-	public String NoticeList(@RequestParam(value="p" , defaultValue="1") int page, Model model) {
-			List<Notice> list = noticeservice.ServiceList(page);
+	public String NoticeList(@RequestParam(value="p" , defaultValue="1") int page, 
+			@RequestParam(value="f" , defaultValue="title") String filed,
+			@RequestParam(value="q" , defaultValue="") String query, 
+			Model model) {
+							
+		List<Notice> list = noticeservice.ServiceList(page,filed,query);
+			
+			int count = noticeservice.ServiceListCount(filed ,query);
+			
 			model.addAttribute("list", list);
+			model.addAttribute("count", count);
 		return "notice/list";
 	}
 }
