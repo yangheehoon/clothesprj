@@ -31,4 +31,20 @@ public class NoticeController {
 			model.addAttribute("count", count);
 		return "notice/list";
 	}
+	
+	@RequestMapping("/detail")
+	public String NoticeDetail(@RequestParam("num") int num,
+			Model model) {
+		
+		Notice detail = noticeservice.ServiceDetail(num);
+		Notice prevdetail = noticeservice.ServicePrevD(num);
+		Notice nextdetail = noticeservice.ServicNextD(num);
+		
+		model.addAttribute("detail", detail);
+		model.addAttribute("prevdetail", prevdetail);
+		model.addAttribute("nextdetail", nextdetail);
+		return "notice/detail";
+	}
+	
 }
+

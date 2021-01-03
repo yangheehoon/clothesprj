@@ -12,10 +12,21 @@ public class NoticeService {
 	
 	public List<Notice> ServiceList(int page, String filed ,String query) {
 			
-		return noticedao.selectlist(page,filed,query);
+		return noticedao.SelectList(page,filed,query);
 	}
 	public int ServiceListCount(String filed , String query) {
 		
-		return noticedao.selectcount(filed , query);
+		return noticedao.SelectCount(filed , query);
 	}
+	public Notice ServiceDetail(int num) {
+		// TODO Auto-generated method stub
+		return noticedao.SelectDetail(num);
+	}
+	public Notice ServicePrevD(int num) {
+		return noticedao.SelectPrevD(num);
+	}
+	public Notice ServicNextD(int num) {
+		return noticedao.SelectNextD(num);
+	}
+	
 }
