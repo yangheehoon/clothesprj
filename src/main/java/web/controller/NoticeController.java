@@ -7,7 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import web.model.Comment;
 import web.model.Notice;
+import web.model.NoticeView;
 import web.service.NoticeService;
 
 @Controller
@@ -23,12 +25,14 @@ public class NoticeController {
 			@RequestParam(value="q" , defaultValue="") String query, 
 			Model model) {
 							
-		List<Notice> list = noticeservice.ServiceList(page,filed,query);
-			
+		    List<NoticeView> list = noticeservice.ServiceList(page,filed,query);
 			int count = noticeservice.ServiceListCount(filed ,query);
-			
+			/*List<Notice> commentcount = noticeservice.ServiceListCommentCount();
+			*/
 			model.addAttribute("list", list);
 			model.addAttribute("count", count);
+		/*	model.addAttribute("commentcount", commentcount);
+		*/	
 		return "notice/list";
 	}
 	
@@ -39,10 +43,13 @@ public class NoticeController {
 		Notice detail = noticeservice.ServiceDetail(num);
 		Notice prevdetail = noticeservice.ServicePrevD(num);
 		Notice nextdetail = noticeservice.ServicNextD(num);
+		List<Comment> cmtlist = noticeservice.ServiceDetailCmt(num);
 		
-		model.addAttribute("detail", detail);
-		model.addAttribute("prevdetail", prevdetail);
-		model.addAttribute("nextdetail", nextdetail);
+			model.addAttribute("detail", detail);
+			model.addAttribute("prevdetail", prevdetail);
+			model.addAttribute("nextdetail", nextdetail);
+			model.addAttribute("cmtlist", cmtlist);
+		
 		return "notice/detail";
 	}
 	

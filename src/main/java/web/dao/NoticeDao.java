@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import web.model.Comment;
 import web.model.Notice;
+import web.model.NoticeView;
 
 public class NoticeDao {
 	
@@ -24,17 +26,17 @@ public class NoticeDao {
 		
 		return null;
 	}
-	public List<Notice> SelectList(int page) {
+	public List<NoticeView> SelectList(int page) {
 		return SelectList(page , "title" , " ");
 	}
-	public List<Notice> SelectList(int page, String filed, String query) {
+	public List<NoticeView> SelectList(int page, String filed, String query) {
 		
-		List<Notice> list = new ArrayList<Notice>();
+		List<NoticeView> list = new ArrayList<NoticeView>();
 		
 		String sql = 
 				" select * from " +
 				" (select ROWNUM RNUM, N.* FROM " +
-				" (select * from notice where " + filed + 
+				" (select * from noticeview where " + filed + 
 				" like ? order by regdate desc)N) " +
 				" where RNUM BETWEEN ? AND ?";		
 		
@@ -58,7 +60,8 @@ public class NoticeDao {
 				 String writer_id = rs.getString("writer_id"); 
 				 String files = rs.getString("files"); 
 				 String hit = rs.getString("hit"); 
-				 String content = rs.getString("content"); 
+				 int cmt_count = rs.getInt("cmt_count"); 
+				 //String content = rs.getString("content"); 
 		
 				 /*Notice notice = new Notice();	 
 				 
@@ -69,9 +72,9 @@ public class NoticeDao {
 				 notice.setHit(hit);
 				 notice.setFiles(files);
 				 */
-				 Notice notice = new Notice(num, title, writer_id, files, hit, regdate, content);
+				 NoticeView noticeview = new NoticeView(num, title, writer_id, files, hit, regdate, cmt_count);
 				 
-				 list.add(notice);
+				 list.add(noticeview);
 				 }
 				 rs.close();
 				 st.close();
@@ -265,5 +268,49 @@ public class NoticeDao {
     	
 		return notice;
 	}
+    
+   public List<Comment> SelectDetailCmt(int notice_num){
+    	       // 서비스에서 받은 num값 변수명 notice_num로변경
+    	List<Comment> cmtlist = new ArrayList<Comment>();
+    	
+    	String sql= " select * from \"comment\" where "
+    			+ " notice_num = " + notice_num;
+    	
+    	String url= "jdbc:oracle:thin:@localhost:1521/xe";
+    	
+    	try {
+    		Class.forName("oracle.jdbc.driver.OracleDriver");
+    		Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
+    		PreparedStatement st = con.prepareStatement(sql);
+    		ResultSet rs = st.executeQuery();
+    		
+    		while(rs.next()) {
+    			int num = rs.getInt("num");
+    		    String writer_id = rs.getString("writer_id");
+    		    String content = rs.getString("content");
+    		    Date regdate = rs.getDate("regdate");
+    		   // notice_num = rs.getInt("notice_num");
+    		
+    		    Comment cmt = new Comment(num, writer_id, content, regdate, notice_num);
+    		    cmtlist.add(cmt);
+    		}
+    		
+    		rs.close();
+    		st.close();
+    		con.close();
+    		
+    	//	System.out.println(cmtlist.get(0));
+    		System.out.println(cmtlist);
+    		
+    	}catch (ClassNotFoundException e) {
+    		e.printStackTrace();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+    	
+    	
+    	
+    	return cmtlist;
+    }
 	
 }

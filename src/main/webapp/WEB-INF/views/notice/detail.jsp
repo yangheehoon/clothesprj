@@ -7,6 +7,15 @@
 <head>
 <meta charset="UTF-8">
 <title>자세한 페이지</title>
+<style>
+th.solid {padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;}
+    
+td.solid {padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;}
+</style>
 </head>
 <body>
 
@@ -54,6 +63,46 @@
 		<td>${d.hit}</td>
 	</tr>
 </table>
+
+
+<details>
+	<summary style="color: blue">댓글</summary>
+		<form action="">
+		<textarea rows="5" cols="50" onclick="if(this.value=='내용을 입력하세요.'){this.value=''}" >내용을 입력하세요.</textarea>
+		<input type="submit" value="댓글달기">
+		</form>
+	<table >
+	<c:forEach var="c" items="${cmtlist}">
+ 		
+ 		<tr>
+			<th > <br> </th>
+			<td > <br> </td>
+		</tr>
+ 		<tr style="font-size: small;">
+ 			<th>작성자	</th>
+			<td>${c.writer_id}</td>
+		</tr>
+		<tr>
+			<th>내용	</th>
+			<td>${c.content }</td>
+		</tr>
+		<tr style="font-size: small;">
+			<th >작성일	</th>
+			<td >${c.regdate }</td>
+		</tr>
+		<tr style="font-size: small;">
+			<td class="solid"></td>
+			<th class="solid"><details>
+				<summary style="color: blue">답글달기</summary>
+				<p>아직안만듬</p>
+			</details></th>
+		</tr>
+		
+	</c:forEach>
+
+ 	</table>
+ 
+ 	</details>	
 
 <div>
 	<a href="list">목록</a>
