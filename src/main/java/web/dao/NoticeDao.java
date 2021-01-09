@@ -271,10 +271,11 @@ public class NoticeDao {
     
    public List<Comment> SelectDetailCmt(int notice_num){
     	       // 서비스에서 받은 num값 변수명 notice_num로변경
-    	List<Comment> cmtlist = new ArrayList<Comment>();
+	    List<Comment> cmtlist = new ArrayList<Comment>();
     	
     	String sql= " select * from \"comment\" where "
-    			+ " notice_num = " + notice_num;
+    			+ " notice_num = " + notice_num
+    			+ " order by regdate asc ";
     	
     	String url= "jdbc:oracle:thin:@localhost:1521/xe";
     	
@@ -312,5 +313,87 @@ public class NoticeDao {
     	
     	return cmtlist;
     }
-	
+   
+	public void InsertCmt(String content, String writer_id, 
+			int notice_num) {
+			// 서비스에서 받은 num값 변수명 notice_num로변경
+		
+		String sql = " insert into \"comment\" values "
+				+ " ( seqnext.NEXTVAL,'" + content + "' ,sysdate, '" 
+				+ writer_id + "'," +  notice_num + " ) ";
+		
+		String url = "jdbc:oracle:thin:@localhost:1521/xe";		
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+			
+		}catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		}
+
+	public List<Comment> SelectReCmt() {
+		
+		List<Comment> recmtlist = new ArrayList<Comment>();
+		
+		String sql="select * from recomment";
+		String url="jdbc:oracle:thin:@localhost:1521/xe";
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+			
+			
+			while(rs.next()) {
+				int num =rs.getInt("num");
+				String writer_id= rs.getString("writer_id");
+				String content=rs.getString("content");
+				Date regdate=rs.getDate("regdate");
+				int notice_num=rs.getInt("cmt_num");
+				// 커맨트 객체를 재사용할거기때문에
+				// cmt_num이름을 notice_num으로 사용
+				
+				Comment recmt = new Comment(num, writer_id, content, regdate, notice_num); 
+			    recmtlist.add(recmt);
+			}
+			
+			System.out.println(recmtlist);
+		}catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}catch (SQLException e ) {
+			e.printStackTrace();
+		}
+		
+		return recmtlist;
+	}
+	public void InsertReCmt(String writer_id , String recontent,int cmt_num) {
+		String sql = " insert into recomment values( "
+				+ " recmtnum.NEXTVAL , '" + writer_id + "','" 
+				+ recontent + "',sysdate ," + cmt_num + " ) "; 
+		String url = "jdbc:oracle:thin:@localhost:1521/xe";
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
+            PreparedStatement st = con.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+			
+		}catch (ClassNotFoundException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		
+	}
 }

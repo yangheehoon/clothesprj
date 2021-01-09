@@ -1,6 +1,9 @@
 package web.controller;
 
+import java.lang.ProcessBuilder.Redirect;
 import java.util.List;
+
+import javax.tools.DocumentationTool.Location;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,17 +41,35 @@ public class NoticeController {
 	
 	@RequestMapping("/detail")
 	public String NoticeDetail(@RequestParam("num") int num,
+			@RequestParam(value="content" , defaultValue= "") String content,	
+			@RequestParam(value="recontent" , defaultValue= "") String recontent, 
+			@RequestParam(value="cmt_num", required = false ) Integer cmt_num,
 			Model model) {
+		
+		String writer_id = "익명";
 		
 		Notice detail = noticeservice.ServiceDetail(num);
 		Notice prevdetail = noticeservice.ServicePrevD(num);
 		Notice nextdetail = noticeservice.ServicNextD(num);
+		
+		if(!content.isEmpty()) {
+			noticeservice.ServiceInsertCmt(content, writer_id, num);
+			System.out.println("test");
+			
+		}
+		if(!recontent.isEmpty()) {
+			noticeservice.ServiceInsertReCmt(writer_id,recontent, cmt_num);
+			System.out.println("test2");
+			
+		}
 		List<Comment> cmtlist = noticeservice.ServiceDetailCmt(num);
+		List<Comment> recmtlist = noticeservice.ServiceReCmt();
 		
 			model.addAttribute("detail", detail);
 			model.addAttribute("prevdetail", prevdetail);
 			model.addAttribute("nextdetail", nextdetail);
 			model.addAttribute("cmtlist", cmtlist);
+			model.addAttribute("recmtlist", recmtlist);
 		
 		return "notice/detail";
 	}

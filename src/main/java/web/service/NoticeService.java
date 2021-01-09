@@ -1,5 +1,6 @@
 package web.service;
 
+import java.util.Date;
 import java.util.List;
 
 import web.dao.NoticeDao;
@@ -32,5 +33,15 @@ public class NoticeService {
 	}
 	public List<Comment> ServiceDetailCmt(int num) {
 		return noticedao.SelectDetailCmt(num);
+	}
+	public void ServiceInsertCmt(String content, 
+			String writer_id, int num) {
+		noticedao.InsertCmt(content,  writer_id, num);
+	}
+	public List<Comment> ServiceReCmt(){
+		return noticedao.SelectReCmt();
+	}
+	public void ServiceInsertReCmt(String writer_id, String recontent, int cmt_num) {
+		noticedao.InsertReCmt(writer_id, recontent, cmt_num);
 	}
 }

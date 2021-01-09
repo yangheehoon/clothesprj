@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>자세한 페이지</title>
 <style>
-th.solid {padding: 8px;
+th.solid {
     text-align: left;
     border-bottom: 1px solid #ddd;}
     
@@ -16,6 +16,9 @@ td.solid {padding: 8px;
     text-align: left;
     border-bottom: 1px solid #ddd;}
 </style>
+<script type="text/javascript">
+
+</script>
 </head>
 <body>
 
@@ -67,15 +70,16 @@ td.solid {padding: 8px;
 
 <details>
 	<summary style="color: blue">댓글</summary>
-		<form action="">
-		<textarea rows="5" cols="50" onclick="if(this.value=='내용을 입력하세요.'){this.value=''}" >내용을 입력하세요.</textarea>
-		<input type="submit" value="댓글달기">
+		<form action="" >
+		<textarea rows="5" cols="50" name="content"
+		onclick="if(this.value=='내용을 입력하세요.'){this.value=''}" >내용을 입력하세요.</textarea>
+		<input type="hidden" name="num" value="${d.num}">
+		<input type="submit"  value="댓글달기"  >
 		</form>
 	<table >
 	<c:forEach var="c" items="${cmtlist}">
  		
  		<tr>
-			<th > <br> </th>
 			<td > <br> </td>
 		</tr>
  		<tr style="font-size: small;">
@@ -91,11 +95,58 @@ td.solid {padding: 8px;
 			<td >${c.regdate }</td>
 		</tr>
 		<tr style="font-size: small;">
-			<td class="solid"></td>
-			<th class="solid"><details>
-				<summary style="color: blue">답글달기</summary>
-				<p>아직안만듬</p>
+			<td ></td>
+			<th style="text-align: left;"><details>
+				<summary style="color: gray">답글달기</summary>
+				<form action="">
+				<textarea rows="5" cols="50" name="recontent" 
+				onclick="if(this.value='내용을 입력하세요.'){this.value=''}">내용을 입력하세요.</textarea>
+				<input hidden="" name="cmt_num" value="${c.num }">
+				<input hidden="" name="num" value="${d.num }">
+				<input type="submit" value="답글달기">
+				</form>
 			</details></th>
+		</tr>
+		<tr style="font-size: small;">
+			<td class="solid"></td>
+			<th class="solid">
+				<%-- <c:set var="re"  value="${recmtlist}"/> --%> 
+                <c:set var="check" value="false"></c:set>   
+				<c:forEach var="r" items="${recmtlist }">
+					<c:if test="${c.num==r.notice_num}">
+						<c:set var="check" value="true"></c:set>
+					</c:if> 
+				</c:forEach>
+				<c:if test="${check==true}"> 				
+				<details> 
+				<summary style="color: blue">답글보기</summary>
+						<c:forEach var="rec" items="${recmtlist }">
+						<c:if test="${c.num==rec.notice_num}">
+						<!-- cmt_num 값을 개체에서 notice_num으로 저장함-->					
+						<table>
+							<tr>
+							<br>
+							</tr>
+						    <tr style="font-size: small;">
+						    	<th>작성자</th>
+								<td>${rec.writer_id }</td>
+							</tr>
+							<tr>
+								<th>내용</th>
+								<td>${rec.content }</td>
+							</tr>
+							<tr style="font-size: small;">
+								<th>작성일</th>
+								<td>${rec.regdate }</td>
+							</tr>
+							<tr>
+								<td class="solid"></td>
+								<td class="solid"></td>
+							</tr>
+						</table>
+						</c:if>
+						</c:forEach>			
+			</details> </c:if> </th>
 		</tr>
 		
 	</c:forEach>
@@ -140,6 +191,16 @@ td.solid {padding: 8px;
 	</tr>
 </table>
 
+<!--  새로고침 시 폼태그의 파라미터 중복 방자를 위한 새로고침 url 수정 -->
+<script type="text/javascript">
+window.onkeydown = function() {
+	var kcode = event.keyCode;
+	if(kcode == 116) {
+		history.pushState(null, null, "detail?num=${d.num}");
+	  }
+	}
+	
+</script>
 
 </body>
 </html>
