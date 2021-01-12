@@ -15,20 +15,10 @@ import web.model.NoticeView;
 
 public class NoticeDao {
 	
-	
-	
-	
-	public ArrayList<Notice> InsertList() {
-		
-		return null;
-	}
-	public ArrayList<Notice> DelList() {
-		
-		return null;
-	}
 	public List<NoticeView> SelectList(int page) {
 		return SelectList(page , "title" , " ");
 	}
+	
 	public List<NoticeView> SelectList(int page, String filed, String query) {
 		
 		List<NoticeView> list = new ArrayList<NoticeView>();
@@ -461,4 +451,20 @@ public class NoticeDao {
 		}
 	}
 	
+	public void DelNotice(int delnum) {
+		String sql="delete from notice where num = "+delnum;
+		String url="jdbc:oracle:thin:@localhost:1521/xe";
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+			
+		}catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

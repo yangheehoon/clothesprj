@@ -53,4 +53,7 @@ public class NoticeService {
 	public void ServiceInsertNotice(String title,String writer_id, String content, String files) {
 		noticedao.InsertNotice(title, writer_id, content, files);
 	}
+	public void ServiceDelNotice(int delnum) {
+		noticedao.DelNotice(delnum);
+	}
 }

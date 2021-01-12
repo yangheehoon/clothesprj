@@ -29,9 +29,9 @@
     	</form>
     	
     	<!-- 게시글 추가 및 삭제 -->	
-		<form action="" style="float: right;">
+		<!-- <form action="" style="float: right;">
 			<input type="submit" value="공지글 삭제" >
-		</form>	
+		</form>	 -->
 		<label style="float: right;">&nbsp;</label>
 		<div style="float: right;">
 			<a href="add" ><button>공지글 추가</button></a>

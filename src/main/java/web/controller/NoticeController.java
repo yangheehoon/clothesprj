@@ -29,6 +29,7 @@ public class NoticeController {
 			@RequestParam(value="title" , required=false) String title,
 			@RequestParam(value="content" , required=false) String content,			
 			@RequestParam(value="files" , defaultValue="") String files,			
+			@RequestParam(value="delnum" , required=false) Integer delnum,			
 			Model model) {
 		
 			String writer_id = "운영진";
@@ -36,6 +37,11 @@ public class NoticeController {
 			if(!(title==null)&&!(content==null)) {
 				noticeservice.ServiceInsertNotice(title, writer_id, content, files);
 				System.out.println("test");
+			}
+			
+			if(!(delnum==null)) {
+				noticeservice.ServiceDelNotice(delnum);
+				System.out.println("test10");
 			}
 			
 		    List<NoticeView> list = noticeservice.ServiceList(page,filed,query);
