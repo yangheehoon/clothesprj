@@ -54,6 +54,9 @@ td.solid {padding: 8px;
 			<c:if test="${fn:endsWith(filename , '.gif') }">
 				<c:set var="style" value="font-weight : bold; color : green;"/>
 			</c:if>
+			<c:if test="${fn:endsWith(filename , '.txt') }">
+				<c:set var="style" value="font-weight : bold; color : orange;"/>
+			</c:if>
 			<a href="${filename}" style="${style}">${filename}</a>
 			<c:if test="${!st.last }">
 			/
@@ -69,7 +72,7 @@ td.solid {padding: 8px;
 
 
 <details>
-	<summary style="color: blue">댓글</summary>
+	<summary style="color: blue">댓글[${cmt_count}]</summary>
 		<form action="" >
 		<textarea rows="5" cols="50" name="content"
 		onclick="if(this.value=='내용을 입력하세요.'){this.value=''}" >내용을 입력하세요.</textarea>

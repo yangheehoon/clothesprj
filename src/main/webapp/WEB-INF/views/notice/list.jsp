@@ -12,10 +12,10 @@
 	<h3>공지사항 목록</h3>
 	<!-- <h3>공지사항 검색폼</h3> -->
 	
-	<form action="">
-		<fieldset>
-			
+	<fieldset >
 		<legend>공지사항 검색 필드</legend>
+		
+		<form action="" style="float: left;">	
 
 		<label>검색분류</label> 
 		<select name="f">
@@ -25,9 +25,22 @@
 		<label>검색어</label> 
 		<input type="text" name="q" value="${param.q}" /> 
 		<input type="submit" value="검색" />
- 		
- 		</fieldset>  
-	</form>
+    	
+    	</form>
+    	
+    	<!-- 게시글 추가 및 삭제 -->	
+		<form action="" style="float: right;">
+			<input type="submit" value="공지글 삭제" >
+		</form>	
+		<label style="float: right;">&nbsp;</label>
+		<div style="float: right;">
+			<a href="add" ><button>공지글 추가</button></a>
+		</div>
+ 		<label style="float: right;">공지사항 관리  &nbsp;</label>    
+ 		    
+ 	</fieldset>  
+	
+	
 	<table border="1">
 		<tr>
 			<th>번호</th>
@@ -50,44 +63,51 @@
 
 	</table>
 	
-	<h3>현재 페이지</h3>
-	
+	<!-- 현재페이지 -->
 	<c:set var="page"  value="${(empty param.p) ? 1:param.p }" />
 	<c:set var="startpage" value="${page-(page-1)%5 }"/>
 	<c:set var="lastpage" value="${fn:substringBefore(Math.ceil(count/10),'.' )}"></c:set>
 	
 	<div>
-		<span>${page}/${lastpage} pages</span>
+		<span style="margin-left: 400px;">${page}/${lastpage} pages</span>
 	</div>
 	
-	<div>		
+	
+	<!-- 페이지리스트 -->
+	<ul style="list-style: none; margin-left: 50px;">		
+	<!-- 이전페이지 -->		
 		<c:if test="${startpage > 5}">
-			<span><a href="?p=${startpage-1 }">이전</a></span>
+			<li style="float: left; margin-right: 15px;"><a href="?p=${startpage-1 }">이전</a></li>
 		</c:if>
-	</div>
 	
-	<ul>
-		
 		 	<c:if test="${startpage+4 >= lastpage}">
 				<c:forEach var="i" begin="0" end="${(lastpage==0) ? 0 : lastpage - startpage}">
-				    <li><a href="?p=${startpage+i}&f=${param.f}&q=${param.q}" >${startpage+i }</a></li>
+				    <li style="float: left; margin-right: 15px;"><a style="color: ${((startpage+i)==page) ? 'black' : 'gray'};" href="?p=${startpage+i}&f=${param.f}&q=${param.q}" >${startpage+i }</a></li>
 		    	</c:forEach>
 		    </c:if>  
 		    <c:if test="${startpage+4 < lastpage}">
 		    	<c:forEach var="i" begin="0" end="4">
-				    <li><a href="?p=${startpage+i}&f=${param.f}&q=${param.q}" >${startpage+i }</a></li>
+				    <li style="float: left; margin-right: 15px;"><a style="color: ${((startpage+i)==page) ? 'black' : 'gray'}; " href="?p=${startpage+i}&f=${param.f}&q=${param.q}" >${startpage+i }</a></li>
 		    	</c:forEach>
 		    </c:if>
+	<!-- 다음페이지 -->
+		<c:if test="${startpage+5 <= lastpage }">
+			<li style="float: left; margin-right: 15px;"><a href="?p=${startpage+5}">다음</a></li>
+		</c:if>	
 	</ul>
 	
-	<div>
-		<c:if test="${startpage+5 <= lastpage }">
-			<span><a href="?p=${startpage+5}">다음</a></span>
-		</c:if>
-	</div>
-	
 </body>
+<script type="text/javascript">
+window.onkeydown = function() {
+	var kcode = event.keyCode;
+	if(kcode == 116) {
+		history.pushState(null, null, "list");
+	  }
+	}
+	
+</script>
 <footer>
+<br>
 	<div>
 		<dl>
 			<dt>주소:</dt>

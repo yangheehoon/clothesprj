@@ -392,8 +392,73 @@ public class NoticeDao {
 		}catch (SQLException e) {
 			// TODO: handle exception
 			e.printStackTrace();
-		}
-		
-		
+		}		
 	}
+	
+	public void UpdateHit(int num) {
+		String sql=" update notice set hit=hit+1 where "
+				+ " num = " + num;
+		String url="jdbc:oracle:thin:@localhost:1521/xe";
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+			
+			
+		}catch (ClassNotFoundException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public int SelectCmtCount(int num) {
+		String sql=" select count(c.num) cmt_count from notice "
+				+ " N left OUTER join \"comment\" C on " 
+				+ " N.num=C.notice_num where n.num= "+ num; 
+		String url="jdbc:oracle:thin:@localhost:1521/xe";
+		
+		int cmt_count=0;
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+			
+			if(rs.next()) {
+				cmt_count=rs.getInt("cmt_count");
+			}
+			
+		}catch (ClassNotFoundException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return cmt_count;
+	}
+	
+	public void InsertNotice(String title,String writer_id,String content,String files) {
+		String sql="insert into notice values"
+				+ "(seqnoticenum.NEXTVAL,'"+title+"','"
+				+writer_id+"','"+content+"',sysdate,0,'"
+				+files+"') ";
+		String url="jdbc:oracle:thin:@localhost:1521/xe";
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+			
+		}catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

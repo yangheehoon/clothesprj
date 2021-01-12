@@ -25,17 +25,25 @@ public class NoticeController {
 	@RequestMapping("/list")
 	public String NoticeList(@RequestParam(value="p" , defaultValue="1") int page, 
 			@RequestParam(value="f" , defaultValue="title") String filed,
-			@RequestParam(value="q" , defaultValue="") String query, 
+			@RequestParam(value="q" , defaultValue="") String query,
+			@RequestParam(value="title" , required=false) String title,
+			@RequestParam(value="content" , required=false) String content,			
+			@RequestParam(value="files" , defaultValue="") String files,			
 			Model model) {
-							
+		
+			String writer_id = "운영진";
+			
+			if(!(title==null)&&!(content==null)) {
+				noticeservice.ServiceInsertNotice(title, writer_id, content, files);
+				System.out.println("test");
+			}
+			
 		    List<NoticeView> list = noticeservice.ServiceList(page,filed,query);
 			int count = noticeservice.ServiceListCount(filed ,query);
-			/*List<Notice> commentcount = noticeservice.ServiceListCommentCount();
-			*/
+			
 			model.addAttribute("list", list);
 			model.addAttribute("count", count);
-		/*	model.addAttribute("commentcount", commentcount);
-		*/	
+		
 		return "notice/list";
 	}
 	
@@ -48,13 +56,16 @@ public class NoticeController {
 		
 		String writer_id = "익명";
 		
+		noticeservice.ServiceUpdateHit(num);
+		int cmt_count = noticeservice.ServiceCmtCount(num);
 		Notice detail = noticeservice.ServiceDetail(num);
 		Notice prevdetail = noticeservice.ServicePrevD(num);
-		Notice nextdetail = noticeservice.ServicNextD(num);
+		Notice nextdetail = noticeservice.ServicNextD(num);		
 		
 		if(!content.isEmpty()) {
 			noticeservice.ServiceInsertCmt(content, writer_id, num);
-			System.out.println("test");
+			System.out.println("test1");
+			
 			
 		}
 		if(!recontent.isEmpty()) {
@@ -70,9 +81,15 @@ public class NoticeController {
 			model.addAttribute("nextdetail", nextdetail);
 			model.addAttribute("cmtlist", cmtlist);
 			model.addAttribute("recmtlist", recmtlist);
+			model.addAttribute("cmt_count", cmt_count);
 		
 		return "notice/detail";
 	}
 	
+	@RequestMapping("/add")
+	public String AddNotice() {
+			
+		return "notice/add";
+	}
 }
 

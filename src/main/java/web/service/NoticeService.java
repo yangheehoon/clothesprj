@@ -44,4 +44,13 @@ public class NoticeService {
 	public void ServiceInsertReCmt(String writer_id, String recontent, int cmt_num) {
 		noticedao.InsertReCmt(writer_id, recontent, cmt_num);
 	}
+	public void ServiceUpdateHit(int num) {
+		noticedao.UpdateHit(num);
+	}
+	public int ServiceCmtCount(int num) {
+		return noticedao.SelectCmtCount(num);
+	}
+	public void ServiceInsertNotice(String title,String writer_id, String content, String files) {
+		noticedao.InsertNotice(title, writer_id, content, files);
+	}
 }
