@@ -1,5 +1,6 @@
 package web.controller;
 
+import java.awt.Dialog.ModalExclusionType;
 import java.lang.ProcessBuilder.Redirect;
 import java.util.List;
 
@@ -26,24 +27,8 @@ public class NoticeController {
 	public String NoticeList(@RequestParam(value="p" , defaultValue="1") int page, 
 			@RequestParam(value="f" , defaultValue="title") String filed,
 			@RequestParam(value="q" , defaultValue="") String query,
-			@RequestParam(value="title" , required=false) String title,
-			@RequestParam(value="content" , required=false) String content,			
-			@RequestParam(value="files" , defaultValue="") String files,			
-			@RequestParam(value="delnum" , required=false) Integer delnum,			
 			Model model) {
 		
-			String writer_id = "운영진";
-			
-			if(!(title==null)&&!(content==null)) {
-				noticeservice.ServiceInsertNotice(title, writer_id, content, files);
-				System.out.println("test");
-			}
-			
-			if(!(delnum==null)) {
-				noticeservice.ServiceDelNotice(delnum);
-				System.out.println("test10");
-			}
-			
 		    List<NoticeView> list = noticeservice.ServiceList(page,filed,query);
 			int count = noticeservice.ServiceListCount(filed ,query);
 			
@@ -63,7 +48,6 @@ public class NoticeController {
 		String writer_id = "익명";
 		
 		noticeservice.ServiceUpdateHit(num);
-		int cmt_count = noticeservice.ServiceCmtCount(num);
 		Notice detail = noticeservice.ServiceDetail(num);
 		Notice prevdetail = noticeservice.ServicePrevD(num);
 		Notice nextdetail = noticeservice.ServicNextD(num);		
@@ -79,6 +63,7 @@ public class NoticeController {
 			System.out.println("test2");
 			
 		}
+		int cmt_count = noticeservice.ServiceCmtCount(num);
 		List<Comment> cmtlist = noticeservice.ServiceDetailCmt(num);
 		List<Comment> recmtlist = noticeservice.ServiceReCmt();
 		
@@ -97,5 +82,27 @@ public class NoticeController {
 			
 		return "notice/add";
 	}
+	@RequestMapping("/add2")
+	public String AddNotice2(@RequestParam(value="title" , required=false) String title,
+			@RequestParam(value="content" , required=false) String content,			
+			@RequestParam(value="files" , defaultValue="") String files,			
+			@RequestParam(value="delnum" , required=false) Integer delnum,			
+			Model model) {
+			
+		String writer_id = "운영진";
+		
+		if(!(title==null)&&!(content==null)) {
+			noticeservice.ServiceInsertNotice(title, writer_id, content, files);
+			System.out.println("test");
+		}
+
+		if(!(delnum==null)) {
+			noticeservice.ServiceDelNotice(delnum);
+			System.out.println("test10");
+		}
+		
+		return "redirect:/notice/list";
+	}
+
 }
 

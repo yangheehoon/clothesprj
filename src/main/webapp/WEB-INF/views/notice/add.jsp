@@ -9,7 +9,7 @@
 </head>
 
 <body>
-	<form action="list" method="post">
+	<form action="add2" >
 		<table>
 			<tr>
 				<th>게시글 제목:</th>

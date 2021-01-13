@@ -9,8 +9,9 @@
 <title>공지사항 목록</title>
 </head>
 <body>
-	<h3>공지사항 목록</h3>
-	<!-- <h3>공지사항 검색폼</h3> -->
+	<h3>공지사항 목록  
+	<a href="../home" style="float: right; margin-right: 10px;">홈으로</a>
+	</h3>
 	
 	<fieldset >
 		<legend>공지사항 검색 필드</legend>
@@ -97,7 +98,7 @@
 	</ul>
 	
 </body>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 window.onkeydown = function() {
 	var kcode = event.keyCode;
 	if(kcode == 116) {
@@ -105,7 +106,7 @@ window.onkeydown = function() {
 	  }
 	}
 	
-</script>
+</script>-->
 <footer>
 <br>
 	<div>

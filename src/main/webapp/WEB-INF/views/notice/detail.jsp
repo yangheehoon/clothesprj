@@ -195,7 +195,7 @@ td.solid {padding: 8px;
 
 <br>
 
-<form action="list" method="post">
+<form action="add2" method="post">
 	<input type="hidden" name="delnum" value="${d.num}">
 	<input type="submit"  value="공지글 삭제">
 </form>
