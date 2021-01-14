@@ -26,6 +26,11 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 
+	<!-- 파일리졸버 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="314572800"></beans:property>
+	</beans:bean>
+
 	<context:component-scan
 		base-package="web.controller" />
 

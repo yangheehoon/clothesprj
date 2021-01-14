@@ -39,8 +39,8 @@
 
 <ul style="list-style-type: none;">
 	<c:forEach var="cl" items="${clotheslist}">
-	<li style="float: left; width: 220px; margin-right: 15px;">
-		<a href="clothesdetail?${cl.num}" ><img alt="" src="/resources/clothes/${cl.files}"></a>
+	<li style="float: left; width: 230px; height: 300px; margin-right: 15px;">
+		<a href="clothesdetail?${cl.num}" ><img alt="" style="width: 225px; height: 225px;" src="/resources/customer/clothes/${cl.files}"></a>
 		<label style="font-style: italic;">${cl.price}</label>
 		<br>
 		<div class="one">

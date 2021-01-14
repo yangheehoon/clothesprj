@@ -6,10 +6,22 @@
 <head>
 <meta charset="UTF-8">
 <title>공지사항 추가</title>
+<script type="text/javascript">
+function check() {
+	if(fm.title.value=="") {
+		alert("제목을 입력해주세요");
+		return false;
+	}else if(fm.content.value=="") {
+		alert("내용을 입력해주세요");
+		return false;
+	}
+	return true;
+}
+</script>
 </head>
 
 <body>
-	<form action="add2" >
+	<form action="add2" name="fm" onsubmit="return check()">
 		<table>
 			<tr>
 				<th>게시글 제목:</th>

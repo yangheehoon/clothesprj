@@ -17,7 +17,7 @@ public class ClothesDao {
 		
 		List<Clothes> clotheslist = new ArrayList<Clothes>();
 		
-		String sql="select * from clothes";
+		String sql="select * from clothes order by regdate desc";
 		String url="jdbc:oracle:thin:@localhost:1521/xe";
 		
 		try {
@@ -51,8 +51,8 @@ public class ClothesDao {
 	public void InsertClothes(String name,int price,
 			String description,String files) {
 		String sql="insert into clothes values"
-				+ "(seqclothesnum.NEXTVAL(),'"+name+"','"+price
-				+ "','"+description+"','"+files+"',sysdate";
+				+ "(seqclothesnum.NEXTVAL,'"+name+"','"+price
+				+ "','"+description+"','"+files+"',sysdate)";
 		String url="jdbc:oracle:thin:@localhost:1521/xe";
 		
 		try {
