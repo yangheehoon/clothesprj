@@ -26,11 +26,15 @@ public class CustomerController {
 	ClothesService clothesservice = new ClothesService();	
 	
 	@RequestMapping("/clotheslist")
-	public String ClothesList(Model model) {   
+	public String ClothesList(@RequestParam(value="q", defaultValue="")String query,
+			@RequestParam(value="p",defaultValue="1") int page,
+			Model model) {   
 	
-		List<Clothes> clotheslist = clothesservice.ServiceClothesList();
+		List<Clothes> clotheslist = clothesservice.ServiceClothesList(query,page);
+		int clothescount = clothesservice.ServiceClothesCount(query);
 		
 		model.addAttribute("clotheslist", clotheslist);
+		model.addAttribute("clothescount", clothescount);
 		
 	return "customer/clotheslist";
 	}	
@@ -61,5 +65,16 @@ public class CustomerController {
 			clothesservice.ServiceInsertClothes(name, price, description, files);
 		
 		return "redirect:/customer/clotheslist";
+	}
+	
+	@RequestMapping("/clothesdetail")
+	public String clothesDetail(@RequestParam("num") int num,
+			Model model) {
+		
+			Clothes clothes = clothesservice.ServiceClothesDetail(num);
+			
+			model.addAttribute("clothes", clothes);
+		
+		return "customer/clothesdetail";
 	}
 }

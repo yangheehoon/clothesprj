@@ -5,7 +5,7 @@ import java.util.Date;
 public class Clothes {
 	int num;
 	String name;
-	String price;
+	int price;
 	String description;
 	String files;
 	Date regdate;
@@ -14,7 +14,7 @@ public class Clothes {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Clothes(int num, String name, String price, String description, String files, Date regdate) {
+	public Clothes(int num, String name, int price, String description, String files, Date regdate) {
 		this.num = num;
 		this.name = name;
 		this.price = price;
@@ -35,10 +35,10 @@ public class Clothes {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getPrice() {
+	public int getPrice() {
 		return price;
 	}
-	public void setPrice(String price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 	public String getDescription() {

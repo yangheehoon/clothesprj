@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,18 +38,47 @@
  		    
  	</fieldset>  
 
-<ul style="list-style-type: none;">
+<ul style="list-style-type: none;" >     <!--이미지225px-->
 	<c:forEach var="cl" items="${clotheslist}">
-	<li style="float: left; width: 230px; height: 300px; margin-right: 15px;">
-		<a href="clothesdetail?${cl.num}" ><img alt="" style="width: 225px; height: 225px;" src="/resources/customer/clothes/${cl.files}"></a>
+	<li style="float: left; width: 20%; height: 300px;">
+		<a href="clothesdetail?num=${cl.num}" ><img alt="" style="width: 85%; height: 225px;" src="/resources/customer/clothes/${cl.files}"></a>
+		<br>
 		<label style="font-style: italic;">${cl.price}</label>
 		<br>
-		<div class="one">
+		<div class="one" style="width: 85%;">
 		<a href="clothesdetail?${cl.num}">${cl.description}</a>
 		</div>
 	</li>
 	</c:forEach>			
 </ul>
- 
+
+<c:set var="page" value="${(empty param.p) ? 1 : param.p }"/>
+<c:set var="startpage" value="${page-(page-1)%5}"/>
+<c:set var="lastpage" value="${fn:substringBefore(Math.ceil(clothescount/5), '.')}"/>
+
+<span style="margin-left: 1220px; ">${page}/${lastpage} pages</span>
+
+<ul style="list-style-type: none; text-align: center; padding: 0px; margin: 0px;">
+	
+	<c:if test="${startpage>1 }">
+		<a href="clotheslist?p=${startpage-1}">이전</a>
+	</c:if>
+	
+	<c:if test="${startpage <= (lastpage-5) }">
+		<c:forEach var="n" begin="0" end="4">
+			<li style=" margin-left: 15px; display: inline-block;"><a href="clotheslist?p=${startpage+n}&q=${param.q}" style="color: ${((startpage+n)==page)? 'black' : 'gray'}">${startpage+n}</a></li>
+		</c:forEach>
+	</c:if>
+	<c:if test="${startpage >(lastpage-5)}">
+		<c:forEach var="n" begin="0" end="${(lastpage==0) ? 0 : lastpage-startpage}">
+			<li style=" margin-left: 15px; display: inline-block;"><a href="clotheslist?p=${startpage+n}&q=${param.q}" style="color: ${((startpage+n)==page)? 'black' : 'gray'}">${startpage+n}</a></li>
+		</c:forEach>
+	</c:if>
+	
+	<c:if test="${startpage<(lastpage-5)}">
+		<a href="clotheslist?p=${startpage+5}" style="margin-left: 15px;">다음</a>
+	</c:if>
+</ul>
+
 </body>
 </html>

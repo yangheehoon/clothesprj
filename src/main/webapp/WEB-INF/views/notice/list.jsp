@@ -42,7 +42,7 @@
  	</fieldset>  
 	
 	
-	<table border="1">
+	<table border="1" style="width: 60%; margin-left: auto; margin-right: auto;">
 		<tr>
 			<th>번호</th>
 			<th>제목</th>
@@ -70,12 +70,12 @@
 	<c:set var="lastpage" value="${fn:substringBefore(Math.ceil(count/10),'.' )}"></c:set>
 	
 	<div>
-		<span style="margin-left: 400px;">${page}/${lastpage} pages</span>
+		<span style="margin-left: 1220px;">${page}/${lastpage} pages</span>
 	</div>
 	
 	
 	<!-- 페이지리스트 -->
-	<ul style="list-style: none; margin-left: 50px;">		
+	<ul style="list-style: none; margin-left: 550px;">		
 	<!-- 이전페이지 -->		
 		<c:if test="${startpage > 5}">
 			<li style="float: left; margin-right: 15px;"><a href="?p=${startpage-1 }">이전</a></li>
