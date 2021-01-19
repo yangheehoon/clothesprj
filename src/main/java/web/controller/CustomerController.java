@@ -9,6 +9,7 @@ import javax.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.AlternativeJdkIdGenerator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -76,5 +77,35 @@ public class CustomerController {
 			model.addAttribute("clothes", clothes);
 		
 		return "customer/clothesdetail";
+	}
+	
+	@RequestMapping("/cart")
+	public String cart(
+			Model model) {
+		
+			return "customer/cart";
+	}
+	
+	@RequestMapping("/addcart")
+	public String addcart(@RequestParam("color") String color,
+			@RequestParam("size") String size,
+			@RequestParam("num") int num,
+			Model model) {
+		
+		System.out.println(color);
+		System.out.println("testtest");
+			
+		return "redirect:/customer/clothesdetail?num="+num;
+	}
+	
+	@RequestMapping("/pay")
+	public String pay(@RequestParam("color") String color,
+			@RequestParam("size") String size,
+			@RequestParam("name") String name,
+			Model model) {
+		
+		System.out.println(color);
+			
+		return "customer/pay";
 	}
 }
