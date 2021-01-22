@@ -38,10 +38,12 @@ public class ClothesDao {
 				String name = rs.getString("name");
 				int price = rs.getInt("price");
 				String description = rs.getString("description");
+				String color =null;
+				String size =null;
 				String files = rs.getString("files");
 				Date regdate = rs.getDate("regdate");
 				
-				Clothes clothes = new Clothes(num, name, price, description, files, regdate);
+				Clothes clothes = new Clothes(num, name, price, description, color, size, files, regdate);
 				
 				clotheslist.add(clothes);
 			}
@@ -117,10 +119,12 @@ public class ClothesDao {
 				String name=rs.getString("name");
 				int price = rs.getInt("price");
 				String description=rs.getString("description");
+				String color=null;
+				String size=null;
 				String files=rs.getString("files");
 				Date regdate = rs.getDate("regdate");
 				
-				clothes = new Clothes(num, name, price, description, files, regdate);
+				clothes = new Clothes(num, name, price, description, color, size, files, regdate);
 			}
 			
 		}catch (ClassNotFoundException e) {

@@ -79,6 +79,9 @@ input[type="radio"]:checked + label .sp{
   <form name="fm" onsubmit="return check()" target="param">	
   	<input hidden="" name="num" value="${c.num}">
   	<input hidden="" name="name" value="${c.name}">	
+  	<input hidden="" name="price" value="${c.price}">	
+  	<input hidden="" name="files" value="${c.files}">	
+  	<input hidden="" name="description" value="${c.description}">	
 	<h2>${c.name}</h2>
 	<h3>${c.price}원</h3>
 
@@ -89,9 +92,9 @@ input[type="radio"]:checked + label .sp{
 		<li style="margin-bottom: 30px;">
 			<div style="float: left; margin-right: 30px;">색상</div>
 			<ul style="list-style-type: none;">
-				<li style="display: inline-block;"><input type="radio" name="color" id="ra1" style="display: none;" value="블랙"><label for="ra1"><img class="img" src="/resources/color/black.png" style="width: 50px; height: 50px;"><span class="sp">블랙</span></label></li>
-				<li style="display: inline-block;"><input type="radio" name="color" id="ra2" style="display: none;" value="그레이"><label for="ra2"><img class="img" src="/resources/color/gray.png" style="width: 50px; height: 50px;"><span class="sp">그레이</span></label></li>
-				<li style="display: inline-block;"><input type="radio" name="color" id="ra3" style="display: none;" value="아이보리"><label for="ra3"><img class="img" src="/resources/color/ivory.jpg" style="width: 50px; height: 50px;"><span class="sp">아이보리</span></label></li>
+				<li style="display: inline-block;"><input type="radio" name="color" id="ra1" style="display: none;" value="블랙.png"><label for="ra1"><img class="img" src="/resources/color/블랙.png" style="width: 50px; height: 50px;"><span class="sp">블랙</span></label></li>
+				<li style="display: inline-block;"><input type="radio" name="color" id="ra2" style="display: none;" value="그레이.png"><label for="ra2"><img class="img" src="/resources/color/그레이.png" style="width: 50px; height: 50px;"><span class="sp">그레이</span></label></li>
+				<li style="display: inline-block;"><input type="radio" name="color" id="ra3" style="display: none;" value="아이보리.jpg"><label for="ra3"><img class="img" src="/resources/color/아이보리.jpg" style="width: 50px; height: 50px;"><span class="sp">아이보리</span></label></li>
 			</ul> 
 		</li>
 		<li>

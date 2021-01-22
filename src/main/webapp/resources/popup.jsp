@@ -8,7 +8,8 @@
 <script type="text/javascript">
 
 function move() {
-	window.opener.location.href="/customer/cart"	
+	window.opener.location.href="/customer/cart"
+	window.close();
 }
 
 </script>

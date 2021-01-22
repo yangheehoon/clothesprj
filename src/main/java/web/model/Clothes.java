@@ -7,6 +7,8 @@ public class Clothes {
 	String name;
 	int price;
 	String description;
+	String color;
+	String size;
 	String files;
 	Date regdate;
 	
@@ -14,11 +16,13 @@ public class Clothes {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Clothes(int num, String name, int price, String description, String files, Date regdate) {
+	public Clothes(int num, String name, int price, String description, String color, String size, String files, Date regdate) {
 		this.num = num;
 		this.name = name;
 		this.price = price;
 		this.description = description;
+		this.color = color;
+		this.size = size;
 		this.files = files;
 		this.regdate = regdate;
 	}
@@ -58,6 +62,22 @@ public class Clothes {
 	}
 	public void setRegdate(Date regdate) {
 		this.regdate = regdate;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
 	}
 	
 	
