@@ -48,14 +48,14 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/home")
-	public String home(@CookieValue(value="ck" ,required=false) String ck,
+	public String home(//@CookieValue(value="ck" ,required=false) String ck,
 			HttpSession session) {
 		
 	
-		System.out.println(ck);
-		Member member = memberservice.ckcheck(ck);
+//		System.out.println(ck);
+//		Member member = memberservice.ckcheck(ck);
 		
-		session.setAttribute("member", member);
+//		session.setAttribute("member", member);
 		
 		return "home";
 	}

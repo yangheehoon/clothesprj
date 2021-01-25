@@ -20,15 +20,15 @@ function del() {
 			<th>수량</th>
 			<th>가격</th>
 		</tr>
-		<c:forEach var="n" items="${nologin}">
+		<c:forEach var="p" items="${cart}">
 		<tr>
-			<td><div style="float: left;"><a href="clothesdetail?num=${n.num}"><img src="/resources/customer/clothes/${n.files}" style="width: 225px; height: 225px;"></a></div>
-				<div style="display: inline-block; margin-top: 70px;"><a href="clothesdetail?num=${n.num}">${n.description}</a></div>
-				<div>${n.name}</div>
-				<div>${n.color}</div>
-				<div>${n.size}</div></td>
+			<td><div style="float: left;"><a href="clothesdetail?num=${p.num}"><img src="/resources/customer/clothes/${p.files}" style="width: 225px; height: 225px;"></a></div>
+				<div style="display: inline-block; margin-top: 70px;"><a href="clothesdetail?num=${p.num}">${p.description}</a></div>
+				<div>${p.name}</div>
+				<div>${p.color}</div>
+				<div>${p.size}</div></td>
 			<td>1</td>
-			<td>${n.price}원</td>
+			<td>${p.price}원</td>
 		</tr>
 		</c:forEach>
 	</table> 

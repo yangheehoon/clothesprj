@@ -1,8 +1,5 @@
 package web.controller;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -28,41 +25,44 @@ public class MemberController {
 	@RequestMapping("/logincheck")
 	public String logincheck(@RequestParam("id") String id,
 			@RequestParam("pw") String pw, 
-			HttpServletResponse res,
-			HttpServletRequest req,
 			HttpSession session,
 			Model model) {
 		
-		System.out.println(id);
-		System.out.println(pw);
-		Member member = memberservice.idcheck(id, pw);
+		session.removeAttribute("cart");
 		
-		session.setAttribute("member", member);
 		
-		if(member != null) {
+		if(memberservice.idcheck(id, pw)==false) {
+			model.addAttribute("msg", "아이디혹은 비밀번호가 일치하지 않습니다");
+			return "member/login";
+		}else {			
+			Member member = memberservice.logincheck(id, pw);			
+			session.setAttribute("member", member);
+			return "redirect:/home";
+		}				
+		/*if(member != null) {
 			Cookie cookie = new Cookie("ck", id);
 			cookie.setPath("/");
 			res.addCookie(cookie);
-		}
-		
-		return "redirect:/home";
+		}*/				
 	}
 	
+	
 	@RequestMapping("/mypage")
-	public String mypage(
-			Model model) {
+	public String mypage() {
 		
 		return "member/mypage";
 	}
 	
 	@RequestMapping("/logout")
 	public String logout(
-			HttpServletResponse res,
+			HttpSession session,
 			Model model) {
 		
-			Cookie cookie = new Cookie("ck", null);
-			cookie.setPath("/");
-			res.addCookie(cookie);
+			//session.removeAttribute("member");
+			session.invalidate();
+			//Cookie cookie = new Cookie("ck", null);
+			//cookie.setPath("/");
+			//res.addCookie(cookie);
 			
 		return "redirect:/home";
 	}

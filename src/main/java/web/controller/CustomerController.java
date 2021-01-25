@@ -26,16 +26,13 @@ import web.model.Clothes;
 import web.service.ClothesService;
 
 @Controller
-/*@SessionAttributes("nologin")*/
 @RequestMapping("/customer")
 public class CustomerController {
 	
 	@Autowired
 	private ServletContext ctx;
 	
-	ClothesService clothesservice = new ClothesService();	
-	
-	List<Clothes> temp = new ArrayList<Clothes>();	
+	ClothesService clothesservice = new ClothesService();		
 	
 	@RequestMapping("/clotheslist")
 	public String ClothesList(@RequestParam(value="q", defaultValue="")String query,
@@ -108,39 +105,21 @@ public class CustomerController {
 			HttpSession session,
 			//HttpServletRequest req,
 			//HttpServletResponse res,
-			Model model) throws UnsupportedEncodingException {						
+			Model model) {						
 		
-			if(session.getAttribute("nologin")==null) {
-			temp = new ArrayList<Clothes>();	
+			List<Clothes> basket = (ArrayList<Clothes>)session.getAttribute("cart");
+		
+			if(session.getAttribute("cart")==null) {
+				basket = new ArrayList<Clothes>();	
 			}
 			Date regdate =null;
 	
 			Clothes cl = new Clothes(num, name, price, description, color, size, files, regdate);
 					
-			temp.add(cl);
+			basket.add(cl);
 			
-			session.setAttribute("nologin", temp);
+			session.setAttribute("cart", basket);
 		
-		
-		/*	Cookie[] cookies = req.getCookies();
-			if(cookies != null) {
-				if("nologin"==cookies[0].getName()) {
-					if(session.getAttribute("nologin")==null) {
-						temp = new ArrayList<Clothes>();	
-						}
-						Date regdate =null;
-					
-						Clothes cl = new Clothes(num, name, price, description, color, size, files, regdate);
-								
-						temp.add(cl);
-						
-						session.setAttribute("nologin", temp);
-				}
-			}
-		*/
-			/*String nologin = null;
-			Cookie cookie =new Cookie("nologin", nologin);	
-			res.addCookie(cookie);*/
 		
 		
 		return "redirect:/customer/clothesdetail?num="+num;
@@ -149,7 +128,7 @@ public class CustomerController {
 	@RequestMapping("/delcart")
 	public String delcart(HttpSession session) {
 		
-		session.invalidate();
+		session.removeAttribute("cart");
 		
 		System.out.println(session);
 		

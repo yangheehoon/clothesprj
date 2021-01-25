@@ -7,10 +7,14 @@ public class MemberService {
 
 	MemberDao memberdao = new MemberDao();
 	
-	public Member idcheck(String id , String pw) {
-			memberdao.idcheck(id , pw);
-		return memberdao.logincheck(id, pw);
+	public boolean idcheck(String id , String pw) {
+			
+		return memberdao.idcheck(id , pw);
 	}
+	public Member logincheck(String id , String pw) {
+		
+	return memberdao.logincheck(id, pw);
+}
 	public Member ckcheck(String ck) {
 		
 	return memberdao.ckcheck(ck);

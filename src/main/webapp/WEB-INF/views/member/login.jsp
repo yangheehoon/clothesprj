@@ -14,5 +14,7 @@
 	<input type="submit" value="로그인">
 </form>
 
+${msg}
+
 </body>
 </html>
