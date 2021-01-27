@@ -78,7 +78,7 @@ $(".idcheck").click(function(){
 		},
 		success : function(data){
 			
-			if(data=="1"){
+			if(data=="idnone"){
 				$(".msg").text("사용가능한 아이디입니다").css("color","blue").val("complete");
 			}else{
 				$(".msg").text("이미존재하는 아이디입니다")

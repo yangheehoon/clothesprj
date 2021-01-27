@@ -11,7 +11,7 @@ import web.model.Member;
 
 public class MemberDao {
 
-	public boolean idcheck(String id , String pw) {
+	public String IdCheck(String id , String pw) {
 		String sql = "select * from member where id ='"
 				+ id+"'";
 		String url = "jdbc:oracle:thin:@localhost:1521/xe";
@@ -27,11 +27,11 @@ public class MemberDao {
 					System.out.println("로그인 성공.");
 				}else {
 					System.out.println("비밀번호가 틀렸습니다.");
-					return false;
+					return "pwfail";
 				}
 			}else {
 				System.out.println("존재하지 않는 아이디입니다.");
-				return false;
+				return "idnone";
 			}
 			
 			con.close();
@@ -42,9 +42,9 @@ public class MemberDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return true;
+		return "success";
 	}
-	public Member logincheck(String id , String pw) {
+	public Member SelectMember(String id , String pw) {
 		String sql = "select * from member where id ='"
 				+ id+"' and pw ='"+pw+"'";
 		String url = "jdbc:oracle:thin:@localhost:1521/xe";
@@ -114,33 +114,6 @@ public class MemberDao {
 		}
 		
 	}
-	public boolean idcheck2(String id) {
-		String sql = "select * from member where id ='"
-				+ id+"'";
-		String url = "jdbc:oracle:thin:@localhost:1521/xe";
-
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
-			PreparedStatement st = con.prepareStatement(sql);
-			ResultSet rs = st.executeQuery();
-
-			if(rs.next()) {
-				System.out.println("사용불가능한 아이디입니다.");
-				return false;
-			}else {
-				System.out.println("사용가능한 아이디입니다.");
-			}
-			
-			con.close();
-			st.close();
-			rs.close();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return true;
-	}
+	
 	
 }
