@@ -5,8 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 import web.model.Member;
 
@@ -63,11 +62,13 @@ public class MemberDao {
 				pw = rs.getString("pw");
 				String nickname = rs.getString("nickname");
 				String name = rs.getString("name");
+				int birth = rs.getInt("birth");
 				String email = rs.getString("email");
 				String gender = rs.getString("gender");
-				String phon_num = rs.getString("phon_num");
+				String phone_num = rs.getString("phone_num");
+				Date regdate = rs.getDate("regdate");
 				
-				member = new Member(id, pw, nickname, name, email, gender, phon_num);
+				member = new Member(id, pw, nickname, name, birth, email, gender, phone_num, regdate);
 			
 			}	
 			con.close();
@@ -80,12 +81,16 @@ public class MemberDao {
 		}
 		return member;
 	}
-	public Member ckcheck(String ck) {
-		String sql = "select * from member where id ='"
-				+ ck+"'";
+	
+	public void InsertMember(String id, String pw, String nickname, 
+			String name, int birth, String email, String gender, 
+			String phone_num) {
+		
+		String sql = "insert into value('"+id+"','"+pw+"','"
+				+nickname+"','"+name+"','"+birth+"','"+email
+				+"','"+gender+"','"+phone_num+"',sysdate)";
 		String url = "jdbc:oracle:thin:@localhost:1521/xe";
 		
-		Member member = null;
 		
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -93,18 +98,7 @@ public class MemberDao {
 			PreparedStatement st = con.prepareStatement(sql);
 			ResultSet rs = st.executeQuery();
 
-			if(rs.next()) {
-				String id = rs.getString("id");
-				String pw = rs.getString("pw");
-				String nickname = rs.getString("nickname");
-				String name = rs.getString("name");
-				String email = rs.getString("email");
-				String gender = rs.getString("gender");
-				String phon_num = rs.getString("phon_num");
-				
-				member = new Member(id, pw, nickname, name, email, gender, phon_num);
 			
-			}	
 			con.close();
 			st.close();
 			rs.close();
@@ -113,6 +107,35 @@ public class MemberDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return member;
+		
 	}
+	public boolean idcheck2(String id) {
+		String sql = "select * from member where id ='"
+				+ id+"'";
+		String url = "jdbc:oracle:thin:@localhost:1521/xe";
+
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+
+			if(rs.next()) {
+				System.out.println("사용불가능한 아이디입니다.");
+				return false;
+			}else {
+				System.out.println("사용가능한 아이디입니다.");
+			}
+			
+			con.close();
+			st.close();
+			rs.close();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
 }

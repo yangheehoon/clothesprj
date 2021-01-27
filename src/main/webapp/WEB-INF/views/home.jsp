@@ -7,6 +7,7 @@
 </head>
 <body>
 <c:if test="${member == null}">
+	<a href="/member/joinform">회원가입</a>
 	<a href="/member/login">로그인</a>
 </c:if>
 <c:if test="${member != null}">

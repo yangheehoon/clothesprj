@@ -1,11 +1,14 @@
 package web.controller;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.model.Member;
 import web.service.MemberService;
@@ -15,6 +18,45 @@ import web.service.MemberService;
 public class MemberController {
 
 	MemberService memberservice = new MemberService();
+	
+	@RequestMapping("/joinform")
+	public String joinform(	
+			Model model) {
+		
+		return "member/join";
+	}	
+	
+	@ResponseBody
+	@RequestMapping("/idcheck")
+	public String idcheck(@RequestParam(value="id") String id) {
+		
+		System.out.println(id);
+		
+		return memberservice.Serviceidcheck(id); 		
+	}
+	
+	@RequestMapping("/join")
+	public String join(@RequestParam("id") String id,
+			@RequestParam("pw") String pw,
+			@RequestParam("nick") String nickname,
+			@RequestParam("name") String name,
+			@RequestParam("birth") int birth,
+			@RequestParam("email") String email,
+			@RequestParam("gen") String gender,
+			@RequestParam("phone") String phone_num
+			) {
+			
+			
+			//memberservice.ServiceJoin(id, pw, nickname, name, birth, email, gender, phone_num);
+		
+		return "redirect:/member/success";
+	}
+	
+	@RequestMapping("/success")
+	public String success() {
+		return "member/success";
+	}
+	
 	
 	@RequestMapping("/login")
 	public String login() {
@@ -66,4 +108,5 @@ public class MemberController {
 			
 		return "redirect:/home";
 	}
+	
 }

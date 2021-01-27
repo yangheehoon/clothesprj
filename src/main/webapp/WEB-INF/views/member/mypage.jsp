@@ -4,13 +4,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>최고의 품질을 자랑하는 Clothes</title>
 </head>
 <body>
 ${member.name}
 ${member.nickname}
 ${member.gender}
-${member.phon_num}
+${member.phone_num}
  
 </body>
 </html>

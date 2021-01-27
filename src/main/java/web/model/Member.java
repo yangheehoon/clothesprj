@@ -1,27 +1,33 @@
 package web.model;
 
+import java.util.Date;
+
 public class Member {
 	String id;
 	String pw;
 	String nickname;
 	String name;
+	int birth;
 	String email;
 	String gender;
-	String phon_num;
+	String phone_num;
+	Date regdate;
 	
 	public Member() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Member(String id, String pw, String nickname, String name, String email, String gender, String phon_num) {
+	public Member(String id, String pw, String nickname, String name, int birth, String email, String gender, String phone_num, Date regdate) {
 		super();
 		this.id = id;
 		this.pw = pw;
 		this.nickname = nickname;
 		this.name = name;
+		this.birth = birth;
 		this.email = email;
 		this.gender = gender;
-		this.phon_num = phon_num;
+		this.phone_num = phone_num;
+		this.regdate = regdate;
 	}
 
 	public String getId() {
@@ -72,12 +78,28 @@ public class Member {
 		this.gender = gender;
 	}
 
-	public String getPhon_num() {
-		return phon_num;
+	public String getPhone_num() {
+		return phone_num;
 	}
 
-	public void setPhon_num(String phon_num) {
-		this.phon_num = phon_num;
+	public void setPhone_num(String phone_num) {
+		this.phone_num = phone_num;
+	}
+
+	public int getBirth() {
+		return birth;
+	}
+
+	public void setBirth(int birth) {
+		this.birth = birth;
+	}
+
+	public Date getRegdate() {
+		return regdate;
+	}
+
+	public void setRegdate(Date regdate) {
+		this.regdate = regdate;
 	}
 	
 }
