@@ -47,9 +47,8 @@ public class MemberController {
 			) {
 			
 			
-			//memberservice.ServiceJoin(id, pw, nickname, name, birth, email, gender, phone_num);
-		
-		return "redirect:/member/success";
+		return	memberservice.ServiceJoin(id, pw, nickname, name, birth, email, gender, phone_num);
+				
 	}
 	
 	@RequestMapping("/success")
@@ -57,6 +56,10 @@ public class MemberController {
 		return "member/success";
 	}
 	
+	@RequestMapping("/fail")
+	public String fail() {
+		return "member/fail";
+	}	
 	
 	@RequestMapping("/login")
 	public String login() {

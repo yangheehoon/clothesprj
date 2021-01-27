@@ -82,11 +82,11 @@ public class MemberDao {
 		return member;
 	}
 	
-	public void InsertMember(String id, String pw, String nickname, 
+	public String InsertMember(String id, String pw, String nickname, 
 			String name, int birth, String email, String gender, 
 			String phone_num) {
 		
-		String sql = "insert into value('"+id+"','"+pw+"','"
+		String sql = "insert into member values('"+id+"','"+pw+"','"
 				+nickname+"','"+name+"','"+birth+"','"+email
 				+"','"+gender+"','"+phone_num+"',sysdate)";
 		String url = "jdbc:oracle:thin:@localhost:1521/xe";
@@ -102,10 +102,15 @@ public class MemberDao {
 			con.close();
 			st.close();
 			rs.close();
+			
+			return "redirect:/member/success";
+			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+			return "redirect:/member/fail";
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return "redirect:/member/fail";
 		}
 		
 	}
