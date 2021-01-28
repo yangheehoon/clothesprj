@@ -17,7 +17,8 @@ public class MemberService {
 			return "idnone";
 		}else if(result == "pwfail"){
 			return "pwfail";
-		}else {			
+		}else {	 //로그인		
+			session.removeAttribute("cart");
 			Member member = memberdao.SelectMember(id, pw);			
 			session.setAttribute("member", member);
 			return "success";
@@ -30,6 +31,23 @@ public class MemberService {
 			String phone_num) {
 		
 		return memberdao.InsertMember(id, pw, nickname, name, birth, email, gender, phone_num);
+	}
+
+
+	public String ServicePwCheck(String id, String pw) {
+			
+		return memberdao.IdCheck(id, pw);
+	}
+
+
+	public void ServiceDelMember(String id , String pw) {
+		memberdao.DelMember(id ,pw);
+	}
+
+
+	public void ServiceChangePw(String pw, String id) {
+		memberdao.UpdatePw(pw,id);
+		
 	}
 
 	

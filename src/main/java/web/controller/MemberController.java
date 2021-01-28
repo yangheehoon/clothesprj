@@ -70,9 +70,8 @@ public class MemberController {
 	@RequestMapping("/logincheck")
 	public String logincheck(@RequestParam("id") String id,
 			@RequestParam("pw") String pw, 
-			HttpSession session) {
+			HttpSession session) {		
 		
-		session.removeAttribute("cart");
 		System.out.println(id);
 		System.out.println(pw);
 		
@@ -100,4 +99,46 @@ public class MemberController {
 		return "redirect:/home";
 	}
 	
+	@RequestMapping("/pwchange")
+	public String pwchange(@RequestParam(value="newpw",required=false) String pw, 
+			@RequestParam(value="id",required=false) String id,
+			HttpSession session) {
+			if(pw!=null) {
+				memberservice.ServiceChangePw(pw,id);
+				session.removeAttribute("member");
+				return "redirect:/member/login";
+			}
+		return "member/pwchange";
+	}
+		
+	
+	@RequestMapping("/delcheck")
+	public String delcheck() {
+		return "member/delcheck";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/pwcheck")
+	public String pwcheck(@RequestParam("id") String id,
+			@RequestParam("pw") String pw) {
+		return memberservice.ServicePwCheck(id,pw);
+	}
+	
+	@RequestMapping("/del")
+	public String  del(@RequestParam("id") String id,
+			@RequestParam("pw") String pw, HttpSession session) {
+		
+			System.out.println(id);
+			System.out.println(pw);
+			
+			memberservice.ServiceDelMember(id, pw);
+			session.invalidate();
+		
+		return "redirect:/member/goodbye";
+	}
+	
+	@RequestMapping("/goodbye")
+	public String goodbye() {
+		return "member/goodbye";
+	}
 }

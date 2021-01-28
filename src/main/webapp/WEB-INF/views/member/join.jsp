@@ -95,7 +95,7 @@ $(".idcheck").click(function(){
 	
 });
 
-$("#userid").click(function(){
+$("#userid").focus(function(){
 	$(".msg").text("").val("");
 	//$("#userid").val("");
 })

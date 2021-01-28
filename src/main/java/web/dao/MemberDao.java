@@ -114,6 +114,58 @@ public class MemberDao {
 		}
 		
 	}
+	public void DelMember(String id, String pw) {
+		
+		String sql ="delete from member where id='"+id
+				+"' and pw='"+pw+"'"; 
+		String url = "jdbc:oracle:thin:@localhost:1521/xe";
+		
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+
+			
+			con.close();
+			st.close();
+			rs.close();
+			
+		
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();			
+		} catch (SQLException e) {
+			e.printStackTrace();			
+		}		
+		
+	}
+	public void UpdatePw(String pw, String id) {
+		
+		String sql = "update member set pw ='"+pw 
+				+"' where id='"+id+"'"; 
+		String url = "jdbc:oracle:thin:@localhost:1521/xe";
+		
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+
+			
+			con.close();
+			st.close();
+			rs.close();
+			
+		
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();			
+		} catch (SQLException e) {
+			e.printStackTrace();			
+		}		
+		
+	}
 	
 	
 }

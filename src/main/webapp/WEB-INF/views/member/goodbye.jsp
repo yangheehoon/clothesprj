@@ -8,6 +8,9 @@
 </head>
 <body>
 <h1 style="text-align: center;">
-Clothes의 회원이 되신 걸 환영합니다.</h1>
+그동안 저희 Clothes를 애용해 주셔서 대단히 갑사합니다.</h1>
+<h3 style="text-align: center;">
+더욱 성장하는 Clothes가 되겠습니다.
+</h3>
 </body>
 </html>
