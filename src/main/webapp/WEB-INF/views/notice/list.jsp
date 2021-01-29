@@ -29,15 +29,13 @@
     	
     	</form>
     	
-    	<!-- 게시글 추가 및 삭제 -->	
-		<!-- <form action="" style="float: right;">
-			<input type="submit" value="공지글 삭제" >
-		</form>	 -->
-		<label style="float: right;">&nbsp;</label>
-		<div style="float: right;">
-			<a href="add" ><button>공지글 추가</button></a>
-		</div>
- 		<label style="float: right;">공지사항 관리  &nbsp;</label>    
+		<c:if test="${sessionScope.member.id=='master'}">
+			<label style="float: right;">&nbsp;</label>
+			<div style="float: right;">
+				<a href="add" ><button>공지글 추가</button></a>
+			</div>
+ 			<label style="float: right;">공지사항 관리  &nbsp;</label>    
+ 		</c:if>
  		    
  	</fieldset>  
 	

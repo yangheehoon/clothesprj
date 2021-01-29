@@ -87,9 +87,14 @@ public class CustomerController {
 		return "customer/clothesdetail";
 	}
 	
+	@RequestMapping("/popup")
+	public String popup() {
+		
+			return "customer/popup";
+	}
+	
 	@RequestMapping("/cart")
-	public String cart(
-			Model model) {
+	public String cart() {
 		
 			return "customer/cart";
 	}

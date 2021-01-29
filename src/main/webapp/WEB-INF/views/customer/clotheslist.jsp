@@ -30,11 +30,13 @@
     	
     	</form>
     	
-		<label style="float: right;">&nbsp;</label>
-		<div style="float: right;">
-			<a href="clothesadd" ><button>의류 추가</button></a>
-		</div>
- 		<label style="float: right;">의류 관리  &nbsp;</label>    
+    	<c:if test="${sessionScope.member.id=='master'}">
+			<label style="float: right;">&nbsp;</label>
+			<div style="float: right;">
+				<a href="clothesadd" ><button>의류 추가</button></a>
+			</div>
+ 			<label style="float: right;">의류 관리  &nbsp;</label>    
+ 		</c:if>
  		    
  	</fieldset>  
 

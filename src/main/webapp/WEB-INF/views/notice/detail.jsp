@@ -195,11 +195,12 @@ td.solid {padding: 8px;
 
 <br>
 
-<form action="add2" method="post">
-	<input type="hidden" name="delnum" value="${d.num}">
-	<input type="submit"  value="공지글 삭제">
-</form>
-
+<c:if test="${sessionScope.member.id=='master'}">
+	<form action="add2" method="post">
+		<input type="hidden" name="delnum" value="${d.num}">
+		<input type="submit"  value="공지글 삭제">
+	</form>
+</c:if>
 <!--  새로고침 시 폼태그의 파라미터 중복 방자를 위한 새로고침 url 수정 -->
 <script type="text/javascript">
 window.onkeydown = function() {

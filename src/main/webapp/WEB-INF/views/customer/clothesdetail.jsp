@@ -19,7 +19,7 @@ function check() {
 }
 function check2() {
 	if(fm.color.value!=="" && fm.size.value!==""){
-		window.open("/resources/popup.jsp","장바구니에 추가되었습니다.",
+		window.open("/customer/popup","장바구니에 추가되었습니다.",
 				"width = 500, height = 500, top = 100, left = 200, location = no");
 	}
 }	
@@ -64,8 +64,10 @@ input[type="radio"]:checked + label .sp{
 
 <body>
 <fieldset>
-	<label>의류 목록 관리</label>
-	<input type="button" value="의류 삭제">
+	<c:if test="${sessionScope.member.id=='master'}">
+		<label>의류 목록 관리</label>
+		<input type="button" value="의류 삭제">
+	</c:if>
 </fieldset>
 
 <c:set var="c" value="${clothes}" />
