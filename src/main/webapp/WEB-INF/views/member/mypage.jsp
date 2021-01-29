@@ -33,16 +33,19 @@
 	<td>${member.phone_num}</td>
 </tr>
 </table>
-<button type="button">회원정보 수정</button>
-<button type="button" onclick="pwchange()">패스워드 변경</button>
-<button type="button" onclick="del()">회원탈퇴</button>
+<button type="button" onclick="ChangeMember()">회원정보 수정</button>
+<button type="button" onclick="ChangePw()">패스워드 변경</button>
+<button type="button" onclick="CheckDel()">회원탈퇴</button>
 </body>
 <script type="text/javascript">
-function del(){
-	location.href="/member/delcheck";
+function ChangeMember(){
+	location.href="/member/ChangeMember"
 }
-function pwchange(){
-	location.href="/member/pwchange";
+function ChangePw(){
+	location.href="/member/ChangePw";
+}
+function CheckDel(){
+	location.href="/member/CheckDel";
 }
 </script>
 </html>

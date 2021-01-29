@@ -44,6 +44,7 @@ public class MemberDao {
 		}
 		return "success";
 	}
+	
 	public Member SelectMember(String id , String pw) {
 		String sql = "select * from member where id ='"
 				+ id+"' and pw ='"+pw+"'";
@@ -165,6 +166,32 @@ public class MemberDao {
 			e.printStackTrace();			
 		}		
 		
+	}
+	public void UpdateMember(String nickname, String email, String phone_num, String id) {
+		
+		String sql = "update member set nickname ='"+nickname 
+				+"', email='"+email+"', phone_num='"+phone_num
+				+"' where id='"+id+"'"; 
+		String url = "jdbc:oracle:thin:@localhost:1521/xe";
+		
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+
+			
+			con.close();
+			st.close();
+			rs.close();
+			
+		
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();			
+		} catch (SQLException e) {
+			e.printStackTrace();			
+		}		
 	}
 	
 	

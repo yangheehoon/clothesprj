@@ -50,5 +50,12 @@ public class MemberService {
 		
 	}
 
+
+	public void ServiceChangeMember(String nickname, String email, String phone_num, String id, String pw, HttpSession session) {
+		memberdao.UpdateMember(nickname,email,phone_num,id);
+		Member member = memberdao.SelectMember(id,pw);
+		session.setAttribute("member", member);
+	}
+
 	
 }

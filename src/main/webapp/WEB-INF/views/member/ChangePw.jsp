@@ -9,10 +9,13 @@
 <script type="text/javascript">
 function pwck(){
 	if(fm.pwcheck.value!=fm.pw.value){
-		alert("패스워드를 잘못 입력하셨습니다.");
+		alert("현재 패스워드를 잘못 입력하셨습니다.");
 		return false;
 	}else if(fm.newpw.value==""){
 		alert("새 패스워드를 입려해주세요.");
+		return false;
+	}else if(fm.newpw.value.length < 8){
+		alert("새 패스워드를 8자리 이상 입력해주세요.");
 		return false;
 	}else if(fm.newpw.value!=fm.newpw2.value){
 		alert("새 패스워드가 일치하지 않습니다.");
@@ -24,22 +27,21 @@ function pwck(){
 </script>
 </head>
 <body>
-<form action="/member/pwchange" name="fm" onsubmit="return pwck()">
+<form action="/member/ChangePw" name="fm" onsubmit="return pwck()">
   <input type="hidden" name="pwcheck" value="${member.pw}">
   <input type="hidden" name="id" value="${member.id}">
 	<table>
 	<tr>
-		<td>패스워드 확인</td>
-		<td><input type="text" name="pw"></td>
-		<td><span id="msg"></span></td>
+		<td>현재 패스워드</td>
+		<td><input type="password" name="pw"></td>
 	</tr>
 	<tr>
 		<td>새 패스워드 </td>
-		<td><input type="text" name="newpw"></td>
+		<td><input type="password" name="newpw"></td>
 	</tr>
 	<tr>
 		<td>새 패스워드 확인</td>
-		<td><input type="text" name="newpw2"></td>
+		<td><input type="password" name="newpw2"></td>
 	</tr>
 	</table>
 	<input type="submit" value="패스워드 변경">

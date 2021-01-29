@@ -72,11 +72,7 @@ public class MemberController {
 			@RequestParam("pw") String pw, 
 			HttpSession session) {		
 		
-		System.out.println(id);
-		System.out.println(pw);
-		
-		return memberservice.ServiceIdCheck(id, pw, session);
-			
+		return memberservice.ServiceIdCheck(id, pw, session);			
 	}
 	
 	
@@ -99,8 +95,27 @@ public class MemberController {
 		return "redirect:/home";
 	}
 	
-	@RequestMapping("/pwchange")
-	public String pwchange(@RequestParam(value="newpw",required=false) String pw, 
+	
+	@RequestMapping("/ChangeMember")
+	public String ChangeMember(@RequestParam(value="nick", required=false) String nickname,
+			@RequestParam(value="email", required=false) String email,
+			@RequestParam(value="phone", required=false) String phone_num,
+			@RequestParam(value="id", required=false) String id,
+			@RequestParam(value="pw", required=false) String pw,
+			HttpSession session) {
+		
+		if(nickname!=null&&email!=null&&phone_num!=null&&id!=null&&pw!=null) {
+			System.out.println("ck");
+			memberservice.ServiceChangeMember(nickname,email,phone_num,id,pw,session);
+			return "redirect:/member/mypage";
+		}
+		
+		return "member/ChangeMember";
+	}
+	
+	
+	@RequestMapping("/ChangePw")
+	public String ChangePw(@RequestParam(value="newpw",required=false) String pw, 
 			@RequestParam(value="id",required=false) String id,
 			HttpSession session) {
 			if(pw!=null) {
@@ -108,13 +123,13 @@ public class MemberController {
 				session.removeAttribute("member");
 				return "redirect:/member/login";
 			}
-		return "member/pwchange";
+		return "member/ChangePw";
 	}
 		
 	
-	@RequestMapping("/delcheck")
-	public String delcheck() {
-		return "member/delcheck";
+	@RequestMapping("/CheckDel")
+	public String CheckDel() {
+		return "member/CheckDel";
 	}
 	
 	@ResponseBody
@@ -127,9 +142,6 @@ public class MemberController {
 	@RequestMapping("/del")
 	public String  del(@RequestParam("id") String id,
 			@RequestParam("pw") String pw, HttpSession session) {
-		
-			System.out.println(id);
-			System.out.println(pw);
 			
 			memberservice.ServiceDelMember(id, pw);
 			session.invalidate();

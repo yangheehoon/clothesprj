@@ -101,9 +101,9 @@ $("#userid").focus(function(){
 })
 
 function idcheckSpecial() {  //아이디값 특수문자와 공백 체크
-	var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?\s]/gi; 
+	var pattern = /[`~!@#$%^&*|\\\'\";:\/?\s]/gi; 
 	
-	if(special_pattern.test(fm.id.value) == true) { 		
+	if(pattern.test(fm.id.value) == true) { 		
 			return true;
 	}else { 
 		    return false;
