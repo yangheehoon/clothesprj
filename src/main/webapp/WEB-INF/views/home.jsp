@@ -22,7 +22,7 @@
 <a  style="float: left; font-size: x-large;" href="customer/clotheslist">의류</a>
 <br>
 <br>
-<a  style="float: right; font-size: x-large;" href="customer/boardlist">자유게시판</a>
+<a  style="float: right; font-size: x-large;" href="board/board_list">자유게시판</a>
 <a  style="float: left; font-size: x-large;" href="customer/juwelrylist">잡화</a>
 <br>
 <br>
