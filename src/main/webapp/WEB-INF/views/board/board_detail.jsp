@@ -72,7 +72,7 @@ td.solid {padding: 8px;
 </table>
 
 <details>
-	<summary style="color: blue">댓글[${cmt_count}]</summary>
+	<summary style="color: blue">댓글[${d.cmt_count}]</summary>
 		<form action="" name="fm1">
 		<textarea rows="5" cols="50" name="cmt_content"
 		onclick="if(this.value=='내용을 입력하세요.'){this.value=''}" >내용을 입력하세요.</textarea>

@@ -20,7 +20,6 @@ public class BoardService {
 		return boarddao.SelectCount(filed , query);
 	}
 	public Board ServiceDetail(int num) {
-		// TODO Auto-generated method stub
 		return boarddao.SelectDetail(num);
 	}
 	public Board ServicePrevD(int num) {
@@ -29,9 +28,6 @@ public class BoardService {
 	public Board ServicNextD(int num) {
 		return boarddao.SelectNextD(num);
 	}
-	public int ServiceCmtCount(int num) {
-		return boarddao.SelectCmtCount(num);
-	}	
 	public List<Comment> ServiceDetailCmt(int num) {
 		return boarddao.SelectDetailCmt(num);
 	}

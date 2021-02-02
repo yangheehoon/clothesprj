@@ -34,9 +34,9 @@ public class NoticeService {
 	public List<Comment> ServiceDetailCmt(int num) {
 		return noticedao.SelectDetailCmt(num);
 	}
-	public void ServiceInsertCmt(String content, 
+	public void ServiceInsertCmt(String cmt_content, 
 			String writer_id, int num) {
-		noticedao.InsertCmt(content,  writer_id, num);
+		noticedao.InsertCmt(cmt_content,  writer_id, num);
 	}
 	public List<Comment> ServiceReCmt(){
 		return noticedao.SelectReCmt();
@@ -55,5 +55,11 @@ public class NoticeService {
 	}
 	public void ServiceDelNotice(int delnum) {
 		noticedao.DelNotice(delnum);
+	}
+	public void ServiceDelCmt(int cmtnum) {
+		noticedao.DelCmt(cmtnum);		
+	}
+	public void ServiceDelReCmt(int recmtnum) {
+		noticedao.DelReCmt(recmtnum);
 	}
 }

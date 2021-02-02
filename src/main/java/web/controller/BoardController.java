@@ -53,7 +53,6 @@ public class BoardController {
 		}
 
 		boardservice.ServiceUpdateHit(num);
-		int cmt_count = boardservice.ServiceCmtCount(num);
 		Board detail = boardservice.ServiceDetail(num);
 		Board prevdetail = boardservice.ServicePrevD(num);
 		Board nextdetail = boardservice.ServicNextD(num);
@@ -61,7 +60,6 @@ public class BoardController {
 		List<Comment> cmtlist = boardservice.ServiceDetailCmt(num);
 		List<Comment> recmtlist = boardservice.ServiceReCmt();
 		
-			model.addAttribute("cmt_count", cmt_count);
 			model.addAttribute("detail", detail);
 			model.addAttribute("prevdetail", prevdetail);
 			model.addAttribute("nextdetail", nextdetail);

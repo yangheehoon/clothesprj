@@ -36,29 +36,26 @@ public class NoticeController {
 	
 	@RequestMapping("/detail")
 	public String NoticeDetail(@RequestParam("num") int num,
-			@RequestParam(value="content" , defaultValue= "") String content,	
+			@RequestParam(value="cmt_content" , defaultValue= "") String cmt_content,	
 			@RequestParam(value="recontent" , defaultValue= "") String recontent, 
 			@RequestParam(value="cmt_num", required = false ) Integer cmt_num,
+			@RequestParam(value="writer_id", required = false ) String writer_id,
 			Model model) {
 		
-		String writer_id = "익명";
+		if(!cmt_content.isEmpty()&&writer_id!=null) { //isEmpty 반환값 =="" 
+			noticeservice.ServiceInsertCmt(cmt_content, writer_id, num);
+			System.out.println("NoticeInsertCmt");			
+		}
+		if(!recontent.isEmpty()&&writer_id!=null) {
+			noticeservice.ServiceInsertReCmt(writer_id,recontent, cmt_num);
+			System.out.println("NoticeInsertReCmt");			
+		}
 		
 		noticeservice.ServiceUpdateHit(num);
 		Notice detail = noticeservice.ServiceDetail(num);
 		Notice prevdetail = noticeservice.ServicePrevD(num);
 		Notice nextdetail = noticeservice.ServicNextD(num);		
 		
-		if(!content.isEmpty()) {
-			noticeservice.ServiceInsertCmt(content, writer_id, num);
-			System.out.println("test1");
-			
-			
-		}
-		if(!recontent.isEmpty()) {
-			noticeservice.ServiceInsertReCmt(writer_id,recontent, cmt_num);
-			System.out.println("test2");
-			
-		}
 		int cmt_count = noticeservice.ServiceCmtCount(num);
 		List<Comment> cmtlist = noticeservice.ServiceDetailCmt(num);
 		List<Comment> recmtlist = noticeservice.ServiceReCmt();
@@ -82,23 +79,42 @@ public class NoticeController {
 	public String AddNotice2(@RequestParam(value="title" , required=false) String title,
 			@RequestParam(value="content" , required=false) String content,			
 			@RequestParam(value="files" , defaultValue="") String files,			
-			@RequestParam(value="delnum" , required=false) Integer delnum,			
+			@RequestParam(value="writer_id" , required=false) String writer_id,						
 			Model model) {
 			
-		String writer_id = "운영진";
-		
-		if(!(title==null)&&!(content==null)) {
+		if(title!=null && content!=null && writer_id!=null) {
 			noticeservice.ServiceInsertNotice(title, writer_id, content, files);
-			System.out.println("test");
-		}
-
-		if(!(delnum==null)) {
-			noticeservice.ServiceDelNotice(delnum);
-			System.out.println("test10");
+			System.out.println("insertnotice");
 		}
 		
 		return "redirect:/notice/list";
 	}
-
+	
+	@RequestMapping("/notice_del")   //서브밋
+	public String DelNotice(@RequestParam("delnum") int delnum) {
+		
+			noticeservice.ServiceDelNotice(delnum);
+			System.out.println("delnotice");
+		
+		return "redirect:/notice/list";
+	}
+	
+	@RequestMapping("/notice_cmt_del")   //ajax
+	public String DelCmt(@RequestParam("cmtnum") int cmtnum) {
+		
+			noticeservice.ServiceDelCmt(cmtnum);
+			System.out.println("delnoticecmt");
+		
+		return "notice/list";
+	}
+	
+	@RequestMapping("/notice_recmt_del")   //ajax
+	public String DelReCmt(@RequestParam("recmtnum") int recmtnum) {
+		
+			noticeservice.ServiceDelReCmt(recmtnum);
+			System.out.println("delnoticerecmt");
+		
+		return "notice/list";
+	}
 }
 

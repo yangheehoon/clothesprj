@@ -22,7 +22,7 @@ public class BoardDao {
 		String sql = 
 				" select * from " +
 				" (select ROWNUM RNUM, N.* FROM " +
-				" (select * from boardview where " + filed + 
+				" (select * from boardview2 where " + filed + 
 				" like ? order by regdate desc)N) " +
 				" where RNUM BETWEEN ? AND ?";		
 		
@@ -45,7 +45,7 @@ public class BoardDao {
 				 String writer_id = rs.getString("writer_id"); 
 				 String files = rs.getString("files"); 
 				 String hit = rs.getString("hit"); 
-				 String content = null; 
+				 String content = rs.getString("content"); 
 				 int cmt_count = rs.getInt("cmt_count"); 
 		
 				 Board board = new Board(num, title, writer_id, content, files, hit, regdate, cmt_count);
@@ -101,7 +101,7 @@ public class BoardDao {
 		
 		Board detail = null;
 		
-		String sql = "select * from board where num = " 
+		String sql = "select * from boardview2 where num = " 
 		             + num;
 		             
 		
@@ -120,7 +120,7 @@ public class BoardDao {
 				String files = rs.getString("files"); 
 				String hit = rs.getString("hit"); 
 				String content = rs.getString("content"); 
-				int cmt_count = 0;
+				int cmt_count = rs.getInt("cmt_count");
 				
 				detail = new Board(num, title, writer_id, content, files, hit, regdate, cmt_count);
 				
@@ -229,31 +229,6 @@ public class BoardDao {
 		}
     	
 		return notice;
-	}
-    
-    public int SelectCmtCount(int num) {
-		String sql="select cmt_count from boardview bv where bv.num= "+ num; 
-		String url="jdbc:oracle:thin:@localhost:1521/xe";
-		
-		int cmt_count=0;
-		
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
-			PreparedStatement st = con.prepareStatement(sql);
-			ResultSet rs = st.executeQuery();
-			
-			if(rs.next()) {
-				cmt_count=rs.getInt("cmt_count");
-			}
-			
-		}catch (ClassNotFoundException e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return cmt_count;
 	}
     
     public List<Comment> SelectDetailCmt(int board_num){

@@ -304,12 +304,12 @@ public class NoticeDao {
     	return cmtlist;
     }
    
-	public void InsertCmt(String content, String writer_id, 
+	public void InsertCmt(String cmt_content, String writer_id, 
 			int notice_num) {
 			// 서비스에서 받은 num값 변수명 notice_num로변경
 		
 		String sql = " insert into \"comment\" values "
-				+ " ( seqnext.NEXTVAL,'" + content + "' ,sysdate, '" 
+				+ " ( seqnext.NEXTVAL,'" + cmt_content + "' ,sysdate, '" 
 				+ writer_id + "'," +  notice_num + " ) ";
 		
 		String url = "jdbc:oracle:thin:@localhost:1521/xe";		
@@ -467,4 +467,39 @@ public class NoticeDao {
 			e.printStackTrace();
 		}
 	}
+
+	public void DelCmt(int cmtnum) {
+		String sql="delete from \"comment\" where num = "+cmtnum;
+		String url="jdbc:oracle:thin:@localhost:1521/xe";
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
+			PreparedStatement st = con.prepareStatement(sql);
+			st.executeQuery();
+			
+		}catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+
+	public void DelReCmt(int recmtnum) {
+		String sql="delete from recomment where num = "+recmtnum;
+		String url="jdbc:oracle:thin:@localhost:1521/xe";
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
+			PreparedStatement st = con.prepareStatement(sql);
+			st.executeQuery();
+			
+		}catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

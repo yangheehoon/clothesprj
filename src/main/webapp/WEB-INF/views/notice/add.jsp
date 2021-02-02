@@ -40,6 +40,7 @@ function check() {
 				<td><input type="submit" value="공지글 등록" style="float: right;"></td>
 			</tr>
 		</table>
+		<input type="hidden" name="writer_id" value="${sessionScope.member.nickname}">
 	</form>
 </body>
 

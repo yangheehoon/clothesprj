@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>자세한 페이지</title>
+<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
 <style>
 th.solid {
     text-align: left;
@@ -72,11 +73,12 @@ td.solid {padding: 8px;
 
 <details>
 	<summary style="color: blue">댓글[${cmt_count}]</summary>
-		<form action="" >
-		<textarea rows="5" cols="50" name="content"
+		<form action="" name="fm1">
+		<textarea rows="5" cols="50" name="cmt_content"
 		onclick="if(this.value=='내용을 입력하세요.'){this.value=''}" >내용을 입력하세요.</textarea>
 		<input type="hidden" name="num" value="${d.num}">
-		<input type="submit"  value="댓글달기"  >
+		<input type="hidden" name="writer_id" value="${sessionScope.member.nickname}">
+		<button type="button" class="cmt">댓글달기</button>
 		</form>
 	<table >
 	<c:forEach var="c" items="${cmtlist}">
@@ -94,26 +96,30 @@ td.solid {padding: 8px;
 		</tr>
 		<tr style="font-size: small;">
 			<th >작성일	</th>
-			<td >${c.regdate }</td>
+			<td >${c.regdate }
+				<c:set var="logincheck" value="hidden"/>
+				<c:if test="${sessionScope.member.nickname == c.writer_id}">								
+					<c:set var="logincheck" value="button"/>
+				</c:if> <!-- 로그인 했을경우 해당아이디의 댓글에 삭제버튼 생성 -->
+				<input type="${logincheck}" class="del_cmt" value="댓글 삭제">
+			</td>
 		</tr>
 		<tr style="font-size: small;">
 			<td ></td>
 			<th style="text-align: left;"><details>
 				<summary style="color: gray">답글달기</summary>
-				<form action="">
-				<textarea rows="5" cols="50" name="recontent" 
+				<form action="" name="fm2"> <!-- 부모속성이 많아서인지 fm2안의 name들을 인식못함 class로 교체하여 값을 추출-->
+				<textarea rows="5" cols="50" name="recontent" class="recontent"
 				onclick="if(this.value='내용을 입력하세요.'){this.value=''}">내용을 입력하세요.</textarea>
-				<input hidden="" name="cmt_num" value="${c.num }">
-				<input hidden="" name="num" value="${d.num }">
-				<input type="submit" value="답글달기">
+				<input hidden="" name="cmt_num" value="${c.num }" class="cmt_num">
+				<button type="button" class="recmt">답글달기</button>
 				</form>
 			</details></th>
 		</tr>
 		<tr style="font-size: small;">
 			<td class="solid"></td>
 			<th class="solid">
-				<%-- <c:set var="re"  value="${recmtlist}"/> --%> 
-                <c:set var="check" value="false"></c:set>   
+				<c:set var="check" value="false"></c:set>   
 				<c:forEach var="r" items="${recmtlist }">
 					<c:if test="${c.num==r.notice_num}">
 						<c:set var="check" value="true"></c:set>
@@ -139,7 +145,14 @@ td.solid {padding: 8px;
 							</tr>
 							<tr style="font-size: small;">
 								<th>작성일</th>
-								<td>${rec.regdate }</td>
+								<td>${rec.regdate }
+									<input type="hidden" class="recmt_num" value="${rec.num }">
+									<c:set var="logincheck2" value="hidden"/>
+									<c:if test="${sessionScope.member.nickname == rec.writer_id}">		
+										<c:set var="logincheck2" value="button"/>
+									</c:if>
+									<input type="${logincheck2}" class="del_recmt" value="답글 삭제">
+								</td>
 							</tr>
 							<tr>
 								<td class="solid"></td>
@@ -148,14 +161,16 @@ td.solid {padding: 8px;
 						</table>
 						</c:if>
 						</c:forEach>			
-			</details> </c:if> </th>
+				</details> 
+				</c:if> 
+			</th>
 		</tr>
 		
 	</c:forEach>
 
  	</table>
  
- 	</details>	
+</details>	
 
 <div>
 	<a href="list">목록</a>
@@ -196,20 +211,102 @@ td.solid {padding: 8px;
 <br>
 
 <c:if test="${sessionScope.member.id=='master'}">
-	<form action="add2" method="post">
+	<form action="notice_del" method="post">
 		<input type="hidden" name="delnum" value="${d.num}">
 		<input type="submit"  value="공지글 삭제">
 	</form>
 </c:if>
-<!--  새로고침 시 폼태그의 파라미터 중복 방자를 위한 새로고침 url 수정 -->
+
 <script type="text/javascript">
-window.onkeydown = function() {
-	var kcode = event.keyCode;
-	if(kcode == 116) {
-		history.pushState(null, null, "detail?num=${d.num}");
-	  }
-	}
+$(".cmt").click(function(){
 	
+	if(fm1.writer_id.value!=""){
+	
+		var query = { num : fm1.num.value, cmt_content : fm1.cmt_content.value,
+				writer_id : fm1.writer_id.value };
+	
+		$.ajax({
+			url : "/notice/detail",
+			type : "post",
+			data : query,
+			error : function(){
+				alert("통신에러");
+			},
+			success : function(data){
+				location.reload();
+			}		
+		})
+	}else{
+		alert("로그인 후 이용해주세요.");
+		location.href="/member/login";
+	}
+})
+
+$(".recmt").click(function(){	
+
+	if(fm1.writer_id.value!=""){
+	
+		var index = $(".recmt").index(this);
+	
+		var query = { num : fm1.num.value, recontent : $(".recontent").eq(index).val(),
+				cmt_num : $(".cmt_num").eq(index).val(), writer_id : fm1.writer_id.value };
+	
+		$.ajax({
+			url : "/notice/detail",
+			type : "post",
+			data : query,
+			error : function(){
+				alert("통신에러");
+			},
+			success : function(data){
+				location.reload();
+			}		
+		})
+	}else{
+		alert("로그인 후 이용해주세요.");
+		location.href="/member/login";
+	}
+})
+
+$(".del_cmt").click(function(){	
+
+		var index = $(".del_cmt").index(this);
+	
+		var query = { cmtnum : $(".cmt_num").eq(index).val() };
+	
+		$.ajax({
+			url : "/notice/notice_cmt_del",
+			type : "post",
+			data : query,
+			error : function(){
+				alert("통신에러");
+			},
+			success : function(data){
+				location.reload();
+			}		
+		}) 
+	
+})
+
+$(".del_recmt").click(function(){	
+	
+		var index = $(".del_recmt").index(this);
+	
+		var query = { recmtnum : $(".recmt_num").eq(index).val() };
+	
+		$.ajax({
+			url : "/notice/notice_recmt_del",
+			type : "post",
+			data : query,
+			error : function(){
+				alert("통신에러");
+			},
+			success : function(data){
+				location.reload();
+			}		
+		})
+	
+})
 </script>
 
 </body>
