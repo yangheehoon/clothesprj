@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import web.model.Board;
 import web.model.Comment;
-import web.model.Member;
 import web.service.BoardService;
 
 @Controller
@@ -41,23 +40,20 @@ public class BoardController {
 			@RequestParam(value="cmt_content" , defaultValue= "") String cmt_content,	
 			@RequestParam(value="recontent" , defaultValue= "") String recontent, 
 			@RequestParam(value="cmt_num", required = false ) Integer cmt_num,
-			Model model) {
+			@RequestParam(value="writer_id", required = false ) String writer_id,
+			Model model) {			
 		
-		String writer_id = "익명";		
-		
-		if(!cmt_content.isEmpty()) {
+		if(cmt_content!=""&&writer_id!=null) {  //isEmpty()="" /NULL문자가 아닌 비어있는 값 반환 
 			boardservice.ServiceInsertCmt(cmt_content, writer_id, num);
-			System.out.println("boardInsertCmt");
-			
-			
+			System.out.println("boardInsertCmt");						
 		}
-		if(!recontent.isEmpty()) {
+		if(!recontent.isEmpty()&&writer_id!=null) {
 			boardservice.ServiceInsertReCmt(writer_id,recontent, cmt_num);
-			System.out.println("boardInsertReCmt");
-			
+			System.out.println("boardInsertReCmt");			
 		}
-		
+
 		boardservice.ServiceUpdateHit(num);
+		int cmt_count = boardservice.ServiceCmtCount(num);
 		Board detail = boardservice.ServiceDetail(num);
 		Board prevdetail = boardservice.ServicePrevD(num);
 		Board nextdetail = boardservice.ServicNextD(num);
@@ -65,6 +61,7 @@ public class BoardController {
 		List<Comment> cmtlist = boardservice.ServiceDetailCmt(num);
 		List<Comment> recmtlist = boardservice.ServiceReCmt();
 		
+			model.addAttribute("cmt_count", cmt_count);
 			model.addAttribute("detail", detail);
 			model.addAttribute("prevdetail", prevdetail);
 			model.addAttribute("nextdetail", nextdetail);
@@ -86,17 +83,10 @@ public class BoardController {
 	public String AddBoard2(@RequestParam(value="title" , required=false) String title,
 			@RequestParam(value="content" , required=false) String content,			
 			@RequestParam(value="files" , defaultValue="") String files,			
-			@RequestParam(value="delnum" , required=false) Integer delnum,			
-			HttpSession session,Model model) {
+			@RequestParam(value="writer_id" , required=false) String writer_id,			
+			Model model) {
 			
-		String writer_id = "익명";
-		
-		if(session.getAttribute("member")!=null) {
-		Member SessionMember =(Member)session.getAttribute("member");
-		writer_id=SessionMember.getNickname();
-		}
-		
-		if(!(title==null)&&!(content==null)) {
+		if(title!=null && content!=null && writer_id!=null) {
 			boardservice.ServiceInsertBoard(title, writer_id, content, files);
 			System.out.println("insertboard");
 		}
@@ -104,16 +94,31 @@ public class BoardController {
 		return "redirect:/board/board_list";
 	}
 
-	@RequestMapping("/board_del")
-	public String DelBoard(@RequestParam(value="delnum" , required=false) Integer delnum) {
+	@RequestMapping("/board_del")   //서브밋
+	public String DelBoard(@RequestParam("delnum") int delnum) {
 		
-		if(!(delnum==null)) {
 			boardservice.ServiceDelBoard(delnum);
 			System.out.println("delboard");
 		
-		}
 		return "redirect:/board/board_list";
 	}
 	
+	@RequestMapping("/board_cmt_del")   //ajax
+	public String DelCmt(@RequestParam("cmtnum") int cmtnum) {
+		
+			boardservice.ServiceDelCmt(cmtnum);
+			System.out.println("delboardcmt");
+		
+		return "board/board_list";
+	}
+	
+	@RequestMapping("/board_recmt_del")   //ajax
+	public String DelReCmt(@RequestParam("recmtnum") int recmtnum) {
+		
+			boardservice.ServiceDelReCmt(recmtnum);
+			System.out.println("delboardrecmt");
+		
+		return "board/board_list";
+	}
 }
 

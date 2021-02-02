@@ -29,13 +29,15 @@ public class BoardService {
 	public Board ServicNextD(int num) {
 		return boarddao.SelectNextD(num);
 	}
+	public int ServiceCmtCount(int num) {
+		return boarddao.SelectCmtCount(num);
+	}	
 	public List<Comment> ServiceDetailCmt(int num) {
 		return boarddao.SelectDetailCmt(num);
 	}
 	public void ServiceInsertCmt(String cmt_content, 
 			String writer_id, int num) {
 		boarddao.InsertCmt(cmt_content,  writer_id, num);
-		boarddao.UpdateCmtCount(num);
 	}
 	public List<Comment> ServiceReCmt(){
 		return boarddao.SelectReCmt();
@@ -46,11 +48,16 @@ public class BoardService {
 	public void ServiceUpdateHit(int num) {
 		boarddao.UpdateHit(num);
 	}
-
 	public void ServiceInsertBoard(String title,String writer_id, String content, String files) {
 		boarddao.InsertBoard(title, writer_id, content, files);
 	}
 	public void ServiceDelBoard(int delnum) {
 		boarddao.DelBoard(delnum);
+	}
+	public void ServiceDelCmt(int cmtnum) {
+		boarddao.DelCmt(cmtnum);		
+	}
+	public void ServiceDelReCmt(int recmtnum) {
+		boarddao.DelReCmt(recmtnum);		
 	}
 }

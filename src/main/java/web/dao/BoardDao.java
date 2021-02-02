@@ -22,7 +22,7 @@ public class BoardDao {
 		String sql = 
 				" select * from " +
 				" (select ROWNUM RNUM, N.* FROM " +
-				" (select * from board where " + filed + 
+				" (select * from boardview where " + filed + 
 				" like ? order by regdate desc)N) " +
 				" where RNUM BETWEEN ? AND ?";		
 		
@@ -45,12 +45,12 @@ public class BoardDao {
 				 String writer_id = rs.getString("writer_id"); 
 				 String files = rs.getString("files"); 
 				 String hit = rs.getString("hit"); 
-				 String content = rs.getString("content"); 
+				 String content = null; 
 				 int cmt_count = rs.getInt("cmt_count"); 
 		
-				 Board noticeview = new Board(num, title, writer_id, content, files, hit, regdate, cmt_count);
+				 Board board = new Board(num, title, writer_id, content, files, hit, regdate, cmt_count);
 				 
-				 list.add(noticeview);
+				 list.add(board);
 				 }
 				 rs.close();
 				 st.close();
@@ -120,7 +120,7 @@ public class BoardDao {
 				String files = rs.getString("files"); 
 				String hit = rs.getString("hit"); 
 				String content = rs.getString("content"); 
-				int cmt_count = rs.getInt("cmt_count");
+				int cmt_count = 0;
 				
 				detail = new Board(num, title, writer_id, content, files, hit, regdate, cmt_count);
 				
@@ -136,8 +136,6 @@ public class BoardDao {
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		System.out.println(detail);
 		
 		return detail;
 	}
@@ -169,7 +167,7 @@ public class BoardDao {
 			String files = rs.getString("files"); 
 			String hit = rs.getString("hit"); 
 			String content = rs.getString("content");
-			int cmt_count = rs.getInt("cmt_count");
+			int cmt_count = 0;
 			
 			notice = new Board(num, title, writer_id, content, files, hit, regdate, cmt_count);
 		}
@@ -215,7 +213,7 @@ public class BoardDao {
     			String files = rs.getString("files"); 
     			String hit = rs.getString("hit"); 
     			String content = rs.getString("content");
-    			int cmt_count = rs.getInt("cmt_count");
+    			int cmt_count = 0;
     			
     			notice = new Board(num, title, writer_id, content, files, hit, regdate, cmt_count);
     		}
@@ -231,6 +229,31 @@ public class BoardDao {
 		}
     	
 		return notice;
+	}
+    
+    public int SelectCmtCount(int num) {
+		String sql="select cmt_count from boardview bv where bv.num= "+ num; 
+		String url="jdbc:oracle:thin:@localhost:1521/xe";
+		
+		int cmt_count=0;
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+			
+			if(rs.next()) {
+				cmt_count=rs.getInt("cmt_count");
+			}
+			
+		}catch (ClassNotFoundException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return cmt_count;
 	}
     
     public List<Comment> SelectDetailCmt(int board_num){
@@ -307,7 +330,7 @@ public class BoardDao {
 		
 		List<Comment> recmtlist = new ArrayList<Comment>();
 		
-		String sql="select * from board_recomment";
+		String sql="select * from board_recomment order by regdate asc";
 		String url="jdbc:oracle:thin:@localhost:1521/xe";
 		
 		try {
@@ -375,30 +398,12 @@ public class BoardDao {
 			e.printStackTrace();
 		}
 	}
-	public void UpdateCmtCount(int num) {
-		String sql="update board set cmt_count=cmt_count+1 "
-				+ "where num="+ num; 
-		String url="jdbc:oracle:thin:@localhost:1521/xe";
-		
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
-			PreparedStatement st = con.prepareStatement(sql);
-			st.executeQuery();
-			
-			
-		}catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public void InsertBoard(String title,String writer_id,String content,String files) {
 		String sql="insert into board values"
 				+ "(board_num.NEXTVAL,'"+title+"','"
 				+writer_id+"','"+content+"',sysdate,0,'"
-				+files+"',0) ";
+				+files+"') ";
 		String url="jdbc:oracle:thin:@localhost:1521/xe";
 		
 		try {
@@ -429,5 +434,39 @@ public class BoardDao {
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	public void DelCmt(int cmtnum) {
+		String sql="delete from board_comment where num = "+cmtnum;
+		String url="jdbc:oracle:thin:@localhost:1521/xe";
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
+			PreparedStatement st = con.prepareStatement(sql);
+			st.executeQuery();
+			
+		}catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	public void DelReCmt(int recmtnum) {
+		String sql="delete from board_recomment where num = "+recmtnum;
+		String url="jdbc:oracle:thin:@localhost:1521/xe";
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
+			PreparedStatement st = con.prepareStatement(sql);
+			st.executeQuery();
+			
+		}catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

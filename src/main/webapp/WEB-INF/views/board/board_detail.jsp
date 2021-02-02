@@ -72,11 +72,12 @@ td.solid {padding: 8px;
 </table>
 
 <details>
-	<summary style="color: blue">댓글[${d.cmt_count}]</summary>
+	<summary style="color: blue">댓글[${cmt_count}]</summary>
 		<form action="" name="fm1">
 		<textarea rows="5" cols="50" name="cmt_content"
 		onclick="if(this.value=='내용을 입력하세요.'){this.value=''}" >내용을 입력하세요.</textarea>
 		<input type="hidden" name="num" value="${d.num}">
+		<input type="hidden" name="writer_id" value="${sessionScope.member.nickname}">
 		<button type="button" class="cmt">댓글달기</button>
 		</form>
 	<table >
@@ -95,15 +96,18 @@ td.solid {padding: 8px;
 		</tr>
 		<tr style="font-size: small;">
 			<th >작성일	</th>
-			<td >${c.regdate }</td>
-		</tr>
-		<tr>
-			<td></td>
-			<td ><button type="button">댓글 삭제</button></td>
-		</tr>
+			<td >${c.regdate}
+				<c:set var="logincheck" value="hidden"/>
+				<c:if test="${sessionScope.member.nickname == c.writer_id}">								
+					<c:set var="logincheck" value="button"/>
+				</c:if> <!-- 로그인 했을경우 해당아이디의 댓글에 삭제버튼 생성 -->
+				<input type="${logincheck}" class="del_cmt" value="댓글 삭제">
+			</td>
+		</tr>		
 		<tr style="font-size: small;">
 			<td ></td>
-			<th style="text-align: left;"><details>
+			<th style="text-align: left;">
+			<details>
 				<summary style="color: gray">답글달기</summary>
 				<form action="" name="fm2"> <!-- 부모속성이 많아서인지 fm2안의 name들을 인식못함 class로 교체하여 값을 추출-->
 				<textarea rows="5" cols="50" name="recontent" class="recontent"
@@ -116,16 +120,15 @@ td.solid {padding: 8px;
 		<tr style="font-size: small;">
 			<td class="solid"></td>
 			<th class="solid">
-				<%-- <c:set var="re"  value="${recmtlist}"/> --%> 
-                <c:set var="check" value="false"></c:set>   
+				<c:set var="check" value="false"></c:set>   
 				<c:forEach var="r" items="${recmtlist }">
 					<c:if test="${c.num==r.notice_num}">
-						<c:set var="check" value="true"></c:set>
+						<c:set var="check" value="true"/>
 					</c:if> 
-				</c:forEach>
+				</c:forEach> <!-- 댓글이 답글을 포함하고 있는지 확인을 위한 변수 세팅 -->
 				<c:if test="${check==true}"> 				
-				<details> 
-				<summary style="color: blue">답글보기</summary>
+					<details> 
+					<summary style="color: blue">답글보기</summary>
 						<c:forEach var="rec" items="${recmtlist }">
 						<c:if test="${c.num==rec.notice_num}">
 						<!-- cmt_num 값을 개체에서 notice_num으로 저장함-->					
@@ -143,23 +146,33 @@ td.solid {padding: 8px;
 							</tr>
 							<tr style="font-size: small;">
 								<th>작성일</th>
-								<td>${rec.regdate }</td>
+								<td>${rec.regdate }
+									<input type="hidden" class="recmt_num" value="${rec.num }">
+									<c:set var="logincheck2" value="hidden"/>
+									<c:if test="${sessionScope.member.nickname == rec.writer_id}">		
+										<c:set var="logincheck2" value="button"/>
+									</c:if>
+									<input type="${logincheck2}" class="del_recmt" value="답글 삭제">
+								</td>
 							</tr>
 							<tr>
 								<td class="solid"></td>
-								<td class="solid"><button type="button">답글 삭제</button></td>
+								<td class="solid"></td>
+								<td class="solid"></td>
 							</tr>
 						</table>
 						</c:if>
 						</c:forEach>			
-			</details> </c:if> </th>
+					</details> 
+				</c:if> </th>
+			<td class="solid"></td>
 		</tr>
 		
 	</c:forEach>
 
  	</table>
  
- 	</details>	
+</details>	
 
 <div>
 	<a href="board_list">목록</a>
@@ -208,43 +221,96 @@ td.solid {padding: 8px;
 <script type="text/javascript">
 $(".cmt").click(function(){
 	
-	var query = { num : fm1.num.value, cmt_content : fm1.cmt_content.value };
+	if(fm1.writer_id.value!=""){
 	
-	$.ajax({
-		url : "/board/board_detail",
-		type : "post",
-		data : query,
-		error : function(){
-			alert("통신에러");
-		},
-		success : function(data){
-			location.reload();
-		}		
-	})
+		var query = { num : fm1.num.value, cmt_content : fm1.cmt_content.value,
+				writer_id : fm1.writer_id.value };
+	
+		$.ajax({
+			url : "/board/board_detail",
+			type : "post",
+			data : query,
+			error : function(){
+				alert("통신에러");
+			},
+			success : function(data){
+				location.reload();
+			}		
+		})
+	}else{
+		alert("로그인 후 이용해주세요.");
+		location.href="/member/login";
+	}
 })
 
 /* var size = $(".recmt").length;
 
 for(i=0;i<size;i++){ */
 $(".recmt").click(function(){	
-	var index = $(".recmt").index(this);
+
+	if(fm1.writer_id.value!=""){
 	
-	var query = { num : fm1.num.value, recontent : $(".recontent").eq(index).val(),
-			cmt_num : $(".cmt_num").eq(index).val()};
+		var index = $(".recmt").index(this);
 	
-	$.ajax({
-		url : "/board/board_detail",
-		type : "post",
-		data : query,
-		error : function(){
-			alert("통신에러");
-		},
-		success : function(data){
-			location.reload();
-		}		
-	})
+		var query = { num : fm1.num.value, recontent : $(".recontent").eq(index).val(),
+				cmt_num : $(".cmt_num").eq(index).val(), writer_id : fm1.writer_id.value };
+	
+		$.ajax({
+			url : "/board/board_detail",
+			type : "post",
+			data : query,
+			error : function(){
+				alert("통신에러");
+			},
+			success : function(data){
+				location.reload();
+			}		
+		})
+	}else{
+		alert("로그인 후 이용해주세요.");
+		location.href="/member/login";
+	}
 })
 
+$(".del_cmt").click(function(){	
+
+		var index = $(".del_cmt").index(this);
+	
+		var query = { cmtnum : $(".cmt_num").eq(index).val() };
+	
+		$.ajax({
+			url : "/board/board_cmt_del",
+			type : "post",
+			data : query,
+			error : function(){
+				alert("통신에러");
+			},
+			success : function(data){
+				location.reload();
+			}		
+		}) 
+	
+})
+
+$(".del_recmt").click(function(){	
+	
+		var index = $(".del_recmt").index(this);
+	
+		var query = { recmtnum : $(".recmt_num").eq(index).val() };
+	
+		$.ajax({
+			url : "/board/board_recmt_del",
+			type : "post",
+			data : query,
+			error : function(){
+				alert("통신에러");
+			},
+			success : function(data){
+				location.reload();
+			}		
+		})
+	
+})
 </script>
 
 </body>
