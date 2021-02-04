@@ -11,7 +11,7 @@
 	<a href="/member/login">로그인</a>
 </c:if>
 <c:if test="${member != null}">
-	${member.name}님 환영합니다.
+	${member.nickname}님 환영합니다.
 	<a href="/member/logout">로그아웃</a>
 	<a href="/member/mypage">mypage</a>
 </c:if>

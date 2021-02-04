@@ -1,13 +1,18 @@
 package web.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import web.model.Board;
 import web.model.Comment;
@@ -16,7 +21,9 @@ import web.service.BoardService;
 @Controller
 @RequestMapping("/board")
 public class BoardController {
-
+	
+	@Autowired
+	private ServletContext ctx;
 	
 	BoardService boardservice = new BoardService();
 	
@@ -37,15 +44,15 @@ public class BoardController {
 	
 	@RequestMapping("/board_detail")
 	public String BoardDetail(@RequestParam("num") int num,
-			@RequestParam(value="cmt_content" , defaultValue= "") String cmt_content,	
-			@RequestParam(value="recontent" , defaultValue= "") String recontent, 
+			@RequestParam(value="cmt_content" , defaultValue="") String cmt_content,	
+			@RequestParam(value="recontent" , defaultValue="") String recontent, 
 			@RequestParam(value="cmt_num", required = false ) Integer cmt_num,
 			@RequestParam(value="writer_id", required = false ) String writer_id,
 			Model model) {			
 		
-		if(cmt_content!=""&&writer_id!=null) {  //isEmpty()="" /NULL문자가 아닌 비어있는 값 반환 
+		if(!cmt_content.isEmpty()&&writer_id!=null) {  
 			boardservice.ServiceInsertCmt(cmt_content, writer_id, num);
-			System.out.println("boardInsertCmt");						
+			System.out.println("boardInsertCmt");												
 		}
 		if(!recontent.isEmpty()&&writer_id!=null) {
 			boardservice.ServiceInsertReCmt(writer_id,recontent, cmt_num);
@@ -80,11 +87,30 @@ public class BoardController {
 	@RequestMapping("/board_add2")
 	public String AddBoard2(@RequestParam(value="title" , required=false) String title,
 			@RequestParam(value="content" , required=false) String content,			
-			@RequestParam(value="files" , defaultValue="") String files,			
-			@RequestParam(value="writer_id" , required=false) String writer_id,			
-			Model model) {
+			@RequestParam(value="files") MultipartFile[] reqfiles,			
+			@RequestParam(value="writer_id" , defaultValue="") String writer_id,			
+			Model model) throws IllegalStateException, IOException {
 			
-		if(title!=null && content!=null && writer_id!=null) {
+        StringBuilder builder = new StringBuilder();
+		
+        for(MultipartFile reqfile : reqfiles) {
+			if(reqfile.getSize()==0) {
+				continue;
+			}
+			String filename = reqfile.getOriginalFilename();
+			builder.append(filename+",");
+			String realpath= ctx.getRealPath("/resources/board");
+			System.out.println(realpath);
+			realpath += File.separator + filename;
+			File savefile = new File(realpath);
+			reqfile.transferTo(savefile);
+		}
+			if(!builder.toString().equals("")) {
+				builder.delete(builder.length()-1, builder.length());
+			}
+			String files = builder.toString();
+		
+		if(title!=null && content!=null && !writer_id.equals("")) {
 			boardservice.ServiceInsertBoard(title, writer_id, content, files);
 			System.out.println("insertboard");
 		}

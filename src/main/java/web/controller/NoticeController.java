@@ -1,11 +1,18 @@
 package web.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.attribute.AclEntry.Builder;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import web.model.Comment;
 import web.model.Notice;
@@ -15,7 +22,9 @@ import web.service.NoticeService;
 @Controller
 @RequestMapping("/notice")
 public class NoticeController {
-
+	
+	@Autowired
+	private ServletContext ctx;
 	
 	NoticeService noticeservice = new NoticeService();
 	
@@ -42,7 +51,7 @@ public class NoticeController {
 			@RequestParam(value="writer_id", required = false ) String writer_id,
 			Model model) {
 		
-		if(!cmt_content.isEmpty()&&writer_id!=null) { //isEmpty 반환값 =="" 
+		if(!cmt_content.isEmpty()&&writer_id!=null) { 
 			noticeservice.ServiceInsertCmt(cmt_content, writer_id, num);
 			System.out.println("NoticeInsertCmt");			
 		}
@@ -78,11 +87,30 @@ public class NoticeController {
 	@RequestMapping("/add2")
 	public String AddNotice2(@RequestParam(value="title" , required=false) String title,
 			@RequestParam(value="content" , required=false) String content,			
-			@RequestParam(value="files" , defaultValue="") String files,			
-			@RequestParam(value="writer_id" , required=false) String writer_id,						
-			Model model) {
+			@RequestParam(value="writer_id" , defaultValue="") String writer_id,						
+			@RequestParam(value="files")MultipartFile[] reqfiles,
+			Model model) throws IllegalStateException, IOException {
+		
+		StringBuilder builder = new StringBuilder();
 			
-		if(title!=null && content!=null && writer_id!=null) {
+		for(MultipartFile reqfile : reqfiles) {
+			if(reqfile.getSize()==0) {
+				continue;
+			}
+			String filename = reqfile.getOriginalFilename();
+			builder.append(filename+",");
+			String realpath= ctx.getRealPath("/resources/notice");
+			System.out.println(realpath);
+			realpath += File.separator + filename;
+			File savefile = new File(realpath);
+			reqfile.transferTo(savefile);
+		}
+			if(!builder.toString().equals("")) {
+				builder.delete(builder.length()-1, builder.length());
+			}
+			String files = builder.toString();
+		
+		if(title!=null && content!=null && !writer_id.equals("")) {
 			noticeservice.ServiceInsertNotice(title, writer_id, content, files);
 			System.out.println("insertnotice");
 		}

@@ -47,7 +47,7 @@ td.solid {padding: 8px;
 			<c:forTokens var="filename" items="${d.files }" delims="," varStatus="st">
 			<c:set var="style" value=""/>
 			<c:if test="${fn:endsWith(filename , '.zip')}">
-				<c:set var="style" value="font-weight : bold; color: red; " />
+				<c:set var="style" value="font-weight : bold; color: red;" />
 			</c:if>
 			<c:if test="${fn:endsWith(filename, '.png') }">
 				<c:set var="style" value="font-weight : bold; color: blue;"/>
@@ -58,7 +58,8 @@ td.solid {padding: 8px;
 			<c:if test="${fn:endsWith(filename , '.txt') }">
 				<c:set var="style" value="font-weight : bold; color : orange;"/>
 			</c:if>
-			<a href="${filename}" style="${style}">${filename}</a>
+			<a download href="/resources/notice/${filename}" style="${style}">${filename}</a>
+<!-- html5임에도 불구하고 다운로드 속성 경고 뜸 하지만 코드는 정상적으로 작동함 -->
 			<c:if test="${!st.last }">
 			/
 			</c:if>

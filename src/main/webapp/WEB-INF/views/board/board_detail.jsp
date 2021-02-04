@@ -58,7 +58,7 @@ td.solid {padding: 8px;
 			<c:if test="${fn:endsWith(filename , '.txt') }">
 				<c:set var="style" value="font-weight : bold; color : orange;"/>
 			</c:if>
-			<a href="${filename}" style="${style}">${filename}</a>
+			<a download href="/resources/board/${filename}" style="${style}">${filename}</a>
 			<c:if test="${!st.last }">
 			/
 			</c:if>

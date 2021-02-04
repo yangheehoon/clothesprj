@@ -96,27 +96,21 @@
 	</ul>
 	
 </body>
-<!-- <script type="text/javascript">
-window.onkeydown = function() {
-	var kcode = event.keyCode;
-	if(kcode == 116) {
-		history.pushState(null, null, "list");
-	  }
-	}
-	
-</script>-->
+
 <footer>
 <br>
 	<div>
 		<dl>
-			<dt>주소:</dt>
-			<dd>서울특별시</dd>
-			<dt>관리자메일:</dt>
-			<dd>yangheehoon@gmail.com</dd>
+			<dt style="float: left;">주소:</dt>
+			<dd>&nbsp; 서울특별시</dd>
+		</dl>
+		<dl>	
+			<dt style="float: left;">관리자 메일:</dt>
+			<dd>&nbsp; clothes@clothes.com</dd>
 		</dl>
 		<dl>
-			<dt>관리자 번호</dt>
-			<dd>000-0000-0000</dd>
+			<dt style="float: left;">관리자 번호:</dt>
+			<dd>&nbsp; 000-0000-0000</dd>
 		</dl>
 	</div>
 </footer>

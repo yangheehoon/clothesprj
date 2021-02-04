@@ -21,7 +21,7 @@ function check() {
 </head>
 
 <body>
-	<form action="add2" name="fm" onsubmit="return check()">
+	<form action="add2" name="fm" method="post" enctype="multipart/form-data" onsubmit="return check()">
 		<table>
 			<tr>
 				<th>게시글 제목:</th>
@@ -33,7 +33,9 @@ function check() {
 			</tr>
 			<tr>
 				<th></th>
-				<td><input type="file" name="files"></td>
+				<td><input type="file" name="files" multiple="multiple"> 
+					<span style="color: gray;">ctrl/shipt버튼을 사용하면 파일을 여러개 첨부할 수 있습니다.</span>
+				</td>
 			</tr>
 			<tr>
 				<th></th>

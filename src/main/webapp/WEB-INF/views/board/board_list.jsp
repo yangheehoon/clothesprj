@@ -99,15 +99,15 @@
 	<div>
 		<dl>
 			<dt style="float: left;">주소:</dt>
-			<dd>서울특별시</dd>
+			<dd>&nbsp; 서울특별시</dd>
 		</dl>
 		<dl>	
-			<dt style="float: left;">관리자메일:</dt>
-			<dd>clothes@clothes.com</dd>
+			<dt style="float: left;">관리자 메일:</dt>
+			<dd>&nbsp; clothes@clothes.com</dd>
 		</dl>
 		<dl>
-			<dt style="float: left;">관리자 번호</dt>
-			<dd>000-0000-0000</dd>
+			<dt style="float: left;">관리자 번호:</dt>
+			<dd>&nbsp; 000-0000-0000</dd>
 		</dl>
 	</div>
 </footer>
