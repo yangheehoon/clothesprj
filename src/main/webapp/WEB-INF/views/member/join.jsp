@@ -4,66 +4,62 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.css">
 <title>최고의 품질을 자랑하는 Clothes</title>
-
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script> 
-
 </head>
 <body>
-	<form action="join" name="fm" onsubmit="return check()">
-		<table>
-			<tr>				
-				<td>아이디</td>
-				<td><input type="text" name="id" id="userid"></td>
-				<td><button type="button" class="idcheck">아이디 중복체크</button></td>
-				<td><span class="msg"></span></td>
-			</tr>
-			<tr>				
-				<td>패스워드</td>
-				<td><input type="password" name="pw"></td>
-			</tr>
-			<tr>				
-				<td>패스워드 확인</td>
-				<td><input type="password" name="pw2"></td>
-			</tr>
-			<tr>				
-				<td>닉네임</td>
-				<td><input type="text" name="nick"></td>
-			</tr>
-			<tr>				
-				<td>이름</td>
-				<td><input type="text" name="name"></td>
-			</tr>
-			<tr>				
-				<td>생년원일</td>
-				<td><input type="text" name="birth"></td>
-			</tr>
-			<tr>				
-				<td>이메일</td>
-				<td><input type="text" name="email"></td>
-				<td></td>
-			</tr>
-			<tr>				
-				<td>성별</td>
-				<td><select name="gen">
+	<form action="join" name="fm" onsubmit="return check()" style="width: 470px; padding: 30px; margin-left: auto; margin-right: auto;">
+			<div class="mb-3">
+				<label class="col-form-label-sm" style="width: 100%;">아이디</label>
+				<input type="text" name="id" id="userid" class="form-control form-control-sm" style="width: 63.6%; display: inline-block;">
+				<button type="button" id="idcheck" class="btn btn-info">아이디 중복검사</button>
+				<span class="msg"></span>
+			</div>
+			<div class="mb-3">
+				<label class="col-form-label-sm">패스워드</label>
+				<input type="password" name="pw" class="form-control form-control-sm">
+			</div>
+			<div class="mb-3">
+				<label class="col-form-label-sm">패스워드 확인</label>
+				<input type="password" name="pw2" class="form-control form-control-sm">
+			</div>
+			<div class="mb-3">
+				<label class="col-form-label-sm">닉네임</label>
+				<input type="text" name="nick" class="form-control form-control-sm">
+			</div>
+			<div class="mb-3">
+				<label class="col-form-label-sm">이름</label>
+				<input type="text" name="name" class="form-control form-control-sm">
+			</div>
+			<div class="mb-3">
+				<label class="col-form-label-sm">생년원일</label>
+				<input type="text" name="birth" class="form-control form-control-sm">
+			</div>
+			<div class="mb-3">
+				<label class="col-form-label-sm">이메일</label>
+				<input type="email" name="email" class="form-control form-control-sm">
+			</div>
+			<div class="mb-3">
+				<label class="col-form-label-sm">성별</label>
+				<select name="gen" class="form-select form-select-sm">
 						<option>성별</option>
 						<option>남자</option>
 						<option>여자</option>
-					</select></td>
-			</tr>
-			<tr>				
-				<td>전화번호</td>
-				<td><input type="text" name="phone" id="ph"></td>
-			</tr>				
-		</table>
-		<input type="submit" value="회원가입">
+				</select>
+			</div>
+			<div class="mb-3">
+				<label class="col-form-label-sm">전화번호</label>
+				<input type="text" name="phone" id="ph" class="form-control form-control-sm">
+			</div>
+		<input type="submit" value="회원가입" class="btn btn-info" style="width: 100%;">
 	</form>
 
 </body>
 
 <script type="text/javascript">
 
-$(".idcheck").click(function(){
+$("#idcheck").click(function(){
 	
 	var query = { id : $("#userid").val()};
 	
