@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.css">
 <title>최고의 품질을 자랑하는 Clothes</title>
 <script type="text/javascript">
 function CheckInfo(){
@@ -25,24 +26,22 @@ function CheckInfo(){
 </script>
 </head>
 <body>
-<form action="" name="fm" onsubmit="return CheckInfo()">
+<form action="" name="fm" onsubmit="return CheckInfo()" style="width: 470px; padding: 30px; margin-left: auto; margin-right: auto;">
   <input type="hidden" name="id" value="${member.id }">
   <input type="hidden" name="pw" value="${member.pw }">
-	<table>	
-	<tr>
-		<td>닉네임</td>
-		<td><input type="text" name="nick" value="${member.nickname }"></td>
-	</tr>
-	<tr>
-		<td>이메일</td>
-		<td><input type="text" name="email" value="${member.email }"></td>
-	</tr>
-	<tr>
-		<td>전화번호</td>
-		<td><input type="text" name="phone" value="${member.phone_num}"></td>
-	</tr>
-	</table>
-	<input type="submit" value="회원정보 변경">
+  	<div class="mb-3">
+		<label class="form-label fw-bolder">닉네임</label>
+		<input type="text" name="nick" value="${member.nickname }" class="form-control">
+	</div>
+	<div class="mb-3">
+		<label class="form-label fw-bolder">이메일</label>
+		<input type="text" name="email" value="${member.email }" class="form-control">
+	</div>
+	<div class="mb-3">
+		<label class="form-label fw-bolder">전화번호</label>
+		<input type="text" name="phone" value="${member.phone_num}" class="form-control">
+	</div>
+	<input type="submit" value="회원정보 변경" class="btn btn-primary" style="width: 100%;">
 </form>
 </body>
 </html>

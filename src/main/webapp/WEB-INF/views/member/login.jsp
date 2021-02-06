@@ -12,12 +12,12 @@
 
 <form name="fm" style="width: 470px; padding: 30px; margin-left: auto; margin-right: auto;">
 	<div class="mb-3">
-		<label class="form-label">ID</label>
+		<label class="form-label fw-bolder">ID</label>
 		<input type="text" name="id" class="form-control">
 		<span id="msg1"></span>
 	</div>
 	<div class="mb-3">
-		<label class="form-label">Password</label>
+		<label class="form-label fw-bolder">Password</label>
 		<input type="password" name="pw" class="form-control">
 		<span id="msg2"></span>
 	</div>

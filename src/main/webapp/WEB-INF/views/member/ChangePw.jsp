@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.css">
 <title>최고의 품질을 자랑하는 Clothes</title>
  
 <script type="text/javascript">
@@ -27,24 +28,22 @@ function pwck(){
 </script>
 </head>
 <body>
-<form action="/member/ChangePw" name="fm" onsubmit="return pwck()">
+<form action="/member/ChangePw" name="fm" onsubmit="return pwck()" style="width: 470px; padding: 30px; margin-left: auto; margin-right: auto;">
   <input type="hidden" name="pwcheck" value="${member.pw}">
   <input type="hidden" name="id" value="${member.id}">
-	<table>
-	<tr>
-		<td>현재 패스워드</td>
-		<td><input type="password" name="pw"></td>
-	</tr>
-	<tr>
-		<td>새 패스워드 </td>
-		<td><input type="password" name="newpw"></td>
-	</tr>
-	<tr>
-		<td>새 패스워드 확인</td>
-		<td><input type="password" name="newpw2"></td>
-	</tr>
-	</table>
-	<input type="submit" value="패스워드 변경">
+	<div class="mb-3">
+		<label class="form-label fw-bolder">현재 패스워드</label>
+		<input type="password" name="pw" class="form-control">
+	</div>
+	<div class="mb-3">
+		<label class="form-label fw-bolder">새 패스워드</label>
+		<input type="password" name="newpw" class="form-control">
+	</div>
+	<div class="mb-3">	
+		<label class="form-label fw-bolder">새 패스워드 확인</label>
+		<input type="password" name="newpw2" class="form-control">
+	</div>
+	<input type="submit" value="패스워드 변경" class="btn btn-primary" style="width: 100%;">
 </form>
 </body>
 
