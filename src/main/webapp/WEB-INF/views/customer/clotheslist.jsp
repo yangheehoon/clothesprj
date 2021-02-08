@@ -17,48 +17,41 @@
 </head>
 <body>
 
-<h3>의류목록<a href="../home" style="float: right; margin-right: 10px;">홈으로</a></h3>
+<h3 style="text-align: center;">의류목록</h3>
 
-<fieldset >
-		<legend>의류 검색 필드</legend>
-		
-		<form action="" style="float: left;">	
-
+<fieldset class="mb-2">
+	<form action="" style="text-align: right; margin-right: 10px;">	
 		<label>검색어</label> 
 		<input type="text" name="q" value="${param.q}" /> 
-		<input type="submit" value="검색" />
-    	
-    	</form>
-    	
-    	<c:if test="${sessionScope.member.id=='master'}">
-			<label style="float: right;">&nbsp;</label>
-			<div style="float: right;">
-				<a href="clothesadd" ><button>의류 추가</button></a>
-			</div>
- 			<label style="float: right;">의류 관리  &nbsp;</label>    
- 		</c:if>
- 		    
- 	</fieldset>  
+		<input type="submit" class="btn btn-primary btn-sm" style="vertical-align: 0px;" value="검색" />	
+    </form>
+</fieldset>  
 
-<ul style="list-style-type: none;" >     <!--이미지225px-->
+<ul class="list-group list-group-horizontal">     <!--이미지225px-->
 	<c:forEach var="cl" items="${clotheslist}">
-	<li style="float: left; width: 20%; height: 300px;">
-		<a href="clothesdetail?num=${cl.num}" ><img alt="" style="width: 85%; height: 225px;" src="/resources/customer/clothes/${cl.files}"></a>
-		<br>
+	<li class="list-group-item" style="float: left; width: 20%; height: 300px;">
+		<a href="clothesdetail?num=${cl.num}" ><img alt="" style="width: 100%; height: 80%;" src="/resources/customer/clothes/${cl.files}"></a>
+		<br>                                                  <!-- width: 85% height: 225px;-->           
 		<label style="font-style: italic;">${cl.price}</label>
 		<br>
-		<div class="one" style="width: 85%;">
+		<div class="one" style="width: 100%;"> <!-- width: 85% -->
 		<a href="clothesdetail?${cl.num}">${cl.description}</a>
 		</div>
 	</li>
 	</c:forEach>			
 </ul>
+<br>
 
 <c:set var="page" value="${(empty param.p) ? 1 : param.p }"/>
 <c:set var="startpage" value="${page-(page-1)%5}"/>
 <c:set var="lastpage" value="${fn:substringBefore(Math.ceil(clothescount/5), '.')}"/>
 
-<span style="margin-left: 1220px; ">${page}/${lastpage} pages</span>
+<div>
+	<span style="margin-left: 10px; color: gray;">${page}/${lastpage} pages</span>
+	<c:if test="${sessionScope.member.id=='master'}">
+			<a href="clothesadd" ><button style="float: right; margin-right: 20px;" class="btn btn-primary btn-sm">의류 추가</button></a>	    
+ 	</c:if>
+</div>
 
 <ul style="list-style-type: none; text-align: center; padding: 0px; margin: 0px;">
 	

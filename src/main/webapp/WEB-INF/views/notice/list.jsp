@@ -2,53 +2,34 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>공지사항 목록</title>
-</head>
-<body>
-	<h3>공지사항 목록  
-	<a href="../home" style="float: right; margin-right: 10px;">홈으로</a>
-	</h3>
-	
-	<fieldset >
-		<legend>공지사항 검색 필드</legend>
-		
-		<form action="" style="float: left;">	
 
+<h3 style="text-align: center;">공지사항 목록  </h3>	
+
+<fieldset class="mb-2">		
+	<form action="" style="text-align:right; margin-right: 10px;">	
 		<label>검색분류</label> 
-		<select name="f">
-			<option ${(param.f == "title") ? "selected":""} value="title">제목</option>
-			<option ${(param.f == "writer_id") ? "selected":""} value="writer_id">작성자</option>
-		</select>
+			<select name="f">
+				<option ${(param.f == "title") ? "selected":""} value="title">제목</option>
+				<option ${(param.f == "writer_id") ? "selected":""} value="writer_id">작성자</option>
+			</select>
 		<label>검색어</label> 
 		<input type="text" name="q" value="${param.q}" /> 
-		<input type="submit" value="검색" />
+		<input type="submit" class="btn btn-primary btn-sm" style="vertical-align: 0px;" value="검색" />
+	</form>    
     	
-    	</form>
-    	
-		<c:if test="${sessionScope.member.id=='master'}">
-			<label style="float: right;">&nbsp;</label>
-			<div style="float: right;">
-				<a href="add" ><button>공지글 추가</button></a>
-			</div>
- 			<label style="float: right;">공지사항 관리  &nbsp;</label>    
- 		</c:if>
- 		    
- 	</fieldset>  
-	
-	
-	<table border="1" style="width: 60%; margin-left: auto; margin-right: auto;">
+</fieldset> 	
+ 		    	
+<table class="table table-sm">
+	<!-- <table border="1" style="width: 60%; margin-left: auto; margin-right: auto;"> -->
+	  <thead class="table-dark">
 		<tr>
 			<th>번호</th>
 			<th>제목</th>
 			<th>작성자</th>
 			<th>작성일</th>
 			<th>조회수</th>
-
 		</tr>
+	  </thead>
 
 		<c:forEach var="n" items="${list }">
 			<tr>
@@ -59,8 +40,7 @@
 				<td>${n.hit}</td>
 			</tr>
 		</c:forEach>
-
-	</table>
+</table>
 	
 	<!-- 현재페이지 -->
 	<c:set var="page"  value="${(empty param.p) ? 1:param.p }" />
@@ -68,7 +48,10 @@
 	<c:set var="lastpage" value="${fn:substringBefore(Math.ceil(count/10),'.' )}"></c:set>
 	
 	<div>
-		<span style="margin-left: 1220px;">${page}/${lastpage} pages</span>
+		<span style="margin-left: 10px; color: gray;">${page}/${lastpage} pages</span>		
+		<c:if test="${sessionScope.member.id=='master'}">
+			<a href="add" ><button style="float: right; margin-right: 20px;" class="btn btn-primary btn-sm">공지글 추가</button></a>			 		    
+		</c:if>
 	</div>
 	
 	
@@ -95,23 +78,3 @@
 		</c:if>	
 	</ul>
 	
-</body>
-
-<footer>
-<br>
-	<div>
-		<dl>
-			<dt style="float: left;">주소:</dt>
-			<dd>&nbsp; 서울특별시</dd>
-		</dl>
-		<dl>	
-			<dt style="float: left;">관리자 메일:</dt>
-			<dd>&nbsp; clothes@clothes.com</dd>
-		</dl>
-		<dl>
-			<dt style="float: left;">관리자 번호:</dt>
-			<dd>&nbsp; 000-0000-0000</dd>
-		</dl>
-	</div>
-</footer>
-</html>

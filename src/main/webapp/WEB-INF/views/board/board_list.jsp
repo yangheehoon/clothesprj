@@ -2,22 +2,11 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>자유게시판 목록</title>
-</head>
-<body>
-	<h3>자유게시판 목록  
-	<a href="../home" style="float: right; margin-right: 10px;">홈으로</a>
-	</h3>
-	
-	<fieldset >
-		<legend>게시판 검색 필드</legend>
-		
-		<form action="" style="float: left;">	
 
+<h3 style="text-align: center;">자유게시판 목록 </h3>
+	
+<fieldset class="mb-2">		
+	<form action="" style="text-align:right; margin-right: 10px;">		
 		<label>검색분류</label> 
 		<select name="f">
 			<option ${(param.f == "title") ? "selected":""} value="title">제목</option>
@@ -25,28 +14,22 @@
 		</select>
 		<label>검색어</label> 
 		<input type="text" name="q" value="${param.q}" /> 
-		<input type="submit" value="검색" />
-    	
-    	</form>
-    		
-    		<div style="float: right;">
-    			<input type="hidden" id="sion" value="${sessionScope.member}">
-				<a href="board_add" ><button onclick="logincheck()">게시글 작성</button></a>
-			</div>
- 			
- 	</fieldset>  
+		<input type="submit" class="btn btn-primary btn-sm" style="vertical-align: 0px;" value="검색" />    	
+    </form>    		
+</fieldset>  
 	
 	
-	<table border="1" style="width: 60%; margin-left: auto; margin-right: auto;">
+	<table class="table table-sm">
+	  <thead class="table-dark">
 		<tr>
 			<th>번호</th>
 			<th>제목</th>
 			<th>작성자</th>
 			<th>작성일</th>
 			<th>조회수</th>
-
 		</tr>
-
+	  </thead>
+	  
 		<c:forEach var="n" items="${list }">
 			<tr>
 				<td>${n.num}</td>
@@ -65,7 +48,9 @@
 	<c:set var="lastpage" value="${fn:substringBefore(Math.ceil(count/10),'.' )}"></c:set>
 	
 	<div>
-		<span style="margin-left: 1220px;">${page}/${lastpage} pages</span>
+		<span style="margin-left: 10px; color: gray;">${page}/${lastpage} pages</span>			
+    	<input type="hidden" id="sion" value="${sessionScope.member}">
+		<a href="board_add" ><button style="float: right; margin-right: 20px;" class="btn btn-primary btn-sm" onclick="logincheck()">게시글 작성</button></a>
 	</div>
 	
 	
@@ -92,25 +77,6 @@
 		</c:if>	
 	</ul>
 	
-</body>
-
-<footer>
-<br>
-	<div>
-		<dl>
-			<dt style="float: left;">주소:</dt>
-			<dd>&nbsp; 서울특별시</dd>
-		</dl>
-		<dl>	
-			<dt style="float: left;">관리자 메일:</dt>
-			<dd>&nbsp; clothes@clothes.com</dd>
-		</dl>
-		<dl>
-			<dt style="float: left;">관리자 번호:</dt>
-			<dd>&nbsp; 000-0000-0000</dd>
-		</dl>
-	</div>
-</footer>
 <script type="text/javascript">
 function logincheck(){
 	if(document.getElementById("sion").value==""){
@@ -119,4 +85,3 @@ function logincheck(){
 }
 
 </script>
-</html>
