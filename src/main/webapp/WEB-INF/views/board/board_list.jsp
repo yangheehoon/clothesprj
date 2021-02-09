@@ -47,7 +47,7 @@
 	<c:set var="startpage" value="${page-(page-1)%5 }"/>
 	<c:set var="lastpage" value="${fn:substringBefore(Math.ceil(count/10),'.' )}"></c:set>
 	
-	<div>
+	<div class="mb-2">
 		<span style="margin-left: 10px; color: gray;">${page}/${lastpage} pages</span>			
     	<input type="hidden" id="sion" value="${sessionScope.member}">
 		<a href="board_add" ><button style="float: right; margin-right: 20px;" class="btn btn-primary btn-sm" onclick="logincheck()">게시글 작성</button></a>
@@ -55,25 +55,25 @@
 	
 	
 	<!-- 페이지리스트 -->
-	<ul style="list-style: none; margin-left: 550px;">		
+	<ul style="list-style: none; text-align: center; padding: 0px; margin: 0px;">		
 	<!-- 이전페이지 -->		
 		<c:if test="${startpage > 5}">
-			<li style="float: left; margin-right: 15px;"><a href="?p=${startpage-1 }">이전</a></li>
+			<li style="display:inline-block;"><a href="?p=${startpage-1 }">이전</a></li>
 		</c:if>
 	
 		 	<c:if test="${startpage+4 >= lastpage}">
 				<c:forEach var="i" begin="0" end="${(lastpage==0) ? 0 : lastpage - startpage}">
-				    <li style="float: left; margin-right: 15px;"><a style="color: ${((startpage+i)==page) ? 'black' : 'gray'};" href="?p=${startpage+i}&f=${param.f}&q=${param.q}" >${startpage+i }</a></li>
+				    <li style="display:inline-block; margin-left: 15px;"><a style="color: ${((startpage+i)==page) ? 'black' : 'gray'};" href="?p=${startpage+i}&f=${param.f}&q=${param.q}" >${startpage+i }</a></li>
 		    	</c:forEach>
 		    </c:if>  
 		    <c:if test="${startpage+4 < lastpage}">
 		    	<c:forEach var="i" begin="0" end="4">
-				    <li style="float: left; margin-right: 15px;"><a style="color: ${((startpage+i)==page) ? 'black' : 'gray'}; " href="?p=${startpage+i}&f=${param.f}&q=${param.q}" >${startpage+i }</a></li>
+				    <li style="display:inline-block; margin-left: 15px;"><a style="color: ${((startpage+i)==page) ? 'black' : 'gray'}; " href="?p=${startpage+i}&f=${param.f}&q=${param.q}" >${startpage+i }</a></li>
 		    	</c:forEach>
 		    </c:if>
 	<!-- 다음페이지 -->
 		<c:if test="${startpage+5 <= lastpage }">
-			<li style="float: left; margin-right: 15px;"><a href="?p=${startpage+5}">다음</a></li>
+			<li style="display:inline-block; margin-left: 15px;"><a href="?p=${startpage+5}">다음</a></li>
 		</c:if>	
 	</ul>
 	

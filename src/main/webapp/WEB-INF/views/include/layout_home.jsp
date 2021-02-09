@@ -10,12 +10,21 @@
 <title><tiles:insertAttribute name="title"/></title>
 </head>
 
-<!-- <body style="background-image: url('/resources/home/배경1.jpg'); background-repeat: no-repeat; background-size: cover;">
- -->
 <body>
- 	<tiles:insertAttribute name="navbar"/>
-	<br>
+	<tiles:insertAttribute name="navbar"/>
 	<tiles:insertAttribute name="body"/>
 	<tiles:insertAttribute name="footer"/>
 </body>	
+<style type="text/css">
+.footer {
+	position: relative;
+	bottom: 0px;
+	left: 0%;
+	height: 170px;
+	width: 100%;
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+</style>
 </html>

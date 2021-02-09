@@ -23,27 +23,25 @@ td.solid {padding: 8px;
 </head>
 <body>
 
-<table border="1">
+<table class="table table-sm table-bordered" style="border-color: #ccc;">
   <c:set var="d" value="${detail}"/>
     <tr>
-		<th>게시글 넘버</th>
-		<td>${d.num}</td>
+		<th class="table-active">제목</th>
+		<td colspan="3">${d.title}</td>
 	</tr>
 	<tr>
-		<th>제목</th>
-		<td>${d.title}</td>
+		<th class="table-active">작성일</th>
+		<td  colspan="3">${d.regdate}</td>
 	</tr>
 	<tr>
-		<th>작성자</th>
+		<th class="table-active">작성자</th>
 		<td>${d.writer_id}</td>
+		<th class="table-active">조회수</th>
+		<td>${d.hit}</td>
 	</tr>
 	<tr>
-		<th>게시글 내용</th>
-		<td>${d.content}</td>
-	</tr>
-	<tr>
-		<th>첨부파일</th>
-		<td>
+		<th class="table-active">첨부파일</th>
+		<td colspan="3">
 			<c:forTokens var="filename" items="${d.files }" delims="," varStatus="st">
 			<c:set var="style" value=""/>
 			<c:if test="${fn:endsWith(filename , '.zip')}">
@@ -66,19 +64,18 @@ td.solid {padding: 8px;
 		</td>	
 	</tr>
 	<tr>
-		<th>조회수</th>
-		<td>${d.hit}</td>
+		<td colspan="4"><br>${d.content}<br><br></td>
 	</tr>
 </table>
 
-<details>
-	<summary style="color: blue">댓글[${d.cmt_count}]</summary>
+<details style="margin-left: 6px;">
+	<summary style="color: blue; outline: none;">댓글[${d.cmt_count}]</summary>
 		<form action="" name="fm1">
 		<textarea rows="5" cols="50" name="cmt_content"
 		onclick="if(this.value=='내용을 입력하세요.'){this.value=''}" >내용을 입력하세요.</textarea>
 		<input type="hidden" name="num" value="${d.num}">
 		<input type="hidden" name="writer_id" value="${sessionScope.member.nickname}">
-		<button type="button" class="cmt">댓글달기</button>
+		<button type="button" class="cmt btn btn-primary btn-sm" style="vertical-align: text-bottom;">댓글달기</button>
 		</form>
 	<table >
 	<c:forEach var="c" items="${cmtlist}">
@@ -101,19 +98,19 @@ td.solid {padding: 8px;
 				<c:if test="${sessionScope.member.nickname == c.writer_id}">								
 					<c:set var="logincheck" value="button"/>
 				</c:if> <!-- 로그인 했을경우 해당아이디의 댓글에 삭제버튼 생성 -->
-				<input type="${logincheck}" class="del_cmt" value="댓글 삭제">
+				<input type="${logincheck}" class="del_cmt btn btn-primary btn-sm" value="댓글 삭제">
 			</td>
 		</tr>		
 		<tr style="font-size: small;">
 			<td ></td>
 			<th style="text-align: left;">
 			<details>
-				<summary style="color: gray">답글달기</summary>
+				<summary style="color: gray; outline: none;">답글달기</summary>
 				<form action="" name="fm2"> <!-- 부모속성이 많아서인지 fm2안의 name들을 인식못함 class로 교체하여 값을 추출-->
 				<textarea rows="5" cols="50" name="recontent" class="recontent"
 				onclick="if(this.value='내용을 입력하세요.'){this.value=''}">내용을 입력하세요.</textarea>
 				<input hidden="" name="cmt_num" value="${c.num }" class="cmt_num">
-				<button type="button" class="recmt">답글달기</button>
+				<button type="button" class="recmt btn btn-primary btn-sm" style="vertical-align: text-bottom;">답글달기</button>
 				</form>
 			</details></th>
 		</tr>
@@ -128,13 +125,14 @@ td.solid {padding: 8px;
 				</c:forEach> <!-- 댓글이 답글을 포함하고 있는지 확인을 위한 변수 세팅 -->
 				<c:if test="${check==true}"> 				
 					<details> 
-					<summary style="color: blue">답글보기</summary>
+					<summary style="color: blue; outline: none;">답글보기</summary>
 						<c:forEach var="rec" items="${recmtlist }">
 						<c:if test="${c.num==rec.notice_num}">
 						<!-- cmt_num 값을 개체에서 notice_num으로 저장함-->					
 						<table>
 							<tr>
-							<br>
+								<td style="border-top: 1px solid #ddd;"><br></td>
+								<td style="border-top: 1px solid #ddd;"><br></td>
 							</tr>
 						    <tr style="font-size: small;">
 						    	<th>작성자</th>
@@ -152,13 +150,12 @@ td.solid {padding: 8px;
 									<c:if test="${sessionScope.member.nickname == rec.writer_id}">		
 										<c:set var="logincheck2" value="button"/>
 									</c:if>
-									<input type="${logincheck2}" class="del_recmt" value="답글 삭제">
+									<input type="${logincheck2}" class="del_recmt btn btn-primary btn-sm" value="답글 삭제">
 								</td>
 							</tr>
 							<tr>
-								<td class="solid"></td>
-								<td class="solid"></td>
-								<td class="solid"></td>
+								<td><br></td>
+								<td><br></td>
 							</tr>
 						</table>
 						</c:if>
@@ -174,13 +171,13 @@ td.solid {padding: 8px;
  
 </details>	
 
-<div>
-	<a href="board_list">목록</a>
+<div class="mb-2" style="text-align: center;">
+	<a href="board_list"><button class="btn btn-primary">목록</button></a>
 </div>
 
-<table border="1">
+<table class="table table-sm table-bordered" style="border-color: #ccc;">
     <tr>
-		<th>이전글</th>
+		<th class="table-active">이전글</th>
 		<c:if test="${empty prevdetail}">
 			<td>
 				이전글이 없습니다.
@@ -189,13 +186,13 @@ td.solid {padding: 8px;
 		
 		<c:if test="${!empty prevdetail}">
 		<td><a href="board_detail?num=${prevdetail.num}">
-			${prevdetail.content}</a>
+			${prevdetail.title}</a>
 		</td>
 		</c:if>
 	</tr>
 	
 	<tr>
-		<th>다음글</th>
+		<th class="table-active">다음글</th>
 		<c:if test="${empty nextdetail}">
 			<td>
 				다음글이 없습니다.
@@ -204,7 +201,7 @@ td.solid {padding: 8px;
 	
 		<c:if test="${!empty nextdetail}">
 			<td><a href="board_detail?num=${nextdetail.num }">
-				${nextdetail.content}</a>
+				${nextdetail.title}</a>
 			</td>
 		</c:if>
 	</tr>
@@ -214,7 +211,9 @@ td.solid {padding: 8px;
 	<c:if test="${sessionScope.member.nickname==d.writer_id }">
 	<form action="board_del" method="post">
 		<input type="hidden" name="delnum" value="${d.num}">
-		<input type="submit"  value="게시글 삭제">
+		<div style="text-align: right;">
+		<input type="submit" class="btn btn-primary" value="게시글 삭제" style="margin-right: 10px;">
+		</div>
 	</form>
 	</c:if>
 	

@@ -11,9 +11,11 @@
     <put-attribute name="footer" value="/WEB-INF/views/include/footer.jsp" />
   </definition>
   
-  <definition name="home" extends="main_tiles">
+  <definition name="home" template="/WEB-INF/views/include/layout_home.jsp">
   	<put-attribute name="title" value="Clothes" />
+  	<put-attribute name="navbar" value="/WEB-INF/views/include/navbar.jsp" />
   	<put-attribute name="body" value="/WEB-INF/views/home.jsp" />
+  	<put-attribute name="footer" value="/WEB-INF/views/include/footer.jsp" />
   </definition>
   
   <definition name="*/*" extends="main_tiles">
