@@ -2,6 +2,7 @@ package web.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -11,11 +12,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import web.model.Board;
+import web.model.Clothes;
+import web.model.NoticeView;
+import web.service.BoardService;
+import web.service.ClothesService;
+import web.service.NoticeService;
+
 /**
  * Handles requests for the application home page.
  */
 @Controller
 public class HomeController {
+	
+	NoticeService noticeservice = new NoticeService();
+	BoardService boardservice = new BoardService();
+	ClothesService clothesservice = new ClothesService();
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -37,8 +49,19 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/home")
-	public String home() {
-				
+	public String home(Model model) {
+		
+		int page =1;
+		String field="title";
+		String query="";
+		
+		List<Clothes> clotheslist = clothesservice.ServiceClothesList(query, page);
+		List<NoticeView> list = noticeservice.ServiceList(page,field,query);
+		List<Board> boardlist = boardservice.ServiceList(page, field, query);
+		model.addAttribute("clotheslist",clotheslist);
+		model.addAttribute("list",list);
+		model.addAttribute("boardlist",boardlist);
+		
 		return "home";
 	}
 }
