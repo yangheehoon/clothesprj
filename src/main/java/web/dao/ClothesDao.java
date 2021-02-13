@@ -9,8 +9,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import web.model.Clothes;
 
+@Repository
 public class ClothesDao {
 	
 	public List<Clothes> SelectClothesList(){

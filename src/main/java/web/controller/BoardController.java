@@ -25,16 +25,17 @@ public class BoardController {
 	@Autowired
 	private ServletContext ctx;
 	
-	BoardService boardservice = new BoardService();
+	@Autowired
+	BoardService boardservice;
 	
 	@RequestMapping("/board_list")
 	public String BoardList(@RequestParam(value="p" , defaultValue="1") int page, 
-			@RequestParam(value="f" , defaultValue="title") String filed,
+			@RequestParam(value="f" , defaultValue="title") String field,
 			@RequestParam(value="q" , defaultValue="") String query,
 			Model model) {
 		
-		    List<Board> list = boardservice.ServiceList(page,filed,query);
-			int count = boardservice.ServiceListCount(filed ,query);
+		    List<Board> list = boardservice.ServiceList(page,field,query);
+			int count = boardservice.ServiceListCount(field ,query);
 			
 			model.addAttribute("list", list);
 			model.addAttribute("count", count);

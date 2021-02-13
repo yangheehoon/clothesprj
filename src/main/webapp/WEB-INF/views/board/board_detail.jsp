@@ -119,7 +119,7 @@ td.solid {padding: 8px;
 			<th class="solid">
 				<c:set var="check" value="false"></c:set>   
 				<c:forEach var="r" items="${recmtlist }">
-					<c:if test="${c.num==r.notice_num}">
+					<c:if test="${c.num==r.board_comment_num}">
 						<c:set var="check" value="true"/>
 					</c:if> 
 				</c:forEach> <!-- 댓글이 답글을 포함하고 있는지 확인을 위한 변수 세팅 -->
@@ -127,8 +127,7 @@ td.solid {padding: 8px;
 					<details> 
 					<summary style="color: blue; outline: none;">답글보기</summary>
 						<c:forEach var="rec" items="${recmtlist }">
-						<c:if test="${c.num==rec.notice_num}">
-						<!-- cmt_num 값을 개체에서 notice_num으로 저장함-->					
+						<c:if test="${c.num==rec.board_comment_num}">
 						<table>
 							<tr>
 								<td style="border-top: 1px solid #ddd;"><br></td>

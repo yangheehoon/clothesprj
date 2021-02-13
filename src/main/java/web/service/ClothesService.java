@@ -2,12 +2,16 @@ package web.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import web.dao.ClothesDao;
 import web.model.Clothes;
 
+@Service
 public class ClothesService {
-	
-	ClothesDao clothesdao = new ClothesDao();
+	@Autowired
+	ClothesDao clothesdao;
 	
 	public List<Clothes> ServiceClothesList(String query,int page) {
 		return clothesdao.SelectClothesList(query,page);

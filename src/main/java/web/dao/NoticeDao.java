@@ -9,11 +9,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import web.model.Comment;
 import web.model.Notice;
 import web.model.NoticeView;
 
+@Repository
 public class NoticeDao {
+	
+	@Autowired
+	private DataSource dataSource;
 	
 	public List<NoticeView> SelectList(int page) {
 		return SelectList(page , "title" , " ");
@@ -87,19 +96,13 @@ public class NoticeDao {
 		
 		
 	}
-	public int SelectCount(String filed , String query) {
+	public int SelectCount(String filed , String query) throws ClassNotFoundException,SQLException {
 		int count = 0;
 		
 		String sql = " select count(num) count from "
 				+ " (select * from notice where " + filed 
 				+ " like ? order by regdate desc) ";
-
-		String url = "jdbc:oracle:thin:@localhost:1521/xe";
-		
-		try {
-		
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
+			Connection con = dataSource.getConnection();
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, "%" + query +"%");
 			ResultSet rs = st.executeQuery();
@@ -113,13 +116,7 @@ public class NoticeDao {
 			st.close();
 			con.close();
 			
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		
 		System.out.println(count);
 		return count;
@@ -332,7 +329,7 @@ public class NoticeDao {
 		
 		List<Comment> recmtlist = new ArrayList<Comment>();
 		
-		String sql="select * from recomment";
+		String sql="select * from recomment order by regdate asc";
 		String url="jdbc:oracle:thin:@localhost:1521/xe";
 		
 		try {

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<typeAliases>		
+		<typeAlias alias="board" type="web.model.Board"/>
+		<typeAlias alias="board_comment" type="web.model.Board_Comment"/>
+		<typeAlias alias="board_recomment" type="web.model.Board_ReComment"/>
+		<typeAlias alias="clothes" type="web.model.Clothes"/>
+		<typeAlias alias="comment" type="web.model.Comment"/>
+		<typeAlias alias="member" type="web.model.Member" />		
+		<typeAlias alias="notice" type="web.model.Notice" />		
+		<typeAlias alias="noticeview" type="web.model.NoticeView" />						
+	</typeAliases>
+
+
+</configuration>
+
+
+
+
+
+
+
+
+
+
+

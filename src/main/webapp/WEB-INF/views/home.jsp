@@ -41,16 +41,16 @@
 </div>
 <div class="row" style="margin-right: 0px; margin-left: 0px;">
  
-	<h2 style="font-weight: 550; padding: 10px;">New items</h2>     <!--이미지225px-->
+	<h2 style="font-weight: 550; padding: 10px;">New items</h2>     
 	<c:forEach var="cl" items="${clotheslist}">
-	 <div class="col-md-2-5 mb-3" >
-		<div class="border p-3" style="border-radius: 15px;">
-		<a href="/customer/clothesdetail?num=${cl.num}" ><img class="mb-2" style="width: 100%; height: 80%;" src="/resources/customer/clothes/${cl.files}"></a>
-		<br>                                                  <!-- width: 85% height: 225px;-->           
+	 <div class="col-md-2-5" style="margin-bottom: 30px;">
+		<div class="p-2">
+		<a href="/customer/clothesdetail?num=${cl.num}" ><img class="mb-2" style="width: 100%; height: 300px; border-radius: 15px;" src="/resources/customer/clothes/${cl.files}"></a>
+		<br>                                                  			            <!-- height:80%; *주의* 컨테이너가 컨테츠의 크기에 영향을 받기에 height: %는 크기 변화 없음,자연스러운 이미지 출력을 위해선 같은 크기의 이미지를 사용하여 img태그의 height의 크기를 지정해 주지 않는게 베스트-->           
 		<label style="font-style: italic;">${cl.price}</label>
 		<br>
 		<div class="one">
-		<a style="text-decoration: none;" href="/customer/clothesdetail?${cl.num}">${cl.description}</a>
+		<a style="text-decoration: none; color: gray;" href="/customer/clothesdetail?${cl.num}">${cl.description}</a>
 		</div>
 		</div>
 	</div>
@@ -72,9 +72,9 @@
 					
 					<li style="background-image: url('/resources/home/point.png'); background-repeat: no-repeat; background-position: 0; padding-left: 12px; ">
                         <span>
-                            <a style="text-decoration: none;" href="/board/board_detail?num=${b.num}">${retitle}</a>
+                            <a style="text-decoration: none; color: black;" href="/board/board_detail?num=${b.num}">${retitle}</a>
                         </span>
-                        <span><c:if test="${b.cmt_count != 0}">[${b.cmt_count}]</c:if></span>
+                        <span style="color: red;"><c:if test="${b.cmt_count != 0}">[${b.cmt_count}]</c:if></span>
                         <%-- <span>${b.regdate }</span> --%>
                     </li>
 				</c:forEach>
@@ -94,9 +94,9 @@
                     
                     <li style="background-image: url('/resources/home/point.png'); background-repeat: no-repeat; background-position: 0; padding-left: 12px; ">
                         <span>
-                            <a style="text-decoration: none;" href="notice/detail?num=${n.num}">${retitle2}</a>
+                            <a style="text-decoration: none; color: black;" href="notice/detail?num=${n.num}">${retitle2}</a>
                         </span>
-                        <span><c:if test="${n.cmt_count != 0}">[${n.cmt_count}]</c:if></span>
+                        <span style="color: red;"><c:if test="${n.cmt_count != 0}">[${n.cmt_count}]</c:if></span>
                         <%-- <span>${n.regdate}</span> --%>
                     </li>
 				</c:forEach>     

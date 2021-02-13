@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper_board">	
+	<select id="SelectList" parameterType="hashMap" resultType="board">
+		select * from (select ROWNUM RNUM, N.* FROM 
+		(select * from boardview2 where #{field} 
+		like '%'||#{query}||'%' order by regdate desc)N) 
+		where RNUM BETWEEN 1+(#{page}-1)*10 AND #{page}*10	
+	</select>
+
+	<select id="SelectCount" parameterType="hashMap" resultType="int">
+		select count(num) count from
+		(select * from board where #{field} 
+		like '%'||#{query}||'%' order by regdate desc) 
+	</select>
+	
+	<select id="SelectDetail" parameterType="int" resultType="board">
+		select * from boardview2 where num = #{num}
+	</select>
+	
+	<select id="SelectPrevD" parameterType="int" resultType="board">
+		<![CDATA[
+		select * from (select * from board where 
+		regdate < (select regdate from board where num = #{num} )
+		order by regdate desc) where ROWNUM =1
+		]]>
+	</select>
+	
+	<select id="SelectNextD" parameterType="int" resultType="board">
+		<![CDATA[
+		select * from (select * from board where 
+		regdate > (select regdate from board where num = #{num} ) 
+		order by regdate asc) where ROWNUM = 1
+		]]>
+	</select>
+	
+	<select id="SelectDetailCmt" parameterType="int" resultType="board_comment">
+		select * from board_comment where 
+		board_num = #{board_num} order by regdate asc
+	</select>
+	
+	<insert id="InsertCmt" parameterType="hashMap">
+		insert into board_comment values 
+		( board_comment_num.NEXTVAL,#{cmt_content} ,sysdate, 
+		#{writer_id}, #{board_num} )
+	</insert>
+	
+	<select id="SelectReCmt" resultType="board_recomment">
+		select * from board_recomment order by regdate asc
+	</select>
+	
+	<insert id="InsertReCmt" parameterType="hashMap">
+		insert into board_recomment values 
+		(board_recomment_num.NEXTVAL , #{writer_id}, 
+		#{recontent}, sysdate, #{cmt_num} )
+	</insert>
+	
+	<update id="UpdateHit" parameterType="int">
+		update board set hit=hit+1 where num = #{num}
+	</update>
+	
+	<insert id="InsertBoard" parameterType="hashMap">
+		insert into board values
+		(board_num.NEXTVAL,#{title},#{writer_id},
+		#{content},sysdate,0,#{files})
+	</insert>
+	
+	<delete id="DelBoard" parameterType="int">
+		delete from board where num = #{delnum}
+	</delete>
+
+	<delete id="DelCmt" parameterType="int">
+		delete from board_comment where num = #{cmtnum}
+	</delete>
+
+	<delete id="DelReCmt" parameterType="int">
+		delete from board_recomment where num = #{recmtnum}
+	</delete>
+</mapper>

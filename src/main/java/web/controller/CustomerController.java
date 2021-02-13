@@ -31,8 +31,8 @@ public class CustomerController {
 	
 	@Autowired
 	private ServletContext ctx;
-	
-	ClothesService clothesservice = new ClothesService();		
+	@Autowired
+	ClothesService clothesservice;		
 	
 	@RequestMapping("/clotheslist")
 	public String ClothesList(@RequestParam(value="q", defaultValue="")String query,

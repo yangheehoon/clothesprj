@@ -47,7 +47,8 @@
 
 	<context:component-scan
 		base-package="web.controller" />
-
+	<context:component-scan base-package="web.dao"/>
+	<context:component-scan base-package="web.service"/>
 
 
 </beans:beans>

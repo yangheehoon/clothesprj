@@ -1,23 +1,27 @@
 package web.service;
 
-import java.util.Date;
+import java.sql.SQLException;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import web.dao.NoticeDao;
 import web.model.Comment;
 import web.model.Notice;
 import web.model.NoticeView;
 
+@Service
 public class NoticeService {
-
 	
-	NoticeDao noticedao = new NoticeDao();
+	@Autowired
+	NoticeDao noticedao;	
 	
 	public List<NoticeView> ServiceList(int page, String filed ,String query) {
 			
 		return noticedao.SelectList(page,filed,query);
 	}
-	public int ServiceListCount(String filed , String query) {
+	public int ServiceListCount(String filed , String query) throws ClassNotFoundException, SQLException {
 		
 		return noticedao.SelectCount(filed , query);
 	}

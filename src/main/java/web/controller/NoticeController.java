@@ -3,6 +3,7 @@ package web.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.attribute.AclEntry.Builder;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -26,13 +27,14 @@ public class NoticeController {
 	@Autowired
 	private ServletContext ctx;
 	
-	NoticeService noticeservice = new NoticeService();
+	@Autowired
+	NoticeService noticeservice;
 	
 	@RequestMapping("/list")
 	public String NoticeList(@RequestParam(value="p" , defaultValue="1") int page, 
 			@RequestParam(value="f" , defaultValue="title") String filed,
 			@RequestParam(value="q" , defaultValue="") String query,
-			Model model) {
+			Model model) throws ClassNotFoundException, SQLException {
 		
 		    List<NoticeView> list = noticeservice.ServiceList(page,filed,query);
 			int count = noticeservice.ServiceListCount(filed ,query);

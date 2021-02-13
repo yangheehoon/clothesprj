@@ -2,24 +2,29 @@ package web.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import web.dao.BoardDao;
 import web.model.Board;
 import web.model.Comment;
 
+@Service
 public class BoardService {
 
+	@Autowired
+	BoardDao boarddao;
 	
-	BoardDao boarddao = new BoardDao();
-	
-	public List<Board> ServiceList(int page, String filed ,String query) {
+	public List<Board> ServiceList(int page, String field ,String query) {
 			
-		return boarddao.SelectList(page,filed,query);
+		return boarddao.SelectList(page,field,query);
 	}
-	public int ServiceListCount(String filed , String query) {
+	public int ServiceListCount(String field , String query) {
 		
-		return boarddao.SelectCount(filed , query);
+		return boarddao.SelectCount(field , query);
 	}
 	public Board ServiceDetail(int num) {
+		
 		return boarddao.SelectDetail(num);
 	}
 	public Board ServicePrevD(int num) {
