@@ -22,7 +22,6 @@ public class BoardDao {
 		param_map.put("page", page); 
 		param_map.put("field", field);
 		param_map.put("query", query);
-		System.out.println(query);
 
 		return sqlsession.selectList("mapper_board.SelectList", param_map);			
 	}

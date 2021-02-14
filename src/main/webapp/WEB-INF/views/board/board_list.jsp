@@ -58,7 +58,7 @@
 	<ul style="list-style: none; text-align: center; padding: 0px; margin: 0px;">		
 	<!-- 이전페이지 -->		
 		<c:if test="${startpage > 5}">
-			<li style="display:inline-block;"><a href="?p=${startpage-1 }">이전</a></li>
+			<li style="display:inline-block;"><a href="?p=${startpage-1 }&f=${param.f}&q=${param.q}">이전</a></li>
 		</c:if>
 	
 		 	<c:if test="${startpage+4 >= lastpage}">
@@ -73,7 +73,7 @@
 		    </c:if>
 	<!-- 다음페이지 -->
 		<c:if test="${startpage+5 <= lastpage }">
-			<li style="display:inline-block; margin-left: 15px;"><a href="?p=${startpage+5}">다음</a></li>
+			<li style="display:inline-block; margin-left: 15px;"><a href="?p=${startpage+5}&f=${param.f}&q=${param.q}">다음</a></li>
 		</c:if>	
 	</ul>
 	

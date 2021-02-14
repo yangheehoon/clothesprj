@@ -4,14 +4,14 @@
 <mapper namespace="mapper_board">	
 	<select id="SelectList" parameterType="hashMap" resultType="board">
 		select * from (select ROWNUM RNUM, N.* FROM 
-		(select * from boardview2 where #{field} 
+		(select * from boardview2 where ${field} 
 		like '%'||#{query}||'%' order by regdate desc)N) 
 		where RNUM BETWEEN 1+(#{page}-1)*10 AND #{page}*10	
 	</select>
 
 	<select id="SelectCount" parameterType="hashMap" resultType="int">
 		select count(num) count from
-		(select * from board where #{field} 
+		(select * from board where ${field} 
 		like '%'||#{query}||'%' order by regdate desc) 
 	</select>
 	
