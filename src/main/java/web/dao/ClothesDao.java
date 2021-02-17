@@ -5,10 +5,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import web.model.Clothes;
@@ -16,126 +19,46 @@ import web.model.Clothes;
 @Repository
 public class ClothesDao {
 	
+	@Autowired
+	SqlSession sqlsession;
+	
 	public List<Clothes> SelectClothesList(){
 		return SelectClothesList("",1);
 	}
 	
 	public List<Clothes> SelectClothesList(String query,int page){
 		
-		List<Clothes> clotheslist = new ArrayList<Clothes>();
+		Map<String,Object> param_map = new HashMap<>();
+		param_map.put("query", query);
+		param_map.put("page", page);
 		
-		String sql="select * from (select ROWNUM RNUM ,T.* from "
-				+ "(select * from clothes where name like '%"+query+"%'"
-				+ " order by regdate desc)T) where RNUM between "
-				+ (1+(page-1)*5) +" and "+(page*5);
-		String url="jdbc:oracle:thin:@localhost:1521/xe";
-		
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
-			PreparedStatement st = con.prepareStatement(sql);
-			ResultSet rs = st.executeQuery();
-			
-			while(rs.next()) {
-				int num = rs.getInt("num");
-				String name = rs.getString("name");
-				int price = rs.getInt("price");
-				String description = rs.getString("description");
-				String color =null;
-				String size =null;
-				String files = rs.getString("files");
-				Date regdate = rs.getDate("regdate");
-				
-				Clothes clothes = new Clothes(num, name, price, description, color, size, files, regdate);
-				
-				clotheslist.add(clothes);
-			}
-			
-		}catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return clotheslist;
+		return sqlsession.selectList("mapper_clothes.SelectClothesList", param_map);
 	}
 	
 	public int SelectClothesCount(String query) {
-		int count =0;
-		String sql="select count(num) count from "
-				+ "(select * from clothes where "
-				+ "name like '%"+query+"%')";
-		String url="jdbc:oracle:thin:@localhost:1521/xe";
-		
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
-			PreparedStatement st = con.prepareStatement(sql);
-			ResultSet rs = st.executeQuery();
-			
-			if(rs.next()) {
-				count = rs.getInt("count");
-			}
-			
-		}catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}catch (SQLException e) {
-			e.printStackTrace();
-		}		
-		
-		return count;
+	
+		return sqlsession.selectOne("mapper_clothes.SelectClothesCount", query);
 	}
 	
 	public void InsertClothes(String name,int price,
 			String description,String files) {
-		String sql="insert into clothes values"
-				+ "(seqclothesnum.NEXTVAL,'"+name+"','"+price
-				+ "','"+description+"','"+files+"',sysdate)";
-		String url="jdbc:oracle:thin:@localhost:1521/xe";
 		
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
-			PreparedStatement st = con.prepareStatement(sql);
-			ResultSet rs = st.executeQuery();
-			
-		}catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}catch (SQLException e) {
-			e.printStackTrace();
-		}		
+		Map<String,Object> param_map = new HashMap<>();
+		param_map.put("name", name);
+		param_map.put("price", price);
+		param_map.put("description", description);
+		param_map.put("files", files);
+				
+		sqlsession.insert("mapper_clothes.InsertClothes", param_map);
 	}
 	
 	public Clothes SelectClothesDetail(int num) {
-		Clothes clothes =null;
+	
+		return sqlsession.selectOne("mapper_clothes.SelectClothesDetail", num);
+	}
+
+	public void DelClothes(int delnum) {
 		
-		String sql="select * from clothes where num="+num;
-		String url="jdbc:oracle:thin:@localhost:1521/xe";
-		
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
-			PreparedStatement st = con.prepareStatement(sql);
-			ResultSet rs = st.executeQuery();
-			
-			if(rs.next()) {
-				String name=rs.getString("name");
-				int price = rs.getInt("price");
-				String description=rs.getString("description");
-				String color=null;
-				String size=null;
-				String files=rs.getString("files");
-				Date regdate = rs.getDate("regdate");
-				
-				clothes = new Clothes(num, name, price, description, color, size, files, regdate);
-			}
-			
-		}catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}catch (SQLException e) {
-			e.printStackTrace();
-		}		
-		
-		return clothes;
+		sqlsession.delete("mapper_clothes.DelClothes", delnum);
 	}
 }

@@ -70,7 +70,7 @@ td.solid {padding: 8px;
 </table>
 
 <details style="margin-left: 6px;">
-	<summary style="color: blue; outline: none;">댓글[${cmt_count}]</summary>
+	<summary style="color: blue; outline: none;">댓글<span style="color: red;">[${cmt_count}]</span></summary>
 		<form action="" name="fm1">
 		<textarea rows="5" cols="50" name="cmt_content"
 		onclick="if(this.value=='내용을 입력하세요.'){this.value=''}" >내용을 입력하세요.</textarea>
@@ -119,7 +119,7 @@ td.solid {padding: 8px;
 			<th class="solid">
 				<c:set var="check" value="false"></c:set>   
 				<c:forEach var="r" items="${recmtlist }">
-					<c:if test="${c.num==r.notice_num}">
+					<c:if test="${c.num==r.cmt_num}">
 						<c:set var="check" value="true"></c:set>
 					</c:if> 
 				</c:forEach>
@@ -127,8 +127,7 @@ td.solid {padding: 8px;
 				<details> 
 				<summary style="color: blue; outline: none;">답글보기</summary>
 						<c:forEach var="rec" items="${recmtlist }">
-						<c:if test="${c.num==rec.notice_num}">
-						<!-- cmt_num 값을 개체에서 notice_num으로 저장함-->					
+						<c:if test="${c.num==rec.cmt_num}">					
 						<table>
 							<tr>
 								<td style="border-top: 1px solid #ddd;"><br></td>

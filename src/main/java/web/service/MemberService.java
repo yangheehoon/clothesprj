@@ -2,12 +2,17 @@ package web.service;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import web.dao.MemberDao;
 import web.model.Member;
 
+@Service
 public class MemberService {
 
-	MemberDao memberdao = new MemberDao();
+	@Autowired
+	MemberDao memberdao;
 	
 	public String ServiceIdCheck(String id , String pw , HttpSession session) {
 
@@ -26,11 +31,11 @@ public class MemberService {
 	}
 	
 	
-	public String ServiceJoin(String id, String pw, String nickname, 
+	public void ServiceJoin(String id, String pw, String nickname, 
 			String name, int birth, String email, String gender, 
 			String phone_num) {
 		
-		return memberdao.InsertMember(id, pw, nickname, name, birth, email, gender, phone_num);
+		memberdao.InsertMember(id, pw, nickname, name, birth, email, gender, phone_num);
 	}
 
 

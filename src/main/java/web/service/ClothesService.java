@@ -25,4 +25,7 @@ public class ClothesService {
 	public Clothes ServiceClothesDetail(int num) {
 		return clothesdao.SelectClothesDetail(num);
 	}
+	public void ServiceDelClothes(int delnum) {
+		clothesdao.DelClothes(delnum);		
+	}
 }

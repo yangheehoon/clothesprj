@@ -27,7 +27,7 @@ import web.service.ClothesService;
 
 @Controller
 @RequestMapping("/customer")
-public class CustomerController {
+public class ClothesController {
 	
 	@Autowired
 	private ServletContext ctx;
@@ -85,6 +85,14 @@ public class CustomerController {
 			model.addAttribute("clothes", clothes);
 		
 		return "customer/clothesdetail";
+	}
+	
+	@RequestMapping("clothes_del")
+	public String DelClothes(@RequestParam("delnum") int delnum) {
+		
+			clothesservice.ServiceDelClothes(delnum);
+		
+		return "redirect:/customer/clotheslist";
 	}
 	
 	@RequestMapping("/popup")

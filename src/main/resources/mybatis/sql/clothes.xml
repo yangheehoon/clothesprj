@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper_clothes">	
+	<select id="SelectClothesList" parameterType="hashMap" resultType="Clothes">
+		select * from (select ROWNUM RNUM ,T.* from
+		(select * from clothes where description like '%'||#{query}||'%'
+		order by regdate desc)T) where RNUM between
+		1+(#{page}-1)*5 and #{page}*5
+	</select>
+	
+	<select id="SelectClothesCount" parameterType="String" resultType="int">
+		select count(num) count from
+		(select * from clothes where
+		name like '%'||#{query}||'%')
+	</select>
+	
+	<insert id="InsertClothes" parameterType="hashMap">
+		insert into clothes values
+		(seqclothesnum.NEXTVAL,#{name},#{price},
+		#{description},#{files},sysdate)
+	</insert>
+	
+	<select id="SelectClothesDetail" parameterType="int" resultType="Clothes">
+		select * from clothes where num=#{num}
+	</select>
+
+	<delete id="DelClothes" parameterType="int">
+		delete from clothes where num=#{delnum}	
+	</delete>
+
+
+</mapper>

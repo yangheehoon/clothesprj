@@ -63,19 +63,14 @@ input[type="radio"]:checked + label .sp{
 </head>
 
 <body>
-<fieldset>
-	<c:if test="${sessionScope.member.id=='master'}">
-		<label>의류 목록 관리</label>
-		<input type="button" value="의류 삭제">
-	</c:if>
-</fieldset>
+
 
 <c:set var="c" value="${clothes}" />
 
 <div style="width: 100%; height: 510px;">
 	
-	<div style="float: left;">
-		<img src="/resources/customer/clothes/${c.files}" style="width: 500px; height: 500px; background-color: white;" ></td>
+	<div style="float: left; margin-right: 10px;">
+		<img src="/resources/customer/clothes/${c.files}" style="width: 500px; height: 500px; background-color: white;" >
 	</div>
   
   <form name="fm" onsubmit="return check()" target="param">	
@@ -138,6 +133,15 @@ input[type="radio"]:checked + label .sp{
 <div style="text-align: center;">
 	<label>${c.description}</label>
 </div>
+
+<c:if test="${sessionScope.member.id=='master'}">
+	<form action="clothes_del" method="post">
+		<input type="hidden" name="delnum" value="${c.num}">
+		<div style="text-align: right;">
+			<input type="submit" class="btn btn-primary" style="margin-right: 10px;" value="의류 삭제">
+		</div>
+	</form>
+</c:if>
 
 </body>
 </html>

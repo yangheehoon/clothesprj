@@ -17,13 +17,13 @@ public class NoticeService {
 	@Autowired
 	NoticeDao noticedao;	
 	
-	public List<NoticeView> ServiceList(int page, String filed ,String query) {
+	public List<NoticeView> ServiceList(int page, String field ,String query) {
 			
-		return noticedao.SelectList(page,filed,query);
+		return noticedao.SelectList(page,field,query);
 	}
-	public int ServiceListCount(String filed , String query) throws ClassNotFoundException, SQLException {
+	public int ServiceListCount(String field , String query) throws ClassNotFoundException, SQLException {
 		
-		return noticedao.SelectCount(filed , query);
+		return noticedao.SelectCount(field , query);
 	}
 	public Notice ServiceDetail(int num) {
 		// TODO Auto-generated method stub

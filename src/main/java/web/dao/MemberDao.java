@@ -5,25 +5,27 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import web.model.Member;
 
+@Repository
 public class MemberDao {
 
+	@Autowired
+	SqlSession sqlsession;
+	
 	public String IdCheck(String id , String pw) {
-		String sql = "select * from member where id ='"
-				+ id+"'";
-		String url = "jdbc:oracle:thin:@localhost:1521/xe";
 
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
-			PreparedStatement st = con.prepareStatement(sql);
-			ResultSet rs = st.executeQuery();
-
-			if(rs.next()) {
-				if(pw.equals(rs.getString("pw"))) {
+	String rs = sqlsession.selectOne("mapper_member.IdCheck", id);
+		
+			if(rs!=null) {
+				if(pw.equals(rs)) {
 					System.out.println("로그인 성공.");
 				}else {
 					System.out.println("비밀번호가 틀렸습니다.");
@@ -33,165 +35,67 @@ public class MemberDao {
 				System.out.println("존재하지 않는 아이디입니다.");
 				return "idnone";
 			}
-			
-			con.close();
-			st.close();
-			rs.close();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+					
 		return "success";
 	}
 	
 	public Member SelectMember(String id , String pw) {
-		String sql = "select * from member where id ='"
-				+ id+"' and pw ='"+pw+"'";
-		String url = "jdbc:oracle:thin:@localhost:1521/xe";
 		
-		Member member = null;
+		Map<String,Object> param_map = new HashMap<>();
+		param_map.put("id", id);
+		param_map.put("pw", pw);
 		
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
-			PreparedStatement st = con.prepareStatement(sql);
-			ResultSet rs = st.executeQuery();
-
-			if(rs.next()) {
-				id = rs.getString("id");
-				pw = rs.getString("pw");
-				String nickname = rs.getString("nickname");
-				String name = rs.getString("name");
-				int birth = rs.getInt("birth");
-				String email = rs.getString("email");
-				String gender = rs.getString("gender");
-				String phone_num = rs.getString("phone_num");
-				Date regdate = rs.getDate("regdate");
+		return sqlsession.selectOne("mapper_member.SelectMember", param_map);
 				
-				member = new Member(id, pw, nickname, name, birth, email, gender, phone_num, regdate);
-			
-			}	
-			con.close();
-			st.close();
-			rs.close();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return member;
 	}
 	
-	public String InsertMember(String id, String pw, String nickname, 
+	public void InsertMember(String id, String pw, String nickname, 
 			String name, int birth, String email, String gender, 
 			String phone_num) {
 		
-		String sql = "insert into member values('"+id+"','"+pw+"','"
-				+nickname+"','"+name+"','"+birth+"','"+email
-				+"','"+gender+"','"+phone_num+"',sysdate)";
-		String url = "jdbc:oracle:thin:@localhost:1521/xe";
+		Map<String,Object> param_map = new HashMap<>();
+		param_map.put("id", id);
+		param_map.put("pw", pw);
+		param_map.put("nickname", nickname);
+		param_map.put("name", name);
+		param_map.put("birth", birth);
+		param_map.put("email", email);
+		param_map.put("gender", gender);
+		param_map.put("phone_num", phone_num);
 		
-		
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
-			PreparedStatement st = con.prepareStatement(sql);
-			ResultSet rs = st.executeQuery();
-
-			
-			con.close();
-			st.close();
-			rs.close();
-			
-			return "redirect:/member/success";
-			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			return "redirect:/member/fail";
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return "redirect:/member/fail";
-		}
+		sqlsession.insert("mapper_member.InsertMember", param_map);
 		
 	}
+	
 	public void DelMember(String id, String pw) {
 		
-		String sql ="delete from member where id='"+id
-				+"' and pw='"+pw+"'"; 
-		String url = "jdbc:oracle:thin:@localhost:1521/xe";
+		Map<String,Object> param_map = new HashMap<>();
+		param_map.put("id", id);
+		param_map.put("pw", pw);
 		
-		
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
-			PreparedStatement st = con.prepareStatement(sql);
-			ResultSet rs = st.executeQuery();
-
-			
-			con.close();
-			st.close();
-			rs.close();
-			
-		
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();			
-		} catch (SQLException e) {
-			e.printStackTrace();			
-		}		
+		sqlsession.delete("mapper_member.DelMember", param_map);
 		
 	}
+	
 	public void UpdatePw(String pw, String id) {
 		
-		String sql = "update member set pw ='"+pw 
-				+"' where id='"+id+"'"; 
-		String url = "jdbc:oracle:thin:@localhost:1521/xe";
+		Map<String,Object> param_map = new HashMap<>();
+		param_map.put("id", id);
+		param_map.put("pw", pw);
 		
-		
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
-			PreparedStatement st = con.prepareStatement(sql);
-			ResultSet rs = st.executeQuery();
-
-			
-			con.close();
-			st.close();
-			rs.close();
-			
-		
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();			
-		} catch (SQLException e) {
-			e.printStackTrace();			
-		}		
-		
+		sqlsession.update("mapper_member.UpdatePw", param_map);
 	}
+	
 	public void UpdateMember(String nickname, String email, String phone_num, String id) {
 		
-		String sql = "update member set nickname ='"+nickname 
-				+"', email='"+email+"', phone_num='"+phone_num
-				+"' where id='"+id+"'"; 
-		String url = "jdbc:oracle:thin:@localhost:1521/xe";
+		Map<String,Object> param_map = new HashMap<>();
+		param_map.put("nickname", nickname);
+		param_map.put("email", email);
+		param_map.put("phone_num", phone_num);
+		param_map.put("id", id);
 		
+		sqlsession.update("mapper_member.UpdateMember", param_map);
 		
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection con = DriverManager.getConnection(url, "c##clothes", "1234");
-			PreparedStatement st = con.prepareStatement(sql);
-			ResultSet rs = st.executeQuery();
-
-			
-			con.close();
-			st.close();
-			rs.close();
-			
-		
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();			
-		} catch (SQLException e) {
-			e.printStackTrace();			
-		}		
 	}
 	
 	

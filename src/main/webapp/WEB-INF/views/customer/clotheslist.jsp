@@ -46,7 +46,7 @@
 <c:set var="startpage" value="${page-(page-1)%5}"/>
 <c:set var="lastpage" value="${fn:substringBefore(Math.ceil(clothescount/5), '.')}"/>
 
-<div>
+<div class="mb-2">
 	<span style="margin-left: 10px; color: gray;">${page}/${lastpage} pages</span>
 	<c:if test="${sessionScope.member.id=='master'}">
 			<a href="clothesadd" ><button style="float: right; margin-right: 20px;" class="btn btn-primary btn-sm">의류 추가</button></a>	    
@@ -56,7 +56,7 @@
 <ul style="list-style-type: none; text-align: center; padding: 0px; margin: 0px;">
 	
 	<c:if test="${startpage>1 }">
-		<a href="clotheslist?p=${startpage-1}">이전</a>
+		<a href="clotheslist?p=${startpage-1}&q=${param.q}">이전</a>
 	</c:if>
 	
 	<c:if test="${startpage <= (lastpage-5) }">
@@ -71,7 +71,7 @@
 	</c:if>
 	
 	<c:if test="${startpage<(lastpage-5)}">
-		<a href="clotheslist?p=${startpage+5}" style="margin-left: 15px;">다음</a>
+		<a href="clotheslist?p=${startpage+5}&q=${param.q}" style="margin-left: 15px;">다음</a>
 	</c:if>
 </ul>
 

@@ -12,12 +12,13 @@ public class Member {
 	String gender;
 	String phone_num;
 	Date regdate;
+	String pro_file;
 	
 	public Member() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Member(String id, String pw, String nickname, String name, int birth, String email, String gender, String phone_num, Date regdate) {
+	public Member(String id, String pw, String nickname, String name, int birth, String email, String gender, String phone_num, Date regdate, String pro_file) {
 		super();
 		this.id = id;
 		this.pw = pw;
@@ -28,6 +29,7 @@ public class Member {
 		this.gender = gender;
 		this.phone_num = phone_num;
 		this.regdate = regdate;
+		this.pro_file = pro_file;
 	}
 
 	public String getId() {
@@ -101,5 +103,21 @@ public class Member {
 	public void setRegdate(Date regdate) {
 		this.regdate = regdate;
 	}
+
+	public String getPro_file() {
+		return pro_file;
+	}
+
+	public void setPro_file(String pro_file) {
+		this.pro_file = pro_file;
+	}
+
+	@Override
+	public String toString() {
+		return "Member [id=" + id + ", pw=" + pw + ", nickname=" + nickname + ", name=" + name + ", birth=" + birth
+				+ ", email=" + email + ", gender=" + gender + ", phone_num=" + phone_num + ", regdate=" + regdate
+				+ ", pro_file=" + pro_file + "]";
+	}
+	
 	
 }

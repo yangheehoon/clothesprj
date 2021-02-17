@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper_notice">	
+	<select id="SelectList" parameterType="hashMap" resultType="noticeview">
+		select * from (select ROWNUM RNUM, N.* FROM 
+		(select * from noticeview where ${field} 
+		like '%'||#{query}||'%' order by regdate desc)N) 
+		where RNUM BETWEEN 1+(#{page}-1)*10 AND #{page}*10	
+	</select>
+
+	<select id="SelectCount" parameterType="hashMap" resultType="int">
+		select count(num) count from
+		(select * from notice where ${field} 
+		like '%'||#{query}||'%' order by regdate desc) 
+	</select>
+	
+	<select id="SelectDetail" parameterType="int" resultType="notice">
+		select * from notice where num = #{num}
+	</select>
+	
+	<select id="SelectPrevD" parameterType="int" resultType="notice">
+		<![CDATA[
+		select * from (select * from notice where 
+		regdate < (select regdate from notice where num = #{num} )
+		order by regdate desc) where ROWNUM =1
+		]]>
+	</select>
+	
+	<select id="SelectNextD" parameterType="int" resultType="notice">
+		<![CDATA[
+		select * from (select * from notice where 
+		regdate > (select regdate from notice where num = #{num} ) 
+		order by regdate asc) where ROWNUM = 1
+		]]>
+	</select>
+	
+	<select id="SelectDetailCmt" parameterType="int" resultType="comment">
+		select * from "comment" where 
+		notice_num = #{notice_num} order by regdate asc
+	</select>
+	
+	<insert id="InsertCmt" parameterType="hashMap">
+		insert into "comment" values 
+		( seqnext.NEXTVAL,#{cmt_content} ,sysdate, 
+		#{writer_id}, #{notice_num} )
+	</insert>
+	
+	<select id="SelectReCmt" resultType="recomment">
+		select * from recomment order by regdate asc
+	</select>
+	
+	<insert id="InsertReCmt" parameterType="hashMap">
+		insert into recomment values 
+		(recmtnum.NEXTVAL , #{writer_id}, 
+		#{recontent}, sysdate, #{cmt_num} )
+	</insert>
+	
+	<update id="UpdateHit" parameterType="int">
+		update notice set hit=hit+1 where num = #{num}
+	</update>
+		
+	<select id="SelectCmtCount" parameterType="int" resultType="int">
+		select count(c.num) cmt_count from 
+		notice N left OUTER join "comment" C on 
+		N.num=C.notice_num where n.num = #{num}
+	</select>
+	
+	<insert id="InsertNotice" parameterType="hashMap">
+		insert into notice values
+		(seqnoticenum.NEXTVAL,#{title},#{writer_id},
+		#{content},sysdate,0,#{files})
+	</insert>
+	
+	<delete id="DelNotice" parameterType="int">
+		delete from notice where num = #{delnum}
+	</delete>
+
+	<delete id="DelCmt" parameterType="int">
+		delete from "comment" where num = #{cmtnum}
+	</delete>
+
+	<delete id="DelReCmt" parameterType="int">
+		delete from recomment where num = #{recmtnum}
+	</delete>
+</mapper>

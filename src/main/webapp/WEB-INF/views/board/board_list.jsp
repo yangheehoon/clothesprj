@@ -33,7 +33,7 @@
 		<c:forEach var="n" items="${list }">
 			<tr>
 				<td>${n.num}</td>
-				<td><a href="board_detail?num=${n.num}">${n.title} <c:if test="${!(n.cmt_count == 0)}">[${n.cmt_count}]</c:if></a></td>
+				<td><a href="board_detail?num=${n.num}" style="text-decoration: none;">${n.title} <c:if test="${!(n.cmt_count == 0)}"><span style="color: red;">[${n.cmt_count}]</span></c:if></a></td>
 				<td>${n.writer_id}</td>
 				<td>${n.regdate}</td>
 				<td>${n.hit}</td>

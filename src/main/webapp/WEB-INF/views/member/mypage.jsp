@@ -9,14 +9,14 @@
 </head>
 <body>
 <div style="text-align: center;">
-	<form action="">
-	<img src="/resources/member/p" style="width: 200px; height: 200px;">	
+	<!-- <form action=""> -->
+	<img src="/resources/member/${member.pro_file}" style="width: 200px; height: 200px; border: 1px solid #dee2e6;">	
 	<br><!-- 
 	<input type="file" id="profileImg" name="profileImg">
 							  <input type="submit" name="업로드" value="이미지변경" id="upimg">
 	<input type="submit" name="업로드" value="이미지변경" id="upimg"
 								disabled="disabled" class="btn btn-primary"> -->						
-	</form>
+	<!-- </form> -->
 </div>			
 <div style="width: 470px; padding: 30px; margin-left: auto; margin-right: auto; ">		
 <table class="table">

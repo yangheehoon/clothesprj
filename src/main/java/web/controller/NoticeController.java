@@ -32,12 +32,12 @@ public class NoticeController {
 	
 	@RequestMapping("/list")
 	public String NoticeList(@RequestParam(value="p" , defaultValue="1") int page, 
-			@RequestParam(value="f" , defaultValue="title") String filed,
+			@RequestParam(value="f" , defaultValue="title") String field,
 			@RequestParam(value="q" , defaultValue="") String query,
 			Model model) throws ClassNotFoundException, SQLException {
 		
-		    List<NoticeView> list = noticeservice.ServiceList(page,filed,query);
-			int count = noticeservice.ServiceListCount(filed ,query);
+		    List<NoticeView> list = noticeservice.ServiceList(page,field,query);
+			int count = noticeservice.ServiceListCount(field ,query);
 			
 			model.addAttribute("list", list);
 			model.addAttribute("count", count);

@@ -2,6 +2,7 @@ package web.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +15,8 @@ import web.service.MemberService;
 @RequestMapping("/member")
 public class MemberController {
 
-	MemberService memberservice = new MemberService();
+	@Autowired
+	MemberService memberservice;
 	
 	@RequestMapping("/joinform")
 	public String joinform(	
@@ -44,8 +46,9 @@ public class MemberController {
 			@RequestParam("phone") String phone_num
 			) {
 						
-		return	memberservice.ServiceJoin(id, pw, nickname, name, birth, email, gender, phone_num);
-				
+		memberservice.ServiceJoin(id, pw, nickname, name, birth, email, gender, phone_num);
+		
+		return "redirect:/member/success";
 	}
 	
 	@RequestMapping("/success")

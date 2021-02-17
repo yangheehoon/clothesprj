@@ -9,6 +9,7 @@
 		<typeAlias alias="board_recomment" type="web.model.Board_ReComment"/>
 		<typeAlias alias="clothes" type="web.model.Clothes"/>
 		<typeAlias alias="comment" type="web.model.Comment"/>
+		<typeAlias alias="recomment" type="web.model.ReComment"/>
 		<typeAlias alias="member" type="web.model.Member" />		
 		<typeAlias alias="notice" type="web.model.Notice" />		
 		<typeAlias alias="noticeview" type="web.model.NoticeView" />						
