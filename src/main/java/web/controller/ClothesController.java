@@ -102,7 +102,15 @@ public class ClothesController {
 	}
 	
 	@RequestMapping("/cart")
-	public String cart() {
+	public String cart(	@RequestParam(value="product_index" ,defaultValue="9999") int product_index,
+			HttpSession session) {
+		
+		List<Clothes> basket = (ArrayList<Clothes>)session.getAttribute("cart");
+		
+		if(product_index!=9999) {
+			basket.remove(product_index);
+			session.setAttribute("cart", basket);
+		}
 		
 			return "customer/cart";
 	}
@@ -121,7 +129,7 @@ public class ClothesController {
 			Model model) {						
 		
 			List<Clothes> basket = (ArrayList<Clothes>)session.getAttribute("cart");
-		
+			
 			if(session.getAttribute("cart")==null) {
 				basket = new ArrayList<Clothes>();	
 			}
