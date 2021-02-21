@@ -1,5 +1,9 @@
 package web.controller;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import web.service.MemberService;
 
@@ -15,6 +20,9 @@ import web.service.MemberService;
 @RequestMapping("/member")
 public class MemberController {
 
+	@Autowired
+	private ServletContext ctx;
+	
 	@Autowired
 	MemberService memberservice;
 	
@@ -105,11 +113,24 @@ public class MemberController {
 			@RequestParam(value="phone", required=false) String phone_num,
 			@RequestParam(value="id", required=false) String id,
 			@RequestParam(value="pw", required=false) String pw,
-			HttpSession session) {
-		
-		if(nickname!=null&&email!=null&&phone_num!=null&&id!=null&&pw!=null) {
-			System.out.println("ck");
+			@RequestParam(value="profileImg", required=false) MultipartFile profileImg,
+			HttpSession session) throws IllegalStateException, IOException {
+					
+		if(nickname!=null&&email!=null&&phone_num!=null&&id!=null&&pw!=null&&profileImg.isEmpty()) {			
 			memberservice.ServiceChangeMember(nickname,email,phone_num,id,pw,session);
+			return "redirect:/member/mypage";
+			
+		}else if(nickname!=null&&email!=null&&phone_num!=null&&id!=null&&pw!=null&&!profileImg.isEmpty()){
+			
+			String filename = profileImg.getOriginalFilename();		
+			String realpath= ctx.getRealPath("/resources/member");
+			System.out.println(realpath);
+			realpath += File.separator + filename;
+			File savefile = new File(realpath);
+			profileImg.transferTo(savefile);
+			String pro_file= filename;
+			
+			memberservice.ServiceChangeMember2(nickname,email,phone_num,pro_file,id,pw,session);
 			return "redirect:/member/mypage";
 		}
 		

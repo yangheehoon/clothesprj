@@ -22,24 +22,20 @@ function check() {
 
 <body>
 	<form action="board_add2" method="post" name="fm" enctype="multipart/form-data" onsubmit="return check()">
-		<table>
+		<table style="margin-left: auto; margin-right: auto;">
 			<tr>
-				<th>게시글 제목:</th>
-				<td><input type="text" name="title"></td>
+				<td><input class="form-control" type="text" name="title"  placeholder="게시글 제목"></td>
 			</tr>	
 			<tr>
-				<th>게시글 내용:</th>	
-				<td><textarea rows="10" cols="100" name="content"></textarea></td>
+				<td><textarea class="form-control" rows="10" cols="100" name="content" placeholder="게시글 내용"></textarea></td>
 			</tr>
 			<tr>
-				<th></th>
-				<td><input type="file" name="files" multiple="multiple"> 
+				<td><input class="form-control" type="file" name="files" multiple="multiple"> 
 					<span style="color: gray;">ctrl/shipt버튼을 사용하면 파일을 여러개 첨부할 수 있습니다.</span>
 				</td>
 			</tr>
 			<tr>
-				<th></th>
-				<td><input type="submit" value="게시글 등록" style="float: right;"></td>
+				<td><input class="btn btn-primary btn-sm" type="submit" value="게시글 등록" style="float: right;"></td>
 			</tr>
 		</table>
 		<input type="hidden" name="writer_id" value="${sessionScope.member.nickname}">

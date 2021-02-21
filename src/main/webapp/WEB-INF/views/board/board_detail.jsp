@@ -77,7 +77,7 @@ td.solid {padding: 8px;
 		<input type="hidden" name="writer_id" value="${sessionScope.member.nickname}">
 		<button type="button" class="cmt btn btn-primary btn-sm" style="vertical-align: text-bottom;">댓글달기</button>
 		</form>
-	<table >
+	<table style="margin-left: 30px;">
 	<c:forEach var="c" items="${cmtlist}">
  		
  		<tr>

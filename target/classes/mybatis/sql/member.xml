@@ -30,5 +30,11 @@
 		email = #{email}, phone_num = #{phone_num}
 		where id = #{id} 
 	</update>
+	
+	<update id="UpdateMember2" parameterType="hashMap">
+		update member set nickname = #{nickname}, 
+		email = #{email}, phone_num = #{phone_num}, 
+		pro_file = #{pro_file} where id = #{id} 
+	</update>
 
 </mapper>

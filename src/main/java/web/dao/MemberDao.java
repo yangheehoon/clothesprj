@@ -97,6 +97,18 @@ public class MemberDao {
 		sqlsession.update("mapper_member.UpdateMember", param_map);
 		
 	}
-	
-	
+
+	public void UpdateMember2(String nickname, String email, String phone_num, String pro_file, String id) {
+
+		Map<String,Object> param_map = new HashMap<>();
+		param_map.put("nickname", nickname);
+		param_map.put("email", email);
+		param_map.put("phone_num", phone_num);
+		param_map.put("pro_file", pro_file);
+		param_map.put("id", id);
+		
+		sqlsession.update("mapper_member.UpdateMember2", param_map);
+		
+	}
+		
 }

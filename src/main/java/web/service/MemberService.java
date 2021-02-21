@@ -62,5 +62,13 @@ public class MemberService {
 		session.setAttribute("member", member);
 	}
 
+
+	public void ServiceChangeMember2(String nickname, String email, String phone_num, String pro_file, String id,
+			String pw, HttpSession session) {
+		memberdao.UpdateMember2(nickname,email,phone_num,pro_file,id);
+		Member member = memberdao.SelectMember(id,pw);
+		session.setAttribute("member", member);
+	}
+
 	
 }
